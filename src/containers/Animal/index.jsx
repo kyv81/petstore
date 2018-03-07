@@ -23,11 +23,7 @@ export default class Animal extends React.Component {
             id={id}
             path="/shop"
             render={({ id }) => (
-              <Link
-                className={'button'}
-                to={`/amimal/${id}`}
-                href={`/amimal/${id}`}
-              >
+              <Link className="btn" to={`/amimal/${id}`} href={`/amimal/${id}`}>
                 Перейти к товару
               </Link>
             )}
@@ -37,7 +33,7 @@ export default class Animal extends React.Component {
           <h3>{animalName}</h3>
           <div>
             Продавец:{
-              <Link className={'button'} to={`/${user}`} href={`/${user}`}>
+              <Link className="btn" to={`/${user}`} href={`/${user}`}>
                 {user}
               </Link>
             }
@@ -47,7 +43,7 @@ export default class Animal extends React.Component {
         <div>
           <div>{date}</div>
           <div>{price}</div>
-          <button onClick={onAddToCart} className={'button'}>
+          <button onClick={onAddToCart} className="btn">
             Добавить в корзину
           </button>
         </div>
