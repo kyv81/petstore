@@ -10,18 +10,16 @@ const propTypes = {
 
 export const Checkbox = ({ checked, label, onChange, value }) => {
   return (
-    <p>
-      <label>
-        <input
-          className="filled-in"
-          type="checkbox"
-          value={value}
-          checked={checked}
-          onChange={onChange}
-        />
-        <span>{label}</span>
-      </label>
-    </p>
+    <label>
+      <input
+        className="filled-in"
+        type="checkbox"
+        value={value}
+        checked={checked}
+        onChange={onChange}
+      />
+      <span>{label}</span>
+    </label>
   );
 };
 
