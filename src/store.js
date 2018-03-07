@@ -3,22 +3,30 @@ import thunkMiddleware from 'redux-thunk';
 import {
   reactReduxFirebase,
   firebaseReducer,
-  getFirebase
+  getFirebase,
 } from 'react-redux-firebase';
 import * as firebase from 'firebase';
 import { firebaseConfig } from 'constants';
 
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 
-const initStore = history => {
+import User from 'reducers/User';
 
+const initStore = history => {
   firebase.initializeApp(firebaseConfig);
 
   const rootReducer = combineReducers({
     routerReducer: routerReducer,
-    firebase: firebaseReducer
+    firebase: firebaseReducer,
+    user: User,
   });
-  const initialState = {};
+  const initialState = {
+    user: {
+      isRequesting: false,
+      isLoggedIn: false,
+      data: {},
+    },
+  };
 
   return createStore(
     rootReducer,
@@ -30,7 +38,7 @@ const initStore = history => {
       ),
       reactReduxFirebase(firebase, {
         userProfile: 'users',
-        enableLogging: false
+        enableLogging: false,
       }),
     ),
   );
