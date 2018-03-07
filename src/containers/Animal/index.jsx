@@ -48,7 +48,7 @@ export default class Animal extends React.Component {
           <div>{date}</div>
           <div>{price}</div>
           <button onClick={onAddToCart} className={'button'}>
-            Добавить в карзину
+            Добавить в корзину
           </button>
         </div>
       </Fragment>
