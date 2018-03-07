@@ -6,7 +6,9 @@ import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 
 import { Header, Main } from 'containers';
-import 'bulma';
+
+import 'materialize-css/dist/css/materialize.min';
+import 'materialize-css/dist/js/materialize.min';
 
 import initStore from './store';
 
