@@ -22,9 +22,9 @@ export default class Animal extends React.Component {
           <Route
             id={id}
             path="/shop"
-            render={({ id }) => (
-              <Link className="btn" to={`/amimal/${id}`} href={`/amimal/${id}`}>
-                Перейти к товару
+            render={() => (
+              <Link className="btn" to={`/animal/${id}`} href={`/animal/${id}`}>
+                Перейти к товару {id}
               </Link>
             )}
           />
