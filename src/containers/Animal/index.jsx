@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link, Route } from 'react-router-dom';
 
 export default class Animal extends React.Component {
@@ -15,9 +15,9 @@ export default class Animal extends React.Component {
       user,
     } = this.props;
     return (
-      <Fragment>
-        <div>
-          <img src={imgUrl} alt="фотография животного" />
+      <div className="card horizontal">
+        <div className="card-image">
+          <img src={`${imgUrl}`} alt="фотография животного" />
           {/* если роутер на /shop те рендерим линк  */}
           <Route
             id={id}
@@ -29,7 +29,7 @@ export default class Animal extends React.Component {
             )}
           />
         </div>
-        <div>
+        <div className="card-stacked">
           <h3>{animalName}</h3>
           <div>
             Продавец:{
@@ -47,7 +47,7 @@ export default class Animal extends React.Component {
             Добавить в корзину
           </button>
         </div>
-      </Fragment>
+      </div>
     );
   }
 }
