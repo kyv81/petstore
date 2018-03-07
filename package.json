@@ -20,6 +20,7 @@
   "author": "titanishu",
   "license": "MIT",
   "devDependencies": {
+    "autoprefixer": "^8.1.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-plugin-module-resolver": "^3.1.0",
@@ -36,6 +37,7 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
     "parcel-bundler": "^1.6.2",
+    "postcss-modules": "^1.1.0",
     "prettier": "^1.11.0",
     "prettier-stylelint": "^0.4.2",
     "stylelint": "^9.1.1"
