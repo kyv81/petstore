@@ -1,11 +1,19 @@
 import React from 'react';
+import Animal from 'containers/Animal';
 
 export class Shop extends React.Component {
   render() {
     return (
-      <div>
-        <h1>Я - Shop!</h1>
-      </div>
+      <Animal
+        imgUrl="https://picsum.photos/100/100"
+        animalName="tosha"
+        saler="sasha"
+        description="Это собака"
+        date="21.21.21"
+        price="не продается"
+        id="3232"
+        user="user3232"
+      />
     );
   }
 }
