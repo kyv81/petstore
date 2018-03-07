@@ -2,15 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  checked: PropTypes.bool,
+  label: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string,
 };
 
-export const Checkbox = ({ label, value }) => {
+export const Checkbox = ({ checked, label, onChange, value }) => {
   return (
     <p>
       <label>
-        <input className="filled-in" type="checkbox" value={value} />
+        <input
+          className="filled-in"
+          type="checkbox"
+          value={value}
+          checked={checked}
+          onChange={onChange}
+        />
         <span>{label}</span>
       </label>
     </p>
@@ -18,5 +26,10 @@ export const Checkbox = ({ label, value }) => {
 };
 
 Checkbox.propTypes = propTypes;
+Checkbox.defaultProps = {
+  checked: false,
+  label: '',
+  value: '',
+};
 
 export default Checkbox;

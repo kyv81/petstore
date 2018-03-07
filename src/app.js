@@ -6,6 +6,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 
 import { Header, Main } from 'containers';
+import { Button, Input, Checkbox } from 'components';
 
 import 'materialize-css/dist/css/materialize.min';
 import 'materialize-css/dist/js/materialize.min';
@@ -21,6 +22,9 @@ class App extends React.Component {
       <div>
         <Header store={store} />
         <Main store={store} />
+        <Button onClick={this.onClick}>Text</Button>
+        <Input />
+        <Checkbox label="Click me" />
       </div>
     );
   }
