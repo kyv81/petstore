@@ -1,0 +1,7 @@
+export const REQUEST_LOGIN = 'REQUEST_LOGIN';
+export const LOG_IN = 'LOG_IN';
+export const LOG_IN_FAILED = 'LOG_IN_FAILED';
+
+export const REQUEST_REGISTER = 'REQUEST_REGISTER';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILED = 'REGISTER_FAILED';
