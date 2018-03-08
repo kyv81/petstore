@@ -8,8 +8,9 @@ export default class Animal extends React.Component {
     let {
       onAddToCart,
       animal: { imgUrl, salerId, id, name, description, date, price },
+      owner,
     } = this.props;
-
+    console.log('анимал рендер');
     date = new Date(date);
     date = date.toLocaleDateString();
     return (
@@ -21,7 +22,7 @@ export default class Animal extends React.Component {
             path="/shop"
             render={() => (
               <Link className="btn" to={`/animal/${id}`} href={`/animal/${id}`}>
-                Перейти к товару {id}
+                Перейти к товару
               </Link>
             )}
           />
@@ -31,15 +32,15 @@ export default class Animal extends React.Component {
           <div>
             Продавец:{
               <Link className="btn" to={`/${salerId}`} href={`/${salerId}`}>
-                {salerId}
+                {owner.lastName}
               </Link>
             }
           </div>
-          <div>{description}</div>
+          <div>Описание:{description}</div>
         </div>
         <div>
-          <div>{date}</div>
-          <div>{price}</div>
+          <div>Дата публикации: {date}</div>
+          <div>Цена:{price}</div>
           <Button onClick={onAddToCart} className="btn">
             Добавить в корзину
           </Button>

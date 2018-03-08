@@ -7,6 +7,7 @@ import { object } from 'prop-types';
 function mapStateToProps(state) {
   return {
     animals: state.animals.animals,
+    users: state.users.users,
   };
 }
 
@@ -33,17 +34,34 @@ export class Shop extends React.Component {
 
   // а в пропсах хранятся Животные из redux
   render() {
-    const { animals } = this.props;
+    const { animals, users } = this.props;
 
     return (
       <Fragment>
         {/* TODO: тут нужно поставить фильтер , который будет менять state этого компонента */}
 
         {/* список всех животных в магазине, данные получены из redux store */}
-        {typeof animals !== 'undefined' && animals.length > 0
-          ? animals.map(animal => (
-              <Animal animal={animal} onAddToCart={() => {}} key={animal.id} />
-            ))
+        {typeof animals !== 'undefined' &&
+        animals.length > 0 &&
+        typeof users !== 'undefined' &&
+        users.length > 0
+          ? animals.map(animal => {
+              let owner = users.filter(user => {
+                return user.id === animal.salerId;
+              });
+
+              owner = Object.assign({}, owner[0]);
+              console.log(owner);
+
+              return (
+                <Animal
+                  animal={animal}
+                  owner={owner}
+                  onAddToCart={() => {}}
+                  key={animal.id}
+                />
+              );
+            })
           : null}
       </Fragment>
     );

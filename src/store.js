@@ -10,11 +10,7 @@ import { firebaseConfig } from 'constants';
 
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 
-import {
-  Animals,
-  Auth,
-  Users,
-} from 'reducers';
+import { Animals, Auth, Users } from 'reducers';
 
 const initStore = history => {
   firebase.initializeApp(firebaseConfig);
@@ -43,13 +39,14 @@ const initStore = history => {
     users: {
       isRequesting: false,
       users: [],
-    }
+    },
   };
 
   // логирование при изменении store redux
   // чисто для разработки
   const logger = store => next => action => {
     console.log(action);
+    console.log(store.getState());
     return next(action);
   };
 
