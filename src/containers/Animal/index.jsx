@@ -7,7 +7,7 @@ export default class Animal extends React.Component {
   render() {
     let {
       onAddToCart,
-      imgUrl,
+      git 
       animalName,
       saler,
       description,

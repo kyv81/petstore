@@ -6,7 +6,7 @@ import { object } from 'prop-types';
 // сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
   return {
-    animals: state.animals,
+    animals: state.animals.animals,
   };
 }
 
@@ -41,7 +41,7 @@ export class Shop extends React.Component {
 
         {/* список всех животных в магазине, данные получены из redux store */}
         {typeof animals !== 'undefined' && animals.length > 0
-          ? animals.data.map(animal => (
+          ? animals.map(animal => (
               <Animal
                 animal
                 onAddToCart={() => {}}
