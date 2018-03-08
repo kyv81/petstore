@@ -8,7 +8,6 @@ export class Main extends React.Component {
   render() {
     //TODO: take isLooggedIn from Redux Store
     let { isLooggedIn = true } = this.props;
-    console.log(Animal);
     return (
       <main>
         <Switch>
