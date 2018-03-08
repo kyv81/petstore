@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, Route } from 'react-router-dom';
 
+import { Button, Image } from 'components';
+
 export default class Animal extends React.Component {
   render() {
     let {
@@ -17,7 +19,7 @@ export default class Animal extends React.Component {
     return (
       <div className="card horizontal">
         <div className="card-image">
-          <img src={`${imgUrl}`} alt="фотография животного" />
+          <Image src={`${imgUrl}`} alt="фотография животного" />
           {/* если роутер на /shop те рендерим линк  */}
           <Route
             id={id}
@@ -43,9 +45,9 @@ export default class Animal extends React.Component {
         <div>
           <div>{date}</div>
           <div>{price}</div>
-          <button onClick={onAddToCart} className="btn">
+          <Button onClick={onAddToCart} className="btn">
             Добавить в корзину
-          </button>
+          </Button>
         </div>
       </div>
     );

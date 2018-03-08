@@ -6,7 +6,6 @@ export class Header extends React.PureComponent {
   render() {
     return (
       <div className="container">
-        <AuthModal />
         <Link className="btn" to="/" href="/">
           Главная
         </Link>

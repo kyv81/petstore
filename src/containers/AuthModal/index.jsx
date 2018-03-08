@@ -1,9 +1,13 @@
 import React, { Fragment } from 'react';
 import { string } from 'prop-types';
-import styles from './index.css';
 import { connect } from 'react-redux';
-import { tryLogin } from 'actions/user';
 import { func } from 'prop-types';
+
+import styles from './index.css';
+
+import { tryLogin } from 'actions/user';
+
+import { Input, Button } from 'components';
 
 // подключил компонент к стору чтобы иметь тут dispatch
 @connect()
@@ -41,25 +45,36 @@ export default class AuthModal extends React.PureComponent {
   };
 
   render() {
+    const { password, email } = this.state;
     return (
       <div className={styles.modal}>
         <h4>Авторизация</h4>
-        <form onSubmit={this.onAuth} id="authFormID">
+        <form id="authFormID">
           <label>
             <div>Емэйл</div>
-            <input onChange={this.onChangeEmail} type="text" name="email" />
+            <Input
+              onChange={this.onChangeEmail}
+              type="text"
+              placeholder="Введите email"
+              value={email}
+            />
           </label>
           <label>
             <div>Пароль</div>
-            <input
+            <Input
               onChange={this.onChangePassword}
               type="text"
-              name="password"
+              placeholder="Введите пароль"
+              value={password}
             />
           </label>
-          <button className="btn waves-effect waves-light" type="submit">
+          <Button
+            onClick={this.onAuth}
+            className="btn waves-effect waves-light"
+            type="submit"
+          >
             Submit
-          </button>
+          </Button>
         </form>
       </div>
     );
