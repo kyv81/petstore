@@ -5,7 +5,7 @@ import { func } from 'prop-types';
 
 import styles from './index.css';
 
-import { tryLogin } from 'actions/user';
+import { tryLogin } from 'actions/auth';
 import { Input, Button } from 'components';
 
 // подключил компонент к стору чтобы иметь тут dispatch
@@ -26,6 +26,7 @@ export default class AuthModal extends React.PureComponent {
   onAuth = e => {
     const { dispatch } = this.props;
     const { email, password } = this.state;
+    console.log( "email",email,"psw" , password );
     e.preventDefault();
     // делаем диспатч в стор, чтобы он сазал нам есть ли такой юзер
     dispatch(tryLogin(email, password))
@@ -34,6 +35,7 @@ export default class AuthModal extends React.PureComponent {
       })
       .catch(() => {
         const {errorAuthMsg} = this.state;
+        console.log( "email",email,"psw" , password );
         this.setState(errorAuthMsg => ({
           errorAuthMsg: 'Введены неправильные данные, пожалуйста, повторите попытку'
         }));

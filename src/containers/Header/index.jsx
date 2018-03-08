@@ -45,8 +45,9 @@ export class Header extends React.PureComponent {
   }
 
   render() {
-    const { user: { isLoggedIn } } = this.props.store.getState();
-    console.log( this.props.store.getState(),this.state.toggle);
+    const { auth: { isLoggedIn } } = this.props.store.getState();
+    const { animals: { length } } = this.props.store.getState().animals;
+    console.log( this.props.store.getState(),this.state.toggle, isLoggedIn, length);
 
     var modal = [];
     modal.push(
@@ -64,7 +65,7 @@ export class Header extends React.PureComponent {
         </div>
       </div>
     );
-    console.log(this.props.store.getState());
+    console.log(this.props.store.getState(),"isLoggedIn",isLoggedIn);
     return (
       <div className={styles.header}>
         <Link to='/' href='/' className={styles.title}>
@@ -76,6 +77,7 @@ export class Header extends React.PureComponent {
         <div className={styles.rightmenu}>
           <Link className={'btn ' + styles.cartbtn} to='/cart' href='/cart'>
             Перейти в корзину
+              {length}
           </Link >
           {!isLoggedIn ? (
             <Fragment>

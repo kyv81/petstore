@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { string } from 'prop-types';
 import { connect } from 'react-redux';
-import { tryRegister} from 'actions/user';
+import { tryRegister} from 'actions/auth';
 import { func } from 'prop-types';
 
 import styles from './index.css';

@@ -10,7 +10,7 @@ import { firebaseConfig } from 'constants';
 
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 
-import User from 'reducers/User';
+import { Animals, Auth, Users } from 'reducers';
 
 const initStore = history => {
   firebase.initializeApp(firebaseConfig);
@@ -18,13 +18,27 @@ const initStore = history => {
   const rootReducer = combineReducers({
     routerReducer: routerReducer,
     firebase: firebaseReducer,
-    user: User,
+    auth: Auth,
+    animals: Animals,
+    users: Users,
   });
+
   const initialState = {
-    user: {
+    animals: {
+      isRequesting: false,
+      isEditing: false,
+      isDeleting: false,
+      isCreating: false,
+      animals: [],
+    },
+    auth: {
       isRequesting: false,
       isLoggedIn: false,
       data: {},
+    },
+    users: {
+      isRequesting: false,
+      users: [],
     },
   };
 
@@ -32,6 +46,7 @@ const initStore = history => {
   // чисто для разработки
   const logger = store => next => action => {
     console.log(action);
+    console.log(store.getState());
     return next(action);
   };
 
