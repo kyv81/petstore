@@ -11,6 +11,7 @@ import { firebaseConfig } from 'constants';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 
 import User from 'reducers/User';
+import Animals from 'reducers/Animals';
 
 const initStore = history => {
   firebase.initializeApp(firebaseConfig);
@@ -19,6 +20,7 @@ const initStore = history => {
     routerReducer: routerReducer,
     firebase: firebaseReducer,
     user: User,
+    animals: Animals,
   });
   const initialState = {
     user: {
