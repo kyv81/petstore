@@ -67,9 +67,16 @@ const auth = (email, password) => {
       return firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then(user => {
-          dispatch(logIn(user));
-          resolve(user);
+        .then(authUser => {
+          firebase
+            .database()
+            .ref('users/' + authUser.uid)
+            .once('value')
+            .then(snapshot => {
+              const user = snapshot.val();
+              dispatch(logIn(user));
+              resolve(user);
+            });
         })
         .catch(error => {
           dispatch(logInFailed(error));
