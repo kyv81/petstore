@@ -18,6 +18,7 @@ export class Main extends React.Component {
           />
           <Route path="/shop" component={Shop} />
           <Route path="/animal/:id" component={Animal} />
+          <Route path="/:id" component={Animal} />
         </Switch>
       </main>
     );
