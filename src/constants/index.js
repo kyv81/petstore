@@ -25,3 +25,9 @@ export {
   DELETE_ANIMAL_SUCCESS,
   DELETE_ANIMAL_FAILED,
 } from 'constants/ActionTypes/animals';
+
+export {
+  REQUEST_GET_USERS,
+  GET_USERS_SUCCESS,
+  GET_USERS_FAILED,
+} from 'constants/ActionTypes/users';
