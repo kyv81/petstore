@@ -1,29 +1,26 @@
 import React, { Fragment } from 'react';
 import { string } from 'prop-types';
-// import styles from './index.css';
 import { connect } from 'react-redux';
-import { tryLogin } from 'actions/user';
 import { func } from 'prop-types';
 
+import styles from './index.css';
+
+import { tryLogin } from 'actions/user';
+import { Input, Button } from 'components';
+
 // подключил компонент к стору чтобы иметь тут dispatch
-// @connect()
+@connect()
 export default class AuthModal extends React.PureComponent {
   // у модалки есть свой state, который потом отдается в на проверку в БД
   // делаем свой state, чтобы перерендеривались только компоннеты модолки, а не все приложение
   state = {
     email: '',
     password: '',
+    errorAuthMsgMsg: '',
   };
 
   static propTypes = {
     dispatch: func,
-  };
-
-  onChangeEmail = e => {
-    this.setState({ email: e.target.value });
-  };
-  onChangePassword = e => {
-    this.setState({ password: e.target.value });
   };
 
   onAuth = e => {
@@ -33,33 +30,55 @@ export default class AuthModal extends React.PureComponent {
     // делаем диспатч в стор, чтобы он сазал нам есть ли такой юзер
     dispatch(tryLogin(email, password))
       .then(() => {
-        console.log('успешно');
+        this.props.toggleClear();
       })
       .catch(() => {
-        console.log('провал(((');
+        const {errorAuthMsg} = this.state;
+        this.setState(errorAuthMsg => ({
+          errorAuthMsg: 'Введены неправильные данные, пожалуйста, повторите попытку'
+        }));
       });
   };
 
+  onChangeEmail = e => {
+    this.setState({ email: e.target.value });
+  };
+  onChangePassword = e => {
+    this.setState({ password: e.target.value });
+  };
+
   render() {
+    const { password, email } = this.state;
     return (
-      <div >
+      <div>
         <h4>Авторизация</h4>
-        <form onSubmit={this.onAuth} id="authFormID">
+        {this.state.errorAuthMsg}
+        <form id="authFormID">
           <label>
-            <div>Емэйл</div>
-            <input onChange={this.onChangeEmail} type="text" name="email" />
+            <div>email</div>
+            <Input
+              onChange={this.onChangeEmail}
+              type="text"
+              placeholder="Введите email"
+              value={email}
+            />
           </label>
           <label>
             <div>Пароль</div>
-            <input
+            <Input
               onChange={this.onChangePassword}
               type="text"
-              name="password"
+              placeholder="Введите пароль"
+              value={password}
             />
           </label>
-          <button className="btn waves-effect waves-light" type="submit">
-            Submit
-          </button>
+          <Button
+            onClick={this.onAuth}
+            className="btn waves-effect waves-light"
+            type="submit"
+          >
+            Подтвердить
+          </Button>
         </form>
       </div>
     );

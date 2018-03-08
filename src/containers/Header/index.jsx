@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
+
 import { Link } from 'react-router-dom';
 import styles from './index.css';
-import RegModal from '/containers/Header/RegModal';
+import RegModal from 'containers/Modals/RegModal';
+import AuthModal from '/containers/Modals/AuthModal';
 import Button from 'Components/Button';
 
 const display = {
@@ -17,16 +19,22 @@ export class Header extends React.PureComponent {
     super(props);
     this.toggleAuth = this.toggleAuth.bind(this);
     this.toggleReg= this.toggleReg.bind(this);
+    this.toggleClear= this.toggleClear.bind(this);
 
     this.state = {
       toggle: '',
     }
   };
 
-
   toggleAuth(event) {
     this.setState(toggle => ({
       toggle: 'auth'
+    }));
+  }
+
+  toggleClear(event) {
+    this.setState(toggle => ({
+      toggle: ''
     }));
   }
 
@@ -38,31 +46,51 @@ export class Header extends React.PureComponent {
 
   render() {
     const { user: { isLoggedIn } } = this.props.store.getState();
+    console.log( this.props.store.getState(),this.state.toggle);
+
     var modal = [];
     modal.push(
-      <div className="modal" style={this.state.toggle ? display : hide}>
+      <div className={'modal ' + styles.modal} style={this.state.toggle ? display : hide}>
         <div className="modal-content">
-                {this.state.toggle=='reg'?<RegModal/>:'nope'}
+          {this.state.toggle=='reg'&&<RegModal toggleClear={this.toggleClear} /> }
+          {this.state.toggle=='auth'&&<AuthModal toggleClear={this.toggleClear} />}
+          <Button
+            class="modal-action waves-green btn-flat"
+            type="submit"
+            onClick={this.toggleClear}
+          >
+            Закрыть
+          </Button>
         </div>
       </div>
     );
+    console.log(this.props.store.getState());
     return (
-      <Fragment>
-        <Link to='/' href='/' className='btn'>
-          PetShop
+      <div className={styles.header}>
+        <Link to='/' href='/' className={styles.title}>
+          Питомник
         </Link>
         <Link className='btn' to='/shop' href='/shop'>
           Магазин
         </Link>
-        {!isLoggedIn ? (
-          <div>
-            <Button className="btn" onClick={this.toggleAuth}>Авторизация</Button>
-            <Button className="btn" onClick={this.toggleReg}>Регистрация</Button>
-            {modal}
-          </div>
-        ) : (null)
-        }
-      </Fragment>
+        <div className={styles.rightmenu}>
+          <Link className={'btn ' + styles.cartbtn} to='/cart' href='/cart'>
+            Перейти в корзину
+          </Link >
+          {!isLoggedIn ? (
+            <Fragment>
+              <Button className="btn" onClick={this.toggleAuth}>Авторизация</Button>
+              <Button className="btn" onClick={this.toggleReg}>Регистрация</Button>
+              {modal}
+            </Fragment>
+          ) : (
+            <Link className='btn' to='/profile' href='/profile'>
+              Личный кабинет
+            </Link >
+          )
+          }
+        </div>
+      </div>
     );
   }
 }
