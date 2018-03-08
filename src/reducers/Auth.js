@@ -16,7 +16,7 @@ const initialState = {
   data: {},
 };
 
-const User = (state = initialState, action) => {
+const Auth = (state = initialState, action) => {
   switch (action.type) {
     case REQUEST_LOGIN:
       return {
@@ -76,4 +76,4 @@ const User = (state = initialState, action) => {
   }
 };
 
-export default User;
+export default Auth;

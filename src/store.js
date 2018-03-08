@@ -10,7 +10,7 @@ import { firebaseConfig } from 'constants';
 
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 
-import User from 'reducers/User';
+import Auth from 'reducers/Auth';
 import Animals from 'reducers/Animals';
 
 const initStore = history => {
@@ -19,11 +19,17 @@ const initStore = history => {
   const rootReducer = combineReducers({
     routerReducer: routerReducer,
     firebase: firebaseReducer,
-    user: User,
+    auth: Auth,
     animals: Animals,
   });
   const initialState = {
-    user: {
+    animals: {
+      isRequesting: false,
+      isEditing: false,
+      isDeleting: false,
+      isCreating: false,
+    },
+    auth: {
       isRequesting: false,
       isLoggedIn: false,
       data: {},

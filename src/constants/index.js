@@ -9,7 +9,7 @@ export {
   REQUEST_REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAILED,
-} from 'constants/ActionTypes/user';
+} from 'constants/ActionTypes/auth';
 
 export {
   REQUEST_GET_ANIMALS,

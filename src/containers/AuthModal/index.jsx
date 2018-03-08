@@ -5,7 +5,7 @@ import { func } from 'prop-types';
 
 import styles from './index.css';
 
-import { tryLogin } from 'actions/user';
+import { tryLogin } from 'actions/auth';
 
 import { Input, Button } from 'components';
 
