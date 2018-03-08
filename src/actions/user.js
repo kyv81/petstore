@@ -2,6 +2,9 @@ import {
   REQUEST_LOGIN,
   LOG_IN,
   LOG_IN_FAILED,
+  REQUEST_LOGOUT,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILED,
   REQUEST_REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAILED,
@@ -15,6 +18,12 @@ const requestLogin = (email, password) => {
   };
 };
 
+const requestLogout = () => {
+  return {
+    type: REQUEST_LOGOUT,
+  };
+};
+
 const requestRegister = user => {
   return {
     type: REQUEST_REGISTER,
@@ -23,11 +32,15 @@ const requestRegister = user => {
 };
 
 const shouldLoginUser = state => {
-  return !state.isLoggedIn && !state.isRequesting;
+  return !state.user.isLoggedIn && !state.user.isRequesting;
 };
 
 const shouldRegisterUser = state => {
-  return !state.isLoggedIn && !state.isRequesting;
+  return !state.user.isLoggedIn && !state.user.isRequesting;
+};
+
+const shouldLogoutUser = state => {
+  return state.user.isLoggedIn && !state.user.isRequesting;
 };
 
 const logIn = user => {
@@ -44,6 +57,12 @@ const registerSuccess = user => {
   };
 };
 
+const logoutSuccess = () => {
+  return {
+    type: LOGOUT_SUCCESS,
+  };
+};
+
 const logInFailed = error => {
   return {
     type: LOG_IN_FAILED,
@@ -54,6 +73,13 @@ const logInFailed = error => {
 const registerFailed = error => {
   return {
     type: REGISTER_FAILED,
+    error: error,
+  };
+};
+
+const logoutFailed = error => {
+  return {
+    type: LOGOUT_FAILED,
     error: error,
   };
 };
@@ -80,6 +106,27 @@ const auth = (email, password) => {
         })
         .catch(error => {
           dispatch(logInFailed(error));
+          reject(error);
+        });
+    });
+  };
+};
+
+const logout = () => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+
+    dispatch(requestLogout());
+    return new Promise((resolve, reject) => {
+      return firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          dispatch(logoutSuccess());
+          resolve();
+        })
+        .catch(error => {
+          dispatch(logoutFailed(error));
           reject(error);
         });
     });
@@ -131,6 +178,14 @@ export const tryRegister = user => {
   return (dispatch, getState) => {
     if (shouldRegisterUser(getState())) {
       return dispatch(register(user));
+    }
+  };
+};
+
+export const tryLogout = () => {
+  return (dispatch, getState) => {
+    if (shouldLogoutUser(getState())) {
+      return dispatch(logout());
     }
   };
 };

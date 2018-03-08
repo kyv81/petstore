@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AuthModal from 'containers/AuthModal';
 
 export class Header extends React.PureComponent {
   render() {

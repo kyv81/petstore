@@ -31,7 +31,6 @@ const initStore = history => {
   // логирование при изменении store redux
   // чисто для разработки
   const logger = store => next => action => {
-    console.log(action);
     return next(action);
   };
 

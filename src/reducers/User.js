@@ -2,6 +2,9 @@ import {
   REQUEST_LOGIN,
   LOG_IN,
   LOG_IN_FAILED,
+  REQUEST_LOGOUT,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILED,
   REQUEST_REGISTER,
   REGISTER_SUCCESS,
   REGISTER_FAILED,
@@ -32,6 +35,24 @@ const User = (state = initialState, action) => {
         ...state,
         isRequesting: false,
         isLoggedIn: false,
+      };
+    case REQUEST_LOGOUT:
+      return {
+        ...state,
+        isRequesting: true,
+      };
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        isRequesting: false,
+        isLoggedIn: false,
+        data: {},
+      };
+    case LOGOUT_FAILED:
+      return {
+        ...state,
+        isRequesting: false,
+        isLoggedIn: true,
       };
     case REQUEST_REGISTER:
       return {
