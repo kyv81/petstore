@@ -5,6 +5,7 @@ export class Shop extends React.Component {
   render() {
     return (
       <Animal
+        onAddToCart={() => {}}
         imgUrl="https://picsum.photos/100/100"
         animalName="tosha"
         saler="sasha"
