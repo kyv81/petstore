@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 
@@ -10,11 +10,29 @@ import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min';
 
 import initStore from './store';
+import { tryGetAnimals } from 'actions/animals';
+import { tryGetUsers } from 'actions/users';
 
 const history = createHistory();
 const store = initStore(history);
 
+// сделаем пропсом данного компонента данные из store redux
+function mapStateToProps(state, ownProps) {
+  // нужно передать в компонент пропс location чтобы при изменении location этот компонент вызывал свой render
+  return {
+    animals: state.animals.animals,
+    users: state.users.users,
+    location: ownProps.history.location,
+  };
+}
+@connect(mapStateToProps)
 class App extends React.Component {
+  componentDidMount() {
+    this.props.dispatch(tryGetAnimals());
+    this.props.dispatch(tryGetUsers());
+    console.log(this.props);
+  }
+
   render() {
     return (
       <div>
@@ -28,7 +46,7 @@ class App extends React.Component {
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <App />
+      <App history={history} />
     </ConnectedRouter>
   </Provider>,
   document.getElementById('app'),

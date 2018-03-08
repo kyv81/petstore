@@ -17,8 +17,9 @@ export class Main extends React.Component {
             render={() => (isLooggedIn ? <Redirect to="/shop" /> : <Home />)}
           />
           <Route path="/shop" component={Shop} />
-          <Route path="/animal/:id" component={Animal} />
-          <Route path="/:id" component={Animal} />
+          {/* <Route path="/animal/:id" component={null} /> */}
+          {/* {/* <Route path="/:id" component={null} /> */}
+          <Route path="/cabinet" component={null} /> */}
         </Switch>
       </main>
     );
