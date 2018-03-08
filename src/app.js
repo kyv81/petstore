@@ -11,7 +11,7 @@ import 'materialize-css/dist/js/materialize.min';
 
 import initStore from './store';
 import { tryGetAnimals } from 'actions/animals';
-import { getUsers } from 'actions/users';
+// import { getUsers } from 'actions/users';
 
 const history = createHistory();
 const store = initStore(history);
@@ -20,7 +20,7 @@ const store = initStore(history);
 class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(tryGetAnimals());
-    this.props.dispatch(getUsers());
+    // this.props.dispatch(getUsers());
   }
   render() {
     return (

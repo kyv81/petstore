@@ -7,22 +7,17 @@ export default class Animal extends React.Component {
   render() {
     let {
       onAddToCart,
-      git 
-      animalName,
-      saler,
-      description,
-      date,
-      price,
-      id,
-      user,
+      animal: { imgUrl, salerId, id, name, description, date, price },
     } = this.props;
+
+    date = new Date(date);
+    date = date.toLocaleDateString();
     return (
       <div className="card horizontal">
         <div className="card-image">
           <Image src={`${imgUrl}`} alt="фотография животного" />
           {/* если роутер на /shop те рендерим линк  */}
           <Route
-            id={id}
             path="/shop"
             render={() => (
               <Link className="btn" to={`/animal/${id}`} href={`/animal/${id}`}>
@@ -32,11 +27,11 @@ export default class Animal extends React.Component {
           />
         </div>
         <div className="card-stacked">
-          <h3>{animalName}</h3>
+          <h3>{name}</h3>
           <div>
             Продавец:{
-              <Link className="btn" to={`/${user}`} href={`/${user}`}>
-                {user}
+              <Link className="btn" to={`/${salerId}`} href={`/${salerId}`}>
+                {salerId}
               </Link>
             }
           </div>

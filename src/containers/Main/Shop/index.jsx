@@ -42,19 +42,7 @@ export class Shop extends React.Component {
         {/* список всех животных в магазине, данные получены из redux store */}
         {typeof animals !== 'undefined' && animals.length > 0
           ? animals.map(animal => (
-              <Animal
-                animal
-                onAddToCart={() => {}}
-                imgUrl="https://picsum.photos/100/100"
-                animalName="tosha"
-                saler="sasha"
-                description="Это собака"
-                date="21.21.21"
-                price="не продается"
-                id="3232"
-                user="user3232"
-                key={animal.id}
-              />
+              <Animal animal={animal} onAddToCart={() => {}} key={animal.id} />
             ))
           : null}
       </Fragment>
