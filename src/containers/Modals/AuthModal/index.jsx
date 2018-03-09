@@ -6,7 +6,6 @@ import { func } from 'prop-types';
 import styles from './index.css';
 
 import { tryLogin } from 'actions/auth';
-
 import { Input, Button } from 'components';
 
 // подключил компонент к стору чтобы иметь тут dispatch
@@ -17,17 +16,11 @@ export default class AuthModal extends React.PureComponent {
   state = {
     email: '',
     password: '',
+    errorAuthMsgMsg: '',
   };
 
   static propTypes = {
     dispatch: func,
-  };
-
-  onChangeEmail = e => {
-    this.setState({ email: e.target.value });
-  };
-  onChangePassword = e => {
-    this.setState({ password: e.target.value });
   };
 
   onAuth = e => {
@@ -37,21 +30,32 @@ export default class AuthModal extends React.PureComponent {
     // делаем диспатч в стор, чтобы он сазал нам есть ли такой юзер
     dispatch(tryLogin(email, password))
       .then(() => {
-        console.log('успешно');
+        this.props.toggleClear();
       })
       .catch(() => {
-        console.log('провал(((');
+        const {errorAuthMsg} = this.state;
+        this.setState(errorAuthMsg => ({
+          errorAuthMsg: 'Введены неправильные данные, пожалуйста, повторите попытку'
+        }));
       });
+  };
+
+  onChangeEmail = e => {
+    this.setState({ email: e.target.value });
+  };
+  onChangePassword = e => {
+    this.setState({ password: e.target.value });
   };
 
   render() {
     const { password, email } = this.state;
     return (
-      <div className={styles.modal}>
+      <div>
         <h4>Авторизация</h4>
+        {this.state.errorAuthMsg}
         <form id="authFormID">
           <label>
-            <div>Емэйл</div>
+            <div>email</div>
             <Input
               onChange={this.onChangeEmail}
               type="text"
@@ -73,7 +77,7 @@ export default class AuthModal extends React.PureComponent {
             className="btn waves-effect waves-light"
             type="submit"
           >
-            Submit
+            Подтвердить
           </Button>
         </form>
       </div>

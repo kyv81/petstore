@@ -14,7 +14,7 @@ export class Main extends React.Component {
           <Route
             exact
             path="/"
-            render={() => (isLooggedIn ? <Redirect to="/shop" /> : <Home />)}
+            render={() => (!isLooggedIn ? <Redirect to="/shop" /> : <Home />)}
           />
           <Route path="/shop" component={Shop} />
           {/* <Route path="/animal/:id" component={null} /> */}

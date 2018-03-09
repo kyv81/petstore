@@ -32,15 +32,15 @@ const requestRegister = user => {
 };
 
 const shouldLoginUser = state => {
-  return !state.user.isLoggedIn && !state.user.isRequesting;
+  return !state.auth.isLoggedIn && !state.auth.isRequesting;
 };
 
 const shouldRegisterUser = state => {
-  return !state.user.isLoggedIn && !state.user.isRequesting;
+  return !state.auth.isLoggedIn && !state.auth.isRequesting;
 };
 
 const shouldLogoutUser = state => {
-  return state.user.isLoggedIn && !state.user.isRequesting;
+  return state.auth.isLoggedIn && !state.auth.isRequesting;
 };
 
 const logIn = user => {
