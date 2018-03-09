@@ -6,11 +6,8 @@ import { func } from 'prop-types';
 
 import styles from './index.css';
 
-// подключил компонент к стору чтобы иметь тут dispatch
 @connect()
 export default class RegModal extends React.PureComponent {
-  // у модалки есть свой state, который потом отдается в на проверку в БД
-  // делаем свой state, чтобы перерендеривались только компоннеты модолки, а не все приложение
   state = {
     email: '',
     password: '',
