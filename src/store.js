@@ -10,7 +10,9 @@ import { firebaseConfig } from 'constants';
 
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 
-import { Animals, Auth, Users } from 'reducers';
+import { List } from 'immutable';
+
+import { Animals, Auth, Cart, Users } from 'reducers';
 
 const initStore = history => {
   firebase.initializeApp(firebaseConfig);
@@ -20,6 +22,7 @@ const initStore = history => {
     firebase: firebaseReducer,
     auth: Auth,
     animals: Animals,
+    cart: Cart,
     users: Users,
   });
 
@@ -36,6 +39,9 @@ const initStore = history => {
       isLoggedIn: false,
       data: {},
     },
+    cart: {
+      items: List(),
+    },
     users: {
       isRequesting: false,
       users: [],
@@ -45,9 +51,12 @@ const initStore = history => {
   // логирование при изменении store redux
   // чисто для разработки
   const logger = store => next => action => {
-    console.log(action);
-    console.log(store.getState());
-    return next(action);
+    console.group(action.type);
+    console.info('dispatching', action);
+    let result = next(action);
+    console.log('next state', store.getState());
+    console.groupEnd(action.type);
+    return result;
   };
 
   return createStore(

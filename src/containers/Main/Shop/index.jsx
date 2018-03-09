@@ -51,7 +51,6 @@ export class Shop extends React.Component {
               });
 
               owner = Object.assign({}, owner[0]);
-              console.log(owner);
 
               return (
                 <AnimalCard

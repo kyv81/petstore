@@ -1,129 +1,177 @@
 import React, { Fragment } from 'react';
-
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { func } from 'prop-types';
 
-import styles from './index.css';
-import { tryLogout } from 'actions/auth';
-import RegModal from 'containers/Modals/RegModal';
-import AuthModal from 'containers/Modals/AuthModal';
+import PropTypes from 'prop-types';
+import { List } from 'immutable';
+
+import ModalContainer from 'containers/Modals/ModalContainer';
+
+import CartCard from 'containers/Cards/Cart';
+import LoginCard from 'containers/Cards/Auth/LoginCard';
+import RegisterCard from 'containers/Cards/Auth/RegisterCard';
+
 import { Button } from 'components';
 
-const display = {
-  display: 'block'
-};
-const hide = {
-  display: 'none'
-};
+import { tryLogin, tryRegister, tryLogout } from 'actions/auth';
+import { buy } from 'actions/cart';
 
 function mapStateToProps(state) {
   return {
-    animals: state.animals.animals,
+    isLoggedIn: state.auth.isLoggedIn,
+    cartItems: state.cart.items,
   };
 }
-
+@connect()
 export class Header extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      toggle: '',
-      animals: null,
-    }
+  state = {
+    modal: '',
   };
 
   static propTypes = {
-    dispatch: func,
+    dispatch: PropTypes.func.isRequired,
+    cartItems: PropTypes.instanceOf(List),
+    isLoggedIn: PropTypes.bool,
   };
 
-  LogOut = e => {
-    const { dispatch } = this.props;
+  showCart = e => {
     e.preventDefault();
-    dispatch(tryLogout())
+    this.setState({
+      modal: 'cart',
+    });
+  };
+
+  showLogin = e => {
+    e.preventDefault();
+    this.setState({
+      modal: 'login',
+    });
+  };
+
+  showRegister = e => {
+    e.preventDefault();
+    this.setState({
+      modal: 'register',
+    });
+  };
+
+  showError = error => {
+    M.toast({
+      html: error.toString(),
+      classes: 'red',
+    });
+  };
+
+  onCancel = () => {
+    this.setState({ modal: '' });
+  };
+
+  onLoginSubmit = (email, password) => {
+    const { dispatch } = this.props;
+    dispatch(tryLogin(email, password))
       .then(() => {
-        this.toggleClear();
+        this.onCancel();
       })
-      .catch(() => {
-        console.log( "Ошбка, невозможно выйти из профиля!");
+      .catch(error => {
+        this.showError(error);
       });
   };
 
-  toggleAuth = e => {
-    this.setState(toggle => ({
-      toggle: 'auth',
-    }));
+  onRegisterSubmit = user => {
+    const { dispatch } = this.props;
+    dispatch(tryRegister(user))
+      .then(() => {
+        this.onCancel();
+      })
+      .catch(error => {
+        this.showError(error);
+      });
   };
 
-  toggleClear = e => {
-    this.setState(toggle => ({
-      toggle: '',
-    }));
+  onCartSubmit = () => {
+    const { dispatch } = this.props;
+    dispatch(buy())
+      .then(() => {
+        this.onCancel();
+      })
+      .catch(error => {
+        this.showError(error);
+      });
   };
 
-  toggleReg = e => {
-    this.setState(toggle => ({
-      toggle: 'reg',
-    }));
+  logout = e => {
+    e.preventDefault();
+
+    const { dispatch } = this.props;
+    dispatch(tryLogout())
+      .then(() => {
+        this.onCancel();
+      })
+      .catch(error => {
+        this.showError(error);
+      });
   };
 
   render() {
+    const { modal } = this.state;
+    const animalsInCartCount = this.props.cartItems.size;
+    const isLoggedIn = this.props.isLoggedIn;
 
-    const { auth: { isLoggedIn } } = this.props.store.getState();
-    const { animals: { length } } = this.props.store.getState().animals;
-    console.log("length", this.props.store.getState().animals.animals,"length",length);
-
-    var modal = [];
-    modal.push(
-      <div className={'modal ' + styles.modal} style={this.state.toggle ? display : hide}>
-        <div className="modal-content">
-          {this.state.toggle=='reg'&&<RegModal toggleClear={this.toggleClear} /> }
-          {this.state.toggle=='auth'&&<AuthModal toggleClear={this.toggleClear} />}
-          <Button
-            class="modal-action waves-green btn-flat"
-            type="submit"
-            onClick={this.toggleClear}
-          >
-            Закрыть
-          </Button>
-        </div>
-      </div>,
-    );
     return (
-      <div className={styles.header}>
-        <Link to='/' href='/' className={styles.title}>
-          Питомник
-        </Link>
-        <Link className='btn' to='/shop' href='/shop'>
-          Магазин
-        </Link>
-        <div className={styles.rightmenu}>
-          <Link className=" waves-teal btn-flat lime accent-1" to='/cart' href='/cart'>
-            Перейти в корзину
-            <i class="material-icons right circle">{length}</i>
-          </Link>
-          {!isLoggedIn ? (
-            <Fragment>
-              <Button className="btn" onClick={this.toggleAuth}>
-                Авторизация
-              </Button>
-              <Button className="btn" onClick={this.toggleReg}>
-                Регистрация
-              </Button>
-              {modal}
-            </Fragment>
-          ) : (
-            <Fragment>
-              <Link className='btn' to='/cabinet' href='/cabinet'>
-                Личный кабинет
-              </Link>
-              <Button className="btn" onClick={this.LogOut}>
-                Выйти
-              </Button>
-            </Fragment>
-          )}
-        </div>
-      </div>
+      <header>
+        <nav className="z-depth-1 blue">
+          <div className="nav-wrapper">
+            <Link className="brand-logo" to="/" href="/">
+              Питомник
+            </Link>
+            <ul className="right">
+              <li>
+                <Button onClick={this.showCart}>
+                  {`Корзина (${animalsInCartCount})`}
+                </Button>
+              </li>
+              <li>
+                <Link to="/shop" href="/shop">
+                  Магазин
+                </Link>
+              </li>
+              {!isLoggedIn ? (
+                <Fragment>
+                  <li>
+                    <a onClick={this.showLogin}>Вход</a>
+                  </li>
+                  <li>
+                    <a onClick={this.showRegister}>Регистрация</a>
+                  </li>
+                </Fragment>
+              ) : (
+                <li>
+                  <a href="" onClick={this.logout}>Выход</a>
+                </li>
+              )}
+            </ul>
+          </div>
+        </nav>
+        {modal && (
+          <ModalContainer>
+            {modal === 'login' && (
+              <LoginCard
+                onCancel={this.onCancel}
+                onSubmit={this.onLoginSubmit}
+              />
+            )}
+            {modal === 'register' && (
+              <RegisterCard
+                onCancel={this.onCancel}
+                onSubmit={this.onRegisterSubmit}
+              />
+            )}
+            {modal === 'cart' && (
+              <CartCard onCancel={this.onCancel} onSubmit={this.onCartSubmit} />
+            )}
+          </ModalContainer>
+        )}
+      </header>
     );
   }
 }

@@ -38,7 +38,7 @@ export default class UserAnimals extends React.Component {
             {/* проверим есть ли животные в animals и сразу фильтранем по id */}
             {typeof animals !== 'undefined' && animals.length > 0
               ? animals.map(animal => {
-                return user.id === animal.salerId ? (
+                  return user.id === animal.salerId ? (
                     <AnimalCardSmall
                       key={animal.id}
                       date={animal.date}
@@ -48,7 +48,7 @@ export default class UserAnimals extends React.Component {
                       imgUrl={animal.imgUrl}
                     />
                   ) : null;
-              })
+                })
               : null}
           </ul>
         </div>

@@ -13,8 +13,6 @@ import {
   DELETE_ANIMAL_FAILED,
 } from 'constants';
 
-import { List, Map } from 'immutable';
-
 const initialState = {
   isRequesting: false,
   isCreating: false,
@@ -50,7 +48,7 @@ const Animals = (state = initialState, action) => {
       return {
         ...state,
         isCreating: false,
-        animals: [state.animals, action.animal],
+        animals: [...state.animals, action.animal],
       };
     case CREATE_ANIMAL_FAILED:
       return {

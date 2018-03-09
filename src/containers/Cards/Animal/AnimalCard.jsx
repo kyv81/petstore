@@ -1,16 +1,23 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { Button, Image } from 'components';
 
+import { addToCart } from 'actions/cart';
+
+@withRouter
+@connect()
 export default class AnimalCard extends React.Component {
+  onAddToCart = () => {
+    let { animal: { id }, dispatch } = this.props;
+    dispatch(addToCart(id));
+  };
   render() {
     let {
-      onAddToCart,
       animal: { imgUrl, salerId, id, name, description, date, price },
       owner,
     } = this.props;
-    console.log('анимал рендер');
     date = new Date(date);
     date = date.toLocaleDateString();
     return (
@@ -31,17 +38,17 @@ export default class AnimalCard extends React.Component {
           <h3>{name}</h3>
           <div>
             Продавец:{
-            <Link className="btn" to={`/${salerId}`} href={`/${salerId}`}>
-              {owner.lastName}
-            </Link>
-          }
+              <Link className="btn" to={`/${salerId}`} href={`/${salerId}`}>
+                {owner.lastName}
+              </Link>
+            }
           </div>
           <div>Описание:{description}</div>
         </div>
         <div>
           <div>Дата публикации: {date}</div>
           <div>Цена:{price}</div>
-          <Button onClick={onAddToCart} className="btn">
+          <Button onClick={this.onAddToCart} className="btn">
             Добавить в корзину
           </Button>
         </div>
