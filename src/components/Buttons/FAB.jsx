@@ -7,8 +7,11 @@ const propTypes = {
 
 export const FAB = ({ onClick }) => {
   return (
-    <a onClick={onClick} className="btn-floating blue">
-      <i className="material-icons">create</i>
+    <a
+      onClick={onClick}
+      className="btn-floating btn-large waves-effect waves-light blue"
+    >
+      <i className="material-icons">add</i>
     </a>
   );
 };

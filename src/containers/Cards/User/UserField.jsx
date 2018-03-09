@@ -31,7 +31,9 @@ class UserField extends React.Component {
     return (
       <span>
         <Input value={textValue} onChange={this.onChange} />
-        <Button onClick={this.onClick}><i className="material-icons">edit</i></Button>
+        <Button onClick={this.onClick}>
+          <i className="material-icons">edit</i>
+        </Button>
       </span>
     );
   };
@@ -40,7 +42,10 @@ class UserField extends React.Component {
     const { textValue } = this.state;
     return (
       <span>
-        {textValue} <Button onClick={this.onClick}><i className="material-icons">edit</i></Button>
+        {textValue}
+        <Button onClick={this.onClick}>
+          <i className="material-icons">edit</i>
+        </Button>
       </span>
     );
   };
