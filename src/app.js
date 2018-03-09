@@ -18,12 +18,11 @@ const history = createHistory();
 const store = initStore(history);
 
 // сделаем пропсом данного компонента данные из store redux
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   // нужно передать в компонент пропс location чтобы при изменении location этот компонент вызывал свой render
   return {
     animals: state.animals.animals,
     users: state.users.users,
-    location: ownProps.history.location,
   };
 }
 
@@ -49,7 +48,7 @@ class App extends React.Component {
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <App history={history} />
+      <App />
     </ConnectedRouter>
   </Provider>,
   document.getElementById('app'),
