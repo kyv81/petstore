@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  length: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   type: PropTypes.string,
@@ -22,8 +21,7 @@ export const Input = ({ onChange, placeholder, type, value }) => {
 
 Input.propTypes = propTypes;
 Input.defaultProps = {
-  length: 6,
-  placeholder: 'Поиск по названию',
+  placeholder: '',
   type: 'text',
   value: '',
 };

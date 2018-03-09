@@ -11,7 +11,7 @@ export const Image = ({ src }) => {
 
 Image.propTypes = propTypes;
 Image.defaultProps = {
-  src: '',
+  src: 'http://via.placeholder.com/150x150',
 };
 
 export default Image;
