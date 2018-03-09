@@ -10,7 +10,9 @@ import { firebaseConfig } from 'constants';
 
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 
-import { Animals, Auth, Users } from 'reducers';
+import { List, Map } from 'immutable';
+
+import { Animals, Auth, Cart, Users } from 'reducers';
 
 const initStore = history => {
   firebase.initializeApp(firebaseConfig);
@@ -20,6 +22,7 @@ const initStore = history => {
     firebase: firebaseReducer,
     auth: Auth,
     animals: Animals,
+    cart: Cart,
     users: Users,
   });
 
@@ -35,6 +38,9 @@ const initStore = history => {
       isRequesting: false,
       isLoggedIn: false,
       data: {},
+    },
+    cart: {
+      items: List(),
     },
     users: {
       isRequesting: false,
