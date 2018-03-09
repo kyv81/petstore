@@ -31,7 +31,6 @@ class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(tryGetAnimals());
     this.props.dispatch(tryGetUsers());
-    console.log(this.props);
   }
 
   render() {

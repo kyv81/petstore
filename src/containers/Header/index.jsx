@@ -11,10 +11,10 @@ import AuthModal from 'containers/Modals/AuthModal';
 import { Button } from 'components';
 
 const display = {
-  display: 'block'
+  display: 'block',
 };
 const hide = {
-  display: 'none'
+  display: 'none',
 };
 
 function mapStateToProps(state) {
@@ -24,14 +24,13 @@ function mapStateToProps(state) {
 }
 
 export class Header extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       toggle: '',
       animals: null,
-    }
-  };
+    };
+  }
 
   static propTypes = {
     dispatch: func,
@@ -45,7 +44,7 @@ export class Header extends React.Component {
         this.toggleClear();
       })
       .catch(() => {
-        console.log( "Ошбка, невозможно выйти из профиля!");
+        console.log('Ошбка, невозможно выйти из профиля!');
       });
   };
 
@@ -68,17 +67,22 @@ export class Header extends React.Component {
   };
 
   render() {
-
     const { auth: { isLoggedIn } } = this.props.store.getState();
     const { animals: { length } } = this.props.store.getState().animals;
-    console.log("length", this.props.store.getState().animals.animals,"length",length);
 
     var modal = [];
     modal.push(
-      <div className={'modal ' + styles.modal} style={this.state.toggle ? display : hide}>
+      <div
+        className={'modal ' + styles.modal}
+        style={this.state.toggle ? display : hide}
+      >
         <div className="modal-content">
-          {this.state.toggle=='reg'&&<RegModal toggleClear={this.toggleClear} /> }
-          {this.state.toggle=='auth'&&<AuthModal toggleClear={this.toggleClear} />}
+          {this.state.toggle == 'reg' && (
+            <RegModal toggleClear={this.toggleClear} />
+          )}
+          {this.state.toggle == 'auth' && (
+            <AuthModal toggleClear={this.toggleClear} />
+          )}
           <Button
             class="modal-action waves-green btn-flat"
             type="submit"
@@ -91,16 +95,20 @@ export class Header extends React.Component {
     );
     return (
       <div className={styles.header}>
-        <Link to='/' href='/' className={styles.title}>
+        <Link to="/" href="/" className={styles.title}>
           Питомник
         </Link>
-        <Link className='btn' to='/shop' href='/shop'>
+        <Link className="btn" to="/shop" href="/shop">
           Магазин
         </Link>
         <div className={styles.rightmenu}>
-          <Link className=" waves-teal btn-flat lime accent-1" to='/cart' href='/cart'>
+          <Link
+            className=" waves-teal btn-flat lime accent-1"
+            to="/cart"
+            href="/cart"
+          >
             Перейти в корзину
-            <i class="material-icons right circle">{length}</i>
+            <i className="material-icons right circle">{length}</i>
           </Link>
           {!isLoggedIn ? (
             <Fragment>
@@ -114,7 +122,7 @@ export class Header extends React.Component {
             </Fragment>
           ) : (
             <Fragment>
-              <Link className='btn' to='/cabinet' href='/cabinet'>
+              <Link className="btn" to="/cabinet" href="/cabinet">
                 Личный кабинет
               </Link>
               <Button className="btn" onClick={this.LogOut}>
