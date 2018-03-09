@@ -1,3 +1,2 @@
-/**
- * Created by titanishu on 09.03.2018.
- */
+export { default as Button } from 'components/Buttons/Button';
+export { default as FAB } from 'components/Buttons/FAB';
