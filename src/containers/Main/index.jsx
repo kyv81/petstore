@@ -1,7 +1,7 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+
 import { bool } from 'prop-types';
 
 import { Home, Shop, AnimalPage } from 'containers';

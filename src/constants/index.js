@@ -32,8 +32,4 @@ export {
   GET_USERS_FAILED,
 } from 'constants/ActionTypes/users';
 
-export {
-  ADD_TO_CART,
-  REMOVE_FROM_CART,
-  BUY,
-} from 'constants/ActionTypes/cart';
+export { ADD_TO_CART, REMOVE_FROM_CART, BUY } from 'constants/ActionTypes/cart';

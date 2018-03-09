@@ -13,8 +13,6 @@ import {
   DELETE_ANIMAL_FAILED,
 } from 'constants';
 
-import { List, Map } from 'immutable';
-
 const initialState = {
   isRequesting: false,
   isCreating: false,
