@@ -3,13 +3,22 @@ export { default as Main } from 'containers/Main';
 
 export { default as Home } from 'containers/Main/Home';
 export { default as Shop } from 'containers/Main/Shop';
+export { default as AnimalPage } from 'containers/Main/AnimalPage';
 
 export { default as AnimalCard } from 'containers/Cards/Animal/AnimalCard';
-export { default as AnimalCardSmall } from 'containers/Cards/Animal/AnimalCardSmall';
+export {
+  default as AnimalCardSmall,
+} from 'containers/Cards/Animal/AnimalCardSmall';
 
-export { default as DateFilterCard } from 'containers/Cards/Filter/DateFilterCard';
-export { default as RangeFilterCard } from 'containers/Cards/Filter/RangeFilterCard';
-export { default as TextFilterCard } from 'containers/Cards/Filter/TextFilterCard';
+export {
+  default as DateFilterCard,
+} from 'containers/Cards/Filter/DateFilterCard';
+export {
+  default as RangeFilterCard,
+} from 'containers/Cards/Filter/RangeFilterCard';
+export {
+  default as TextFilterCard,
+} from 'containers/Cards/Filter/TextFilterCard';
 
 export { default as UserAnimals } from 'containers/Cards/User/UserAnimals';
 export { default as UserCard } from 'containers/Cards/User/UserCard';

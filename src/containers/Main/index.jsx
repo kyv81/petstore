@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bool } from 'prop-types';
 
-import { Home, Shop, AnimalCard } from 'containers';
+import { Home, Shop, AnimalPage } from 'containers';
 
 // сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
@@ -23,7 +23,7 @@ export class Main extends React.Component {
   };
 
   render() {
-    let { isLoggedIn, animals, users } = this.props;
+    let { isLoggedIn } = this.props;
 
     return (
       <main>
@@ -39,17 +39,7 @@ export class Main extends React.Component {
             //TODO : может как ты вынести эту функцию
             // находим владельца по Id
             component={({ match }) => {
-              let animal = animals.filter(animal => {
-                return animal.id === match.params.id;
-              })[0];
-              let owner = users.filter(user => {
-                return user.id === animal.salerId;
-              });
-
-              owner = Object.assign({}, owner[0]);
-              return animals.length ? (
-                <AnimalCard animal={animal} owner={owner} />
-              ) : null;
+              return <AnimalPage id={match.params.id} />;
             }}
           />
           {/* {/* <Route path="/:id" component={null} /> */}
