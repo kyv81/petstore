@@ -50,7 +50,7 @@ const Animals = (state = initialState, action) => {
       return {
         ...state,
         isCreating: false,
-        animals: [state.animals, action.animal],
+        animals: [...state.animals, action.animal],
       };
     case CREATE_ANIMAL_FAILED:
       return {
