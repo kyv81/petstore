@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
+import { withRouter } from 'react-router-dom';
 
 import { Header, Main } from 'containers';
 import 'materialize-css/dist/css/materialize.min.css';
@@ -25,6 +26,8 @@ function mapStateToProps(state, ownProps) {
     location: ownProps.history.location,
   };
 }
+
+@withRouter
 @connect(mapStateToProps)
 class App extends React.Component {
   componentDidMount() {
