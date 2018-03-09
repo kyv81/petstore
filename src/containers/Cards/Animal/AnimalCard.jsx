@@ -10,7 +10,6 @@ export default class AnimalCard extends React.Component {
       animal: { imgUrl, salerId, id, name, description, date, price },
       owner,
     } = this.props;
-    console.log('анимал рендер');
     date = new Date(date);
     date = date.toLocaleDateString();
     return (
@@ -31,10 +30,10 @@ export default class AnimalCard extends React.Component {
           <h3>{name}</h3>
           <div>
             Продавец:{
-            <Link className="btn" to={`/${salerId}`} href={`/${salerId}`}>
-              {owner.lastName}
-            </Link>
-          }
+              <Link className="btn" to={`/${salerId}`} href={`/${salerId}`}>
+                {owner.lastName}
+              </Link>
+            }
           </div>
           <div>Описание:{description}</div>
         </div>

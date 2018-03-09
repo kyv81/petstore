@@ -19,7 +19,6 @@ const store = initStore(history);
 
 // сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
-  // нужно передать в компонент пропс location чтобы при изменении location этот компонент вызывал свой render
   return {
     animals: state.animals.animals,
     users: state.users.users,
