@@ -3,7 +3,7 @@ import { Link, Route } from 'react-router-dom';
 
 import { Button, Image } from 'components';
 
-export default class Animal extends React.Component {
+export default class AnimalCard extends React.Component {
   render() {
     let {
       onAddToCart,
@@ -31,10 +31,10 @@ export default class Animal extends React.Component {
           <h3>{name}</h3>
           <div>
             Продавец:{
-              <Link className="btn" to={`/${salerId}`} href={`/${salerId}`}>
-                {owner.lastName}
-              </Link>
-            }
+            <Link className="btn" to={`/${salerId}`} href={`/${salerId}`}>
+              {owner.lastName}
+            </Link>
+          }
           </div>
           <div>Описание:{description}</div>
         </div>

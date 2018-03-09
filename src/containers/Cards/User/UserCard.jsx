@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image } from 'components';
-import UserItem from '../UserItem';
+import { UserField } from 'containers';
 
 const propTypes = {
   firstName: PropTypes.string,
@@ -20,22 +20,22 @@ class UserCard extends React.Component {
           <h4>Личные данные</h4>
           <div>
             Имя:
-            <UserItem text={firstName} />
+            <UserField text={firstName} />
           </div>
           <div>
             Фамилия:
-            <UserItem text={lastName} />
+            <UserField text={lastName} />
           </div>
         </div>
         <div>
           <h4>Контакты</h4>
           <div>
             <i className="material-icons">phone</i>
-            <UserItem text={`+${phone}`} />
+            <UserField text={`+${phone}`} />
           </div>
           <div>
             <i className="material-icons">mail_outline</i>
-            <UserItem text={email} />
+            <UserField text={email} />
           </div>
         </div>
       </div>

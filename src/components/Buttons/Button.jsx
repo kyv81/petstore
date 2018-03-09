@@ -1,3 +1,6 @@
+// вариант с круглой кнопкой
+// вариант с flat кнопкой
+
 import React from 'react';
 import PropTypes from 'prop-types';
 

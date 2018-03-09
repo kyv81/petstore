@@ -3,7 +3,7 @@ import { Route } from 'react-router';
 import { connect } from 'react-redux';
 import { object, array } from 'prop-types';
 
-import AnimalItem from 'containers/AnimalItem';
+import AnimalCardSmall from 'containers';
 
 // сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
@@ -14,7 +14,7 @@ function mapStateToProps(state) {
 }
 
 @connect(mapStateToProps)
-export default class PersonCardAmimals extends React.Component {
+export default class UserAnimals extends React.Component {
   // стейт компонента. тут хранятся значения фильтра
   // по которому потом фильтруем животных
   state = {
@@ -38,8 +38,8 @@ export default class PersonCardAmimals extends React.Component {
             {/* проверим есть ли животные в animals и сразу фильтранем по id */}
             {typeof animals !== 'undefined' && animals.length > 0
               ? animals.map(animal => {
-                  return user.id === animal.salerId ? (
-                    <AnimalItem
+                return user.id === animal.salerId ? (
+                    <AnimalCardSmall
                       key={animal.id}
                       date={animal.date}
                       description={animal.description}
@@ -48,7 +48,7 @@ export default class PersonCardAmimals extends React.Component {
                       imgUrl={animal.imgUrl}
                     />
                   ) : null;
-                })
+              })
               : null}
           </ul>
         </div>

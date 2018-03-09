@@ -4,7 +4,7 @@ import { string, func } from 'prop-types';
 
 import { Button, Image, Input } from 'components';
 
-export default class AnimalItem extends React.Component {
+export default class AnimalCardSmall extends React.Component {
   //сохраним в state чтобы потом менять и его при редактировании и сохранять новый если
   // понадобится
   state = {
@@ -79,41 +79,41 @@ export default class AnimalItem extends React.Component {
               <div>
                 <Button onClick={this.onEdit}>Редактировать</Button>
                 {isEdited ? (
-                  <div>
                     <div>
-                      <div>Редактировать</div>
-                      <label>
-                        <span>Имя:</span>
-                        <Input
-                          type="text"
-                          value={newAnimalName}
-                          onChange={this.onChangeAnimalName}
-                        />
-                      </label>
-                      <label>
-                        <span>Цена:</span>
-                        <Input
-                          type="text"
-                          value={newPrice}
-                          onChange={this.onChangePrice}
-                        />
-                      </label>
-                      <label>
-                        <span>Описание:</span>
-                        <Input
-                          type="text"
-                          value={newDescription}
-                          onChange={this.onChangeDescription}
-                        />
-                      </label>
+                      <div>
+                        <div>Редактировать</div>
+                        <label>
+                          <span>Имя:</span>
+                          <Input
+                            type="text"
+                            value={newAnimalName}
+                            onChange={this.onChangeAnimalName}
+                          />
+                        </label>
+                        <label>
+                          <span>Цена:</span>
+                          <Input
+                            type="text"
+                            value={newPrice}
+                            onChange={this.onChangePrice}
+                          />
+                        </label>
+                        <label>
+                          <span>Описание:</span>
+                          <Input
+                            type="text"
+                            value={newDescription}
+                            onChange={this.onChangeDescription}
+                          />
+                        </label>
+                      </div>
+                      <div>
+                        <Input type="file" />
+                        <Button onClick={this.onEditCancel}>ОТМЕНА</Button>
+                        <Button onClick={this.onEditSubmit}>ПРИМЕНИТЬ</Button>
+                      </div>
                     </div>
-                    <div>
-                      <Input type="file" />
-                      <Button onClick={this.onEditCancel}>ОТМЕНА</Button>
-                      <Button onClick={this.onEditSubmit}>ПРИМЕНИТЬ</Button>
-                    </div>
-                  </div>
-                ) : null}
+                  ) : null}
               </div>
             );
           }}

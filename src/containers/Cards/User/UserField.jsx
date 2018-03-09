@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Edit, Input } from 'components';
+import { Button, Input } from 'components';
 
 const propTypes = {
   text: PropTypes.string,
 };
 
-class UserItem extends React.Component {
+class UserField extends React.Component {
   constructor(props) {
     super(props);
     const { text } = this.props;
@@ -31,7 +31,7 @@ class UserItem extends React.Component {
     return (
       <span>
         <Input value={textValue} onChange={this.onChange} />
-        <Edit onClick={this.onClick} />
+        <Button onClick={this.onClick}><i className="material-icons">edit</i></Button>
       </span>
     );
   };
@@ -40,7 +40,7 @@ class UserItem extends React.Component {
     const { textValue } = this.state;
     return (
       <span>
-        {textValue} <Edit onClick={this.onClick} />
+        {textValue} <Button onClick={this.onClick}><i className="material-icons">edit</i></Button>
       </span>
     );
   };
@@ -51,9 +51,9 @@ class UserItem extends React.Component {
   }
 }
 
-UserItem.propTypes = propTypes;
-UserItem.defaultProps = {
+UserField.propTypes = propTypes;
+UserField.defaultProps = {
   text: '',
 };
 
-export default UserItem;
+export default UserField;
