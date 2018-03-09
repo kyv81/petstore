@@ -90,13 +90,15 @@ export class Header extends React.Component {
 
   onCartSubmit = () => {
     const { dispatch } = this.props;
-    dispatch(buy())
-      .then(() => {
-        this.onCancel();
-      })
-      .catch(error => {
-        this.showError(error);
-      });
+
+    dispatch(buy());
+    // если потом будет запрос на сервер, то вернется промис
+    // .then(() => {
+    //   this.onCancel();
+    // })
+    // .catch(error => {
+    //   this.showError(error);
+    // });
   };
 
   logout = e => {
@@ -152,7 +154,9 @@ export class Header extends React.Component {
                     </Link>
                   </li>
                   <li>
-                    <a href="" onClick={this.logout}>Выход</a>
+                    <a href="" onClick={this.logout}>
+                      Выход
+                    </a>
                   </li>
                 </Fragment>
               )}

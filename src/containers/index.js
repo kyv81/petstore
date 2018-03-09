@@ -14,6 +14,9 @@ export { default as AnimalPage } from 'containers/Main/AnimalPage';
 
 export { default as AnimalCard } from 'containers/Cards/Animal/AnimalCard';
 export {
+  default as AnimalCardCart,
+} from 'containers/Cards/Animal/AnimalCardCart';
+export {
   default as AnimalCardSmall,
 } from 'containers/Cards/Animal/AnimalCardSmall';
 
