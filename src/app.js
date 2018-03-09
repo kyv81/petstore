@@ -5,14 +5,15 @@ import { Provider, connect } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { Header, Main } from 'containers';
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min';
 
+import { tryGetAnimals, tryGetUsers } from 'actions';
+
 import initStore from './store';
-import { tryGetAnimals } from 'actions/animals';
-import { tryGetUsers } from 'actions/users';
 
 const history = createHistory();
 const store = initStore(history);
@@ -28,6 +29,10 @@ function mapStateToProps(state) {
 @withRouter
 @connect(mapStateToProps)
 class App extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func,
+  };
+
   componentDidMount() {
     this.props.dispatch(tryGetAnimals());
     this.props.dispatch(tryGetUsers());

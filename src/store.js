@@ -10,7 +10,7 @@ import { firebaseConfig } from 'constants';
 
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 
-import { List, Map } from 'immutable';
+import { List } from 'immutable';
 
 import { Animals, Auth, Cart, Users } from 'reducers';
 

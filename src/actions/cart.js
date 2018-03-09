@@ -1,8 +1,4 @@
-import {
-  ADD_TO_CART,
-  REMOVE_FROM_CART,
-  BUY,
-} from 'constants';
+import { ADD_TO_CART, REMOVE_FROM_CART, BUY } from 'constants';
 
 export const addToCart = id => {
   return {

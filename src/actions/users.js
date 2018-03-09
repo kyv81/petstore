@@ -54,10 +54,12 @@ const getUsers = () => {
   };
 };
 
-export const tryGetUsers = () => {
+const tryGetUsers = () => {
   return (dispatch, getState) => {
     if (shouldGetUsers(getState())) {
       return dispatch(getUsers());
     }
   };
 };
+
+export default tryGetUsers;
