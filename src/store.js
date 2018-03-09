@@ -51,9 +51,12 @@ const initStore = history => {
   // логирование при изменении store redux
   // чисто для разработки
   const logger = store => next => action => {
-    console.log(action);
-    console.log(store.getState());
-    return next(action);
+    console.group(action.type);
+    console.info('dispatching', action);
+    let result = next(action);
+    console.log('next state', store.getState());
+    console.groupEnd(action.type);
+    return result;
   };
 
   return createStore(
