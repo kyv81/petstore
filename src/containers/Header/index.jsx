@@ -145,9 +145,16 @@ export class Header extends React.Component {
                   </li>
                 </Fragment>
               ) : (
-                <li>
-                  <a href="" onClick={this.logout}>Выход</a>
-                </li>
+                <Fragment>
+                  <li>
+                    <Link to="/cabinet" href="/cabinet">
+                      Профиль
+                    </Link>
+                  </li>
+                  <li>
+                    <a href="" onClick={this.logout}>Выход</a>
+                  </li>
+                </Fragment>
               )}
             </ul>
           </div>
