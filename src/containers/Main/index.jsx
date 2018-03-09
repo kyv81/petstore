@@ -17,7 +17,7 @@ function mapStateToProps(state) {
 
 @withRouter
 @connect(mapStateToProps)
-export class Main extends React.Component {
+export default class Main extends React.Component {
   static propTypes = {
     isLoggedIn: bool,
   };
@@ -26,7 +26,7 @@ export class Main extends React.Component {
     let { isLoggedIn } = this.props;
 
     return (
-      <main>
+      <main className="container">
         <Switch>
           <Route
             exact
@@ -49,5 +49,3 @@ export class Main extends React.Component {
     );
   }
 }
-
-export default Main;

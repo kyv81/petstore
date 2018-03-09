@@ -26,6 +26,10 @@ export default class AnimalPage extends React.Component {
     });
 
     owner = Object.assign({}, owner[0]);
-    return animals.length ? <AnimalCard animal={animal} owner={owner} /> : null;
+    return animals.length ? (
+      <div className="section">
+        <AnimalCard animal={animal} owner={owner} />
+      </div>
+    ) : null;
   }
 }

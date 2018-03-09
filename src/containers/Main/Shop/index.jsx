@@ -37,7 +37,7 @@ export class Shop extends React.Component {
     const { animals, users } = this.props;
 
     return (
-      <Fragment>
+      <div className="section">
         {/* TODO: тут нужно поставить фильтер , который будет менять state этого компонента */}
 
         {/* список всех животных в магазине, данные получены из redux store */}
@@ -53,16 +53,11 @@ export class Shop extends React.Component {
               owner = Object.assign({}, owner[0]);
 
               return (
-                <AnimalCard
-                  animal={animal}
-                  owner={owner}
-                  onAddToCart={() => {}}
-                  key={animal.id}
-                />
+                <AnimalCard animal={animal} owner={owner} key={animal.id} />
               );
             })
           : null}
-      </Fragment>
+      </div>
     );
   }
 }

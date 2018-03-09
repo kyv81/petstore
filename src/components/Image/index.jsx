@@ -6,7 +6,7 @@ const propTypes = {
 };
 
 export const Image = ({ src }) => {
-  return <img src={src} alt="" />;
+  return <img className="responsive-img" src={src} alt="" />;
 };
 
 Image.propTypes = propTypes;

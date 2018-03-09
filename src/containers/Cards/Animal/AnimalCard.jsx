@@ -1,58 +1,84 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { Button, Image } from 'components';
+import { Image } from 'components';
 
 import { addToCart } from 'actions/cart';
 
-@withRouter
-@connect()
-export default class AnimalCard extends React.Component {
-  onAddToCart = () => {
-    let { animal: { id }, dispatch } = this.props;
-    dispatch(addToCart(id));
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
   };
+}
+
+@withRouter
+@connect(mapStateToProps)
+export class AnimalCard extends React.PureComponent {
+  static propTypes = {
+    owner: PropTypes.object.isRequired,
+    animal: PropTypes.object.isRequired,
+    auth: PropTypes.object,
+    location: PropTypes.string,
+    dispatch: PropTypes.func,
+  };
+
+  onAddToCart = e => {
+    e.preventDefault();
+    const { animal: { id }, dispatch } = this.props;
+
+    dispatch(addToCart(id));
+    M.toast({
+      html: 'Добавлено!',
+      classes: 'green accent-2',
+    });
+  };
+
   render() {
-    let {
-      animal: { imgUrl, salerId, id, name, description, date, price },
-      owner,
+    const {
+      animal: { imgUrl, id, name, salerId, description, date, price },
+      owner: { firstName, lastName },
+      auth: { data: { id: userId } },
+      location: { pathname: path },
     } = this.props;
-    date = new Date(date);
-    date = date.toLocaleDateString();
+    const localisedDate = new Date(date).toLocaleDateString();
     return (
-      <div className="card horizontal">
-        <div className="card-image">
-          <Image src={`${imgUrl}`} alt="фотография животного" />
-          {/* если роутер на /shop те рендерим линк  */}
-          <Route
-            path="/shop"
-            render={() => (
-              <Link className="btn" to={`/animal/${id}`} href={`/animal/${id}`}>
-                Перейти к товару
+      <div className="card">
+        <div className="card-content row">
+          <div className="col s12 m4">
+            <div className="center">
+              <Image src={`${imgUrl}`} alt="Фотография животного" />
+            </div>
+          </div>
+          <div className="col s12 m8">
+            <span className="card-title">{name}</span>
+            {salerId !== userId && (
+              <Link to={`/user/${salerId}`} href={`/user/${salerId}`}>
+                {`${firstName} ${lastName}`}
               </Link>
             )}
-          />
-        </div>
-        <div className="card-stacked">
-          <h3>{name}</h3>
-          <div>
-            Продавец:{
-              <Link className="btn" to={`/${salerId}`} href={`/${salerId}`}>
-                {owner.lastName}
-              </Link>
-            }
+            <span>Размещено {localisedDate}</span>
+            <p>Цена: {price} руб.</p>
+            <hr />
+            <p>{description}</p>
           </div>
-          <div>Описание:{description}</div>
         </div>
-        <div>
-          <div>Дата публикации: {date}</div>
-          <div>Цена:{price}</div>
-          <Button onClick={this.onAddToCart} className="btn">
-            Добавить в корзину
-          </Button>
+        <div className="card-action">
+          {path === '/shop' && (
+            <Link to={`/animal/${id}`} href={`/animal/${id}`}>
+              Перейти к товару
+            </Link>
+          )}
+          {salerId !== userId && (
+            <a href="" onClick={this.onAddToCart}>
+              В корзину
+            </a>
+          )}
         </div>
       </div>
     );
   }
 }
+
+export default AnimalCard;
