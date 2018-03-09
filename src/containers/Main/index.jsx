@@ -1,8 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import { Home, Shop } from 'containers';
-import Animal from 'containers/Animal';
+import { Home, Shop, AnimalCard } from 'containers';
 
 export class Main extends React.Component {
   render() {

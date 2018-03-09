@@ -5,7 +5,7 @@ const propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-export const Edit = ({ onClick }) => {
+export const FAB = ({ onClick }) => {
   return (
     <a onClick={onClick} className="btn-floating blue">
       <i className="material-icons">create</i>
@@ -13,6 +13,6 @@ export const Edit = ({ onClick }) => {
   );
 };
 
-Edit.propTypes = propTypes;
+FAB.propTypes = propTypes;
 
-export default Edit;
+export default FAB;

@@ -7,8 +7,8 @@ import { func } from 'prop-types';
 import styles from './index.css';
 import { tryLogout } from 'actions/auth';
 import RegModal from 'containers/Modals/RegModal';
-import AuthModal from '/containers/Modals/AuthModal';
-import Button from 'Components/Button';
+import AuthModal from 'containers/Modals/AuthModal';
+import { Button } from 'components';
 
 const display = {
   display: 'block'

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import Animal from 'containers/Animal';
+import { AnimalCard } from 'containers';
 import { object } from 'prop-types';
 
 // сделаем пропсом данного компонента данные из store redux
@@ -54,7 +54,7 @@ export class Shop extends React.Component {
               console.log(owner);
 
               return (
-                <Animal
+                <AnimalCard
                   animal={animal}
                   owner={owner}
                   onAddToCart={() => {}}
