@@ -14,6 +14,7 @@ export { default as AnimalPage } from 'containers/Main/AnimalPage';
 export { default as UserPage } from 'containers/Main/UserPage';
 export { default as Cabinet } from 'containers/Main/Cabinet';
 
+export { default as AnimalAdd } from 'containers/Cards/Animal/AnimalAdd';
 export { default as AnimalCard } from 'containers/Cards/Animal/AnimalCard';
 export {
   default as AnimalCardCart,
