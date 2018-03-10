@@ -39,14 +39,7 @@ export default class UserAnimals extends React.Component {
             {typeof animals !== 'undefined' && animals.length > 0
               ? animals.map(animal => {
                   return id === animal.salerId ? (
-                    <AnimalCardSmall
-                      key={animal.id}
-                      date={animal.date}
-                      description={animal.description}
-                      price={animal.price}
-                      name={animal.name}
-                      imgUrl={animal.imgUrl}
-                    />
+                    <AnimalCardSmall key={animal.id} animal={animal} />
                   ) : null;
                 })
               : null}

@@ -53,9 +53,11 @@ export class AnimalCard extends React.PureComponent {
           </div>
           <div className="col s12 m8">
             <span className="card-title">{name}</span>
-            {salerId !== userId && (
+            {salerId === userId ? (
+              'ВЫ ВЛАДЕЛЕЦ '
+            ) : (
               <Link to={`/user/${salerId}`} href={`/user/${salerId}`}>
-                {`${firstName} ${lastName}`}
+                {`${firstName} ${lastName} `}
               </Link>
             )}
             <span>Размещено {localisedDate}</span>
