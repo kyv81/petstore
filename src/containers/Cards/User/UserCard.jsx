@@ -26,8 +26,9 @@ class UserCard extends React.Component {
   render() {
     const { id, users } = this.props;
     return (
-      <div>
+      <div className="col s6">
         <Route path="/cabinet" render={() => <h2>Мой кабинет</h2>} />
+        <Route path="/user/:id" render={() => <h2>Кабинет пользователя</h2>} />
         <Image src="http://via.placeholder.com/350x150" />
         {users.map(user => {
           return user.id === id ? (

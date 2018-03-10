@@ -16,7 +16,7 @@ export default class Cabinet extends React.Component {
   render() {
     let { user: { id } } = this.props;
     return id ? (
-      <div>
+      <div className="row">
         <UserCard id={id} />
         <UserAnimals id={id} />
       </div>

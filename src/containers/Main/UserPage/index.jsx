@@ -5,7 +5,7 @@ export default class UserPage extends React.Component {
   render() {
     let { id } = this.props;
     return (
-      <div>
+      <div className="row">
         <UserCard id={id} />
         <UserAnimals id={id} />
       </div>
