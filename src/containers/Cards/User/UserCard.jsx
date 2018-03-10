@@ -25,13 +25,16 @@ const mapStateToProps = state => {
 class UserCard extends React.Component {
   render() {
     const { animals, users } = this.props;
+    let id = '';
     return (
       <div>
         <Route path="/cabinet" render={() => <h2>Мой кабинет</h2>} />
         <Image src="http://via.placeholder.com/350x150" />
         {users.map(user => {
-          return user.id === animals[0].salerId ? (
-            <div className="user-wrapper">
+          let animal = animals.filter(el => el.salerId === user.id);
+          if (animal.length > 0) id = animal[0].salerId;
+          return user.id === id ? (
+            <div key={Date.now()} className="user-wrapper">
               <div>
                 <h4>Личные данные</h4>
                 <div>
