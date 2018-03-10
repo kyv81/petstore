@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { Image } from 'components';
 
-import { addToCart } from 'actions/cart';
+import { tryAddToCart } from 'actions/cart';
 
 function mapStateToProps(state) {
   return {
@@ -28,11 +28,19 @@ export class AnimalCard extends React.PureComponent {
     e.preventDefault();
     const { animal: { id }, dispatch } = this.props;
 
-    dispatch(addToCart(id));
-    M.toast({
-      html: 'Добавлено!',
-      classes: 'green accent-2',
-    });
+    dispatch(tryAddToCart(id))
+      .then(() => {
+        M.toast({
+          html: 'Добавлено!',
+          classes: 'green accent-2',
+        });
+      })
+      .catch(() => {
+        M.toast({
+          html: 'Уже добавлена в корзину!',
+          classes: 'red accent-2',
+        });
+      });
   };
 
   render() {

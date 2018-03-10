@@ -1,9 +1,26 @@
 import { ADD_TO_CART, REMOVE_FROM_CART, BUY } from 'constants';
 
-export const addToCart = id => {
+const addToCartSuccess = id => {
   return {
     type: ADD_TO_CART,
     id: id,
+  };
+};
+
+const shouldAddToCart = (state, id) => {
+  let { cart } = state;
+  return cart.toJS().items.includes(id);
+};
+
+export const tryAddToCart = id => {
+  return (dispatch, getState) => {
+    return new Promise((res, rej) => {
+      if (!shouldAddToCart(getState(), id)) {
+        dispatch(addToCartSuccess(id));
+        res();
+      }
+      rej();
+    });
   };
 };
 
