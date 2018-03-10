@@ -18,7 +18,6 @@ const propTypes = {
 const mapStateToProps = state => {
   return {
     users: state.users.users,
-    id: state.auth.data.id,
   };
 };
 
