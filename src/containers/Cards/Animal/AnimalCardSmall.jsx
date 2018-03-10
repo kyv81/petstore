@@ -1,29 +1,30 @@
 import React from 'react';
 import { Route } from 'react-router';
-import { string, func, number } from 'prop-types';
+import { object } from 'prop-types';
+import { connect } from 'react-redux';
 
 import { Button, Image, Input } from 'components';
 
+import { tryEditAnimal } from 'actions';
+
+@connect()
 export default class AnimalCardSmall extends React.Component {
   //сохраним в state чтобы потом менять и его при редактировании и сохранять новый если
   // понадобится
   state = {
-    date: this.props.date,
-    newDescription: this.props.description,
-    newPrice: this.props.price,
-    newName: this.props.name,
-    imgUrl: this.props.imgUrl,
+    date: this.props.animal.date,
+    newDescription: this.props.animal.description,
+    newPrice: this.props.animal.price,
+    newName: this.props.animal.name,
+    imgUrl: this.props.animal.imgUrl,
+    salerId: this.props.animal.salerId,
+    id: this.props.animal.id,
     // открыта ли модалка редактирования
     isEdited: false,
   };
 
   static propTypes = {
-    date: number,
-    description: string,
-    price: number,
-    name: string,
-    onClick: func,
-    imgUrl: string,
+    animal: object,
   };
 
   onChangename = e => {
@@ -45,21 +46,47 @@ export default class AnimalCardSmall extends React.Component {
   onEditCancel = () => {
     // восстановим значения в state если нажали отмена
     this.setState({
-      date: this.props.date,
-      newDescription: this.props.description,
-      newPrice: this.props.price,
-      newName: this.props.name,
-      imgUrl: this.props.imgUrl,
+      newDescription: this.props.animal.description,
+      newPrice: this.props.animal.price,
+      newName: this.props.animal.name,
       isEdited: false,
     });
   };
   onEditSubmit = () => {
     // диспатчим евент в redux store на изменение animals
     // айди можно взять из props
+    let { dispatch } = this.props;
+    let {
+      newName,
+      date,
+      newDescription,
+      newPrice,
+      imgUrl,
+      salerId,
+      id,
+    } = this.state;
+    let editedAnimal = {
+      date,
+      description: newDescription,
+      id,
+      imgUrl,
+      name: newName,
+      price: newPrice,
+      salerId,
+    };
+    console.log(editedAnimal);
+
+    //передаем новое животное
+    dispatch(tryEditAnimal(editedAnimal));
+
+    // уберем модалку редактирования
+    this.setState({
+      isEdited: false,
+    });
   };
 
   render() {
-    const { date, description, price, name, imgUrl } = this.props;
+    const { animal: { date, description, price, name, imgUrl } } = this.props;
     const { isEdited, newName, newPrice, newDescription } = this.state;
 
     let newPriceString = newPrice.toString();
@@ -113,7 +140,7 @@ export default class AnimalCardSmall extends React.Component {
                       </label>
                     </div>
                     <div>
-                      <Input type="file" />
+                      {/* <Input type="file" /> */}
                       <Button onClick={this.onEditCancel}>ОТМЕНА</Button>
                       <Button onClick={this.onEditSubmit}>ПРИМЕНИТЬ</Button>
                     </div>
