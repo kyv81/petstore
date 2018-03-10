@@ -18,14 +18,14 @@ class AnimalAdd extends React.Component {
     e.preventDefault();
     const { description, name, price } = this.state;
     const { onAddSubmit } = this.props;
-    this.setState({ name, price, description });
-    onAddSubmit(name, price, description);
+    if (name && price && description) {
+      onAddSubmit(name, price, description);
+    }
   };
 
   handleCancel = e => {
     e.preventDefault();
     const { onAddCancel } = this.props;
-    this.setState({ name: '', price: '', description: '' });
     onAddCancel();
   };
 
