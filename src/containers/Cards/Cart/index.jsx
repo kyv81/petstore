@@ -53,7 +53,7 @@ export default class CartCard extends React.PureComponent {
       <div className={`card`}>
         <div className="card-content">
           <span className="card-title">Корзина</span>
-          <ul className="collection">
+          <ul className="">
             {filteredAnimals.map(animal => (
               <AnimalCardCart key={animal.id} animal={animal} />
             ))}
