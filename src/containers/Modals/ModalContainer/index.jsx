@@ -12,7 +12,7 @@ export default class ModalContainer extends React.PureComponent {
     const { children } = this.props;
     return (
       <div {...this.props} className={styles.modal}>
-        <div className="container valign-wrapper">
+        <div className="container">
           <div>{children}</div>
         </div>
       </div>
