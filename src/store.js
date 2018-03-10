@@ -10,7 +10,7 @@ import { firebaseConfig } from 'constants';
 
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 
-import { List } from 'immutable';
+import { List, fromJS } from 'immutable';
 
 import { Animals, Auth, Cart, Users } from 'reducers';
 
@@ -26,6 +26,12 @@ const initStore = history => {
     users: Users,
   });
 
+  const cart = localStorage.getItem('cartState')
+    ? fromJS(JSON.parse(localStorage.getItem('cartState')))
+    : fromJS({ items: List() });
+
+  console.log(cart);
+
   const initialState = {
     animals: {
       isRequesting: false,
@@ -39,9 +45,7 @@ const initStore = history => {
       isLoggedIn: false,
       data: {},
     },
-    cart: {
-      items: List(),
-    },
+    cart: cart,
     users: {
       isRequesting: false,
       users: [],
@@ -59,7 +63,7 @@ const initStore = history => {
     return result;
   };
 
-  return createStore(
+  const store = createStore(
     rootReducer,
     initialState,
     compose(
@@ -74,6 +78,15 @@ const initStore = history => {
       }),
     ),
   );
+
+  store.subscribe(() => {
+    localStorage.setItem(
+      'cartState',
+      JSON.stringify(store.getState().cart.toJS()),
+    );
+  });
+
+  return store;
 };
 
 export default initStore;
