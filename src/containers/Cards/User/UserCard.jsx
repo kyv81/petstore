@@ -1,43 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Route } from 'react-router';
 import { Image } from 'components';
 import { UserField } from 'containers';
 
 const propTypes = {
+  animals: PropTypes.array,
   firstName: PropTypes.string,
+  id: PropTypes.string,
   lastName: PropTypes.string,
   phone: PropTypes.number,
   email: PropTypes.string,
+  users: PropTypes.array,
 };
 
+const mapStateToProps = state => {
+  return {
+    users: state.users.users,
+    id: state.auth.data.id,
+  };
+};
+
+@connect(mapStateToProps)
 class UserCard extends React.Component {
   render() {
-    const { firstName, lastName, phone, email } = this.props;
+    const { id, users } = this.props;
     return (
       <div>
+        <Route path="/cabinet" render={() => <h2>Мой кабинет</h2>} />
         <Image src="http://via.placeholder.com/350x150" />
-        <div>
-          <h4>Личные данные</h4>
-          <div>
-            Имя:
-            <UserField text={firstName} />
-          </div>
-          <div>
-            Фамилия:
-            <UserField text={lastName} />
-          </div>
-        </div>
-        <div>
-          <h4>Контакты</h4>
-          <div>
-            <i className="material-icons">phone</i>
-            <UserField text={`+${phone}`} />
-          </div>
-          <div>
-            <i className="material-icons">mail_outline</i>
-            <UserField text={email} />
-          </div>
-        </div>
+        {users.map(user => {
+          return user.id === id ? (
+            <div key={Date.now()} className="user-wrapper">
+              <div>
+                <h4>Личные данные</h4>
+                <div>
+                  Имя:
+                  <UserField text={user.firstName} />
+                </div>
+                <div>
+                  Фамилия:
+                  <UserField text={user.lastName} />
+                </div>
+              </div>
+              <div>
+                <h4>Контакты</h4>
+                <div>
+                  <i className="material-icons">phone</i>
+                  <UserField text={`+${user.phone}`} />
+                </div>
+                <div>
+                  <i className="material-icons">mail_outline</i>
+                  <UserField text={user.email} />
+                </div>
+              </div>
+            </div>
+          ) : null;
+        })}
       </div>
     );
   }
