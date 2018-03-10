@@ -10,7 +10,7 @@ import styles from './index.css';
 // сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
   return {
-    cart: state.cart.items,
+    cart: state.cart.get('items'),
     animals: state.animals.animals,
   };
 }

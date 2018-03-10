@@ -19,7 +19,7 @@ import { buy } from 'actions/cart';
 function mapStateToProps(state) {
   return {
     isLoggedIn: state.auth.isLoggedIn,
-    cartItems: state.cart.items,
+    cartItems: state.cart.get('items'),
   };
 }
 @connect()
