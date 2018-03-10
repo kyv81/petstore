@@ -24,13 +24,17 @@ export default class AnimalCardCart extends React.Component {
     const { price, name, imgUrl } = this.props.animal;
 
     return (
-      <li className="collection-item avatar">
-        <div className="">
-          <Image src={imgUrl} />
+      <li className="card">
+        <div className="card-content row">
+          <div className="col s12 m4">
+            <Image src={imgUrl} />
+          </div>
+          <div className="col s12 m8">
+            <span className="card-title">Кличка:{name}</span>
+            <p className="">Цена:{price}</p>
+          </div>
         </div>
-        <span className="title">Кличка:{name}</span>
-        <p className="">Цена:{price}</p>
-        <div className="secondary-content">
+        <div className="card-action">
           <Button onClick={this.onDeleteAnimal}>Удалить</Button>
         </div>
       </li>
