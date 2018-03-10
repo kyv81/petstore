@@ -56,10 +56,11 @@ export default class AnimalCardSmall extends React.Component {
   };
 
   render() {
-    const { animal: { date, description, price, name, imgUrl } } = this.props;
-    const { isEdited } = this.state;
+    let { animal: { date, description, price, name, imgUrl } } = this.props;
+    let { isEdited } = this.state;
 
     const localisedDate = new Date(date).toLocaleDateString();
+    price = parseInt(price);
 
     return (
       <li className="card">
