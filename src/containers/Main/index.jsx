@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { bool } from 'prop-types';
 
-import { Home, Shop, AnimalPage } from 'containers';
+import { Home, Shop, AnimalPage, UserPage } from 'containers';
 
 // сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
@@ -43,7 +43,12 @@ export class Main extends React.Component {
             }}
           />
           {/* {/* <Route path="/:id" component={null} /> */}
-          <Route path="/cabinet" component={null} />
+          <Route
+            path="/cabinet"
+            component={({ match }) => {
+              return <UserPage id={match.params.id} />;
+            }}
+          />
         </Switch>
       </main>
     );
