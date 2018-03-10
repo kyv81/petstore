@@ -46,10 +46,11 @@ export default class AnimalCardSmall extends React.Component {
     // восстановим значения в state если нажали отмена
     this.setState({
       date: this.props.date,
-      description: this.props.description,
-      price: this.props.price,
-      name: this.props.name,
+      newDescription: this.props.description,
+      newPrice: this.props.price,
+      newName: this.props.name,
       imgUrl: this.props.imgUrl,
+      isEdited: false,
     });
   };
   onEditSubmit = () => {
