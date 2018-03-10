@@ -8,6 +8,7 @@ import { UserField } from 'containers';
 const propTypes = {
   animals: PropTypes.array,
   firstName: PropTypes.string,
+  id: PropTypes.string,
   lastName: PropTypes.string,
   phone: PropTypes.number,
   email: PropTypes.string,
@@ -16,23 +17,20 @@ const propTypes = {
 
 const mapStateToProps = state => {
   return {
-    animals: state.animals.animals,
     users: state.users.users,
+    id: state.auth.data.id,
   };
 };
 
 @connect(mapStateToProps)
 class UserCard extends React.Component {
   render() {
-    const { animals, users } = this.props;
-    let id = '';
+    const { id, users } = this.props;
     return (
       <div>
         <Route path="/cabinet" render={() => <h2>Мой кабинет</h2>} />
         <Image src="http://via.placeholder.com/350x150" />
         {users.map(user => {
-          let animal = animals.filter(el => el.salerId === user.id);
-          if (animal.length > 0) id = animal[0].salerId;
           return user.id === id ? (
             <div key={Date.now()} className="user-wrapper">
               <div>
