@@ -21,7 +21,7 @@ class AnimalEdit extends React.Component {
     e.preventDefault();
     const { name, price, description } = this.state;
     const { onEditSubmit } = this.props;
-    onEditSubmit(name, price, description);
+    onEditSubmit(name, parseInt(price, 10), description);
   };
 
   handleCancel = e => {
