@@ -6,6 +6,7 @@ const propTypes = {
   description: PropTypes.string,
   name: PropTypes.string,
   onEditSubmit: PropTypes.func.isRequired,
+  onEditCancel: PropTypes.func.isRequired,
   price: PropTypes.number,
 };
 
@@ -25,8 +26,9 @@ class AnimalEdit extends React.Component {
 
   handleCancel = e => {
     e.preventDefault();
-    const { name, price, description } = this.props;
+    const { name, price, description, onEditCancel } = this.props;
     this.setState({ name, price, description });
+    onEditCancel();
   };
 
   handleChangeDesc = e => {
@@ -46,6 +48,7 @@ class AnimalEdit extends React.Component {
 
   render() {
     const { name, price, description } = this.state;
+
     return (
       <div className="card">
         <div className="card-content">
@@ -61,6 +64,7 @@ class AnimalEdit extends React.Component {
             onChange={this.handleChangePrice}
             placeholder="Введите цену животного"
             value={price}
+            type="number"
           />
           <p>Описание:</p>
           <Input
