@@ -29,23 +29,21 @@ export default class UserAnimals extends React.Component {
     const { animals, id } = this.props;
 
     return (
-      <Fragment>
-        <div>
-          <Route path="/cabinet" render={() => <h2>Мои животные</h2>} />
-          <Route path="/user/:id" render={() => <h2>Животные</h2>} />
-          {/* TODO: тут должен быть фильтр */}
-          <ul>
-            {/* проверим есть ли животные в animals и сразу фильтранем по id */}
-            {typeof animals !== 'undefined' && animals.length > 0
-              ? animals.map(animal => {
-                  return id === animal.salerId ? (
-                    <AnimalCardSmall key={animal.id} animal={animal} />
-                  ) : null;
-                })
-              : null}
-          </ul>
-        </div>
-      </Fragment>
+      <div className="col s6">
+        <Route path="/cabinet" render={() => <h2>Мои животные</h2>} />
+        <Route path="/user/:id" render={() => <h2>Животные</h2>} />
+        {/* TODO: тут должен быть фильтр */}
+        <ul>
+          {/* проверим есть ли животные в animals и сразу фильтранем по id */}
+          {typeof animals !== 'undefined' && animals.length > 0
+            ? animals.map(animal => {
+                return id === animal.salerId ? (
+                  <AnimalCardSmall key={animal.id} animal={animal} />
+                ) : null;
+              })
+            : null}
+        </ul>
+      </div>
     );
   }
 }

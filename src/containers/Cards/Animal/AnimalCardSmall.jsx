@@ -4,7 +4,7 @@ import { object } from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Button, Image } from 'components';
-import { AnimalEdit } from 'containers';
+import { AnimalEdit, ModalContainer } from 'containers';
 
 import { tryEditAnimal } from 'actions';
 
@@ -62,31 +62,36 @@ export default class AnimalCardSmall extends React.Component {
     const localisedDate = new Date(date).toLocaleDateString();
 
     return (
-      <li>
-        <div>
-          <Image src={imgUrl} />
+      <li className="card">
+        <div className="card-content row">
+          <div className="col s12 m4">
+            <Image src={imgUrl} />
+          </div>
+          <div className="col s12 m8">
+            <div>{name}</div>
+            <div>Цена:{price}</div>
+            <div>Описание:{description}</div>
+            <div>Дата публицации:{localisedDate}</div>
+          </div>
         </div>
-        <div>
-          <div>{name}</div>
-          <div>Цена:{price}</div>
-          <div>Описание:{description}</div>
-          <div>Дата публицации:{localisedDate}</div>
-        </div>
+
         {/* в зависимоти от где мы находимся есть кнопка редактировать или ее нет */}
         <Route
           path="/cabinet"
           render={() => {
             return (
-              <div>
+              <div className="card-action">
                 <Button onClick={this.onEdit}>Редактировать</Button>
                 {isEdited ? (
-                  <AnimalEdit
-                    onEditSubmit={this.onEditSubmit}
-                    onEditCancel={this.onEditCancel}
-                    description={description}
-                    name={name}
-                    price={price}
-                  />
+                  <ModalContainer>
+                    <AnimalEdit
+                      onEditSubmit={this.onEditSubmit}
+                      onEditCancel={this.onEditCancel}
+                      description={description}
+                      name={name}
+                      price={price}
+                    />
+                  </ModalContainer>
                 ) : null}
               </div>
             );
