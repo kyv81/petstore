@@ -46,7 +46,6 @@ export class Shop extends React.Component {
     let { searchReq, textFilter } = this.state;
     this.setState({ textFilter: e.target.value });
     this.setState({ searchReq: false });
-    console.log('searchReq inside func', searchReq);
   };
 
   onChangeRangeMin = e => {
@@ -142,11 +141,8 @@ export class Shop extends React.Component {
     });
   };
 
-
-
   Sort = animals => {
     const {asc, sorting} = this.state;
-    console.log("сортируется несколько раз?")
     animals.sort((a, b) => {
       if(sorting == 'PriceSort'){
         const El1 = a.price;
@@ -167,12 +163,8 @@ export class Shop extends React.Component {
          }
        }
      });
-
     return animals;
 };
-
-
-
 
   render() {
     const { users, animals } = this.props;

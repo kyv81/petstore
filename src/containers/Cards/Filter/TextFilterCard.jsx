@@ -10,23 +10,23 @@ export class TextFilterCard extends React.Component {
     const { textFilter, onChangeTextFilter, onFilter } = this.props;
     console.log('animals inside render');
     return (
-        <Fragment>
-          <div className='input-field col s8'>
-            <input
-              id='first_name'
-              type='text'
-              onChange={onChangeTextFilter}
-              value={textFilter}
-              className='validate'
-            />
-            <label htmlFor='first_name'>Поиск по названию</label>
-          </div>
-          <button
-            className={styles.searchbtn + ' waves-effect waves-light btn blue'}
-            onClick={onFilter}
-          >
-            Найти
-          </button>
+      <Fragment>
+        <div className='input-field col s8'>
+          <input
+            id='first_name'
+            type='text'
+            onChange={onChangeTextFilter}
+            value={textFilter}
+            className='validate'
+          />
+          <label htmlFor='first_name'>Поиск по названию</label>
+        </div>
+        <button
+          className={styles.searchbtn + ' waves-effect waves-light btn blue'}
+          onClick={onFilter}
+        >
+          Найти
+        </button>
       </Fragment>
     );
   }

@@ -15,9 +15,6 @@ export class RangeFilterCard extends React.Component {
       onChangeRangeMin,
       onChangeRangeMax,
     } = this.props;
-    //onst min = rangeMin==0?rangeMax:0;
-    //const max = rangeMax==1000000?rangeMin:1000000;
-    console.log('range inside render', rangeMax, onChangeRangeMin);
     return (
       <div className={styles.container + ' container'}>
         <div className={styles.slider}>
@@ -49,7 +46,6 @@ export class RangeFilterCard extends React.Component {
           </p>
         </div>
       </div>
-
     );
   }
 }
