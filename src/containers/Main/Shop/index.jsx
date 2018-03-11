@@ -21,7 +21,7 @@ export class Shop extends React.Component {
     textFilter: '',
     rangeMin: 0,
     rangeMax: 600000,
-    dateMin: '10.10.2010',
+    dateMin: new Date(10,10,2010),
     dateMax: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
 
     searchReq: false,
@@ -122,7 +122,7 @@ export class Shop extends React.Component {
     const { textFilter, searchReq, rangeMax, rangeMin, dateMin, dateMax } = this.state;
     let date = new Date(animal.date);
     console.log(date,typeof(date), dateMin, typeof(dateMin), date > dateMin, date < dateMax, dateMax);
-    if (animal.price < rangeMax && animal.price > rangeMin && date >= dateMin && date <= dateMax) {
+    if (animal.price < rangeMax && animal.price > rangeMin && (date - dateMin)>0 && (dateMax - date)>0) {
       if (searchReq) {
         if (animal.name.indexOf(textFilter) != -1) return 1;
         else return 0;

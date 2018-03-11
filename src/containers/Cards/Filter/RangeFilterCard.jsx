@@ -4,6 +4,10 @@ import styles from './index.css';
 import { Input, Button } from 'components';
 
 export class RangeFilterCard extends React.Component {
+  state = {
+    min: this.props.rangeMin,
+    max: this.props.rangeMax,
+  }
   render() {
     const {
       rangeMin,
@@ -26,8 +30,8 @@ export class RangeFilterCard extends React.Component {
                 id='start'
                 value={rangeMin}
                 type='range'
-                min='0'
-                max='600000'
+                min={this.state.min}
+                max={this.state.max}
                 step='500'
                 onInput={onChangeRangeMin}
               />
