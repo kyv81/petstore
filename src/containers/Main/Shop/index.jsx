@@ -28,7 +28,6 @@ export class Shop extends React.Component {
     filterOpen: false
   };
 
-  // проверка пропсов
   static propTypes = {
     animals: object,
     rangeMin: number,
@@ -36,27 +35,11 @@ export class Shop extends React.Component {
     dateMin: date
   };
 
-  // обрабтички для фильтра
-  // onChangeTypeFilter = e => {
-  //   this.setState({ typeFilter: e.target.value });
-  // };
-
   onChangeTextFilter = e => {
     let { searchReq, textFilter } = this.state;
     this.setState({ textFilter: e.target.value });
     this.setState({ searchReq: false });
     console.log('searchReq inside func', searchReq);
-    // const animals =
-    //   !textFilter
-    //     ?(this.props.animals
-    //     )
-    //     :  this.props.animals.filter(
-    //         animal => animal.name.indexOf(textFilter) != -1);
-    //       this.props.animals = animals;
-    //         // console.log(animalz);
-    //         // console.log('searchReq inside render', searchReq);
-    // // let { animals} = this.props
-    // console.log('animals inside func', animals);
   };
 
   onChangeRangeMin = e => {
@@ -67,8 +50,6 @@ export class Shop extends React.Component {
   };
   onChangeRangeMax = e => {
     const { rangeMin, rangeMax } = this.state;
-
-    console.log('BEFIRE IFFF', rangeMin, rangeMax);
     +rangeMax >= +rangeMin
       ? this.setState({ rangeMax: e.target.value })
       : this.setState({ rangeMax: rangeMin });
@@ -77,12 +58,10 @@ export class Shop extends React.Component {
   onChangeDateMin = e => {
     const { dateMin } = this.state;
     this.setState({ dateMin: new Date(e.target.value) });
-    console.log('dateMindateMindateMindateMindateMindateMindateMin', dateMin);
   };
   onChangeDateMax = e => {
     const { dateMax } = this.state;
     this.setState({ dateMax: new Date(e.target.value) });
-    console.log('dateMindateMindateMindateMindateMindateMindateMin', dateMax);
   };
 
   onFilter = e => {
@@ -90,28 +69,7 @@ export class Shop extends React.Component {
     e.preventDefault();
     this.setState({ searchReq: true });
   };
-  //
-  // showTextFilter = e => {
-  //   // e.preventDefault();
-  //   this.setState({
-  //     typeFilter: 'TextFilterCard',
-  //   });
-  // };
-  //
-  // showRangeFilter = e => {
-  //   this.setState({
-  //     typeFilter: 'RangeFilterCard',
-  //   });
-  // };
-  //
-  // showDateFilter = e => {
-  //   this.setState({
-  //     typeFilter: 'DateFilterCard',
-  //   });
-  //   const name = e.target.checked;
-  //   const value = e.target.checked === false ? true : false;
-  //   this.setState({name: value});
-  // };
+
   onToggleFilters = e => {
     e.preventDefault();
     const { filterOpen } = this.state;
@@ -121,7 +79,7 @@ export class Shop extends React.Component {
   isDisplay = animal => {
     const { textFilter, searchReq, rangeMax, rangeMin, dateMin, dateMax } = this.state;
     let date = new Date(animal.date);
-    console.log(date,typeof(date), dateMin, typeof(dateMin), date > dateMin, date < dateMax, dateMax);
+    // console.log(date,typeof(date), dateMin, typeof(dateMin), date > dateMin, date < dateMax, dateMax);
     if (animal.price < rangeMax && animal.price > rangeMin && (date - dateMin)>0 && (dateMax - date)>0) {
       if (searchReq) {
         if (animal.name.indexOf(textFilter) != -1) return 1;
