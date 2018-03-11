@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { AnimalCard, TextFilterCard, RangeFilterCard } from 'containers';
-import { object, number } from 'prop-types';
+import { AnimalCard, TextFilterCard, RangeFilterCard, DateFilterCard } from 'containers';
+import { object, number, date } from 'prop-types';
 import { Checkbox } from 'components';
 import styles from './index.css';
 
@@ -21,6 +21,8 @@ export class Shop extends React.Component {
     textFilter: '',
     rangeMin: 0,
     rangeMax: 600000,
+    dateMin: '10.10.2010',
+    dateMax: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
 
     searchReq: false,
     filterOpen: false
@@ -30,7 +32,8 @@ export class Shop extends React.Component {
   static propTypes = {
     animals: object,
     rangeMin: number,
-    rangeMax: number
+    rangeMax: number,
+    dateMin: date
   };
 
   // обрабтички для фильтра
@@ -71,6 +74,17 @@ export class Shop extends React.Component {
       : this.setState({ rangeMax: rangeMin });
   };
 
+  onChangeDateMin = e => {
+    const { dateMin } = this.state;
+    this.setState({ dateMin: new Date(e.target.value) });
+    console.log('dateMindateMindateMindateMindateMindateMindateMin', dateMin);
+  };
+  onChangeDateMax = e => {
+    const { dateMax } = this.state;
+    this.setState({ dateMax: new Date(e.target.value) });
+    console.log('dateMindateMindateMindateMindateMindateMindateMin', dateMax);
+  };
+
   onFilter = e => {
     const { textFilter, searchReq } = this.state;
     e.preventDefault();
@@ -103,27 +117,32 @@ export class Shop extends React.Component {
     const { filterOpen } = this.state;
     this.setState({ filterOpen: !filterOpen });
   };
-  // а в пропсах хранятся Животные из redux
+
+  isDisplay = animal => {
+    const { textFilter, searchReq, rangeMax, rangeMin, dateMin, dateMax } = this.state;
+    let date = new Date(animal.date);
+    console.log(date,typeof(date), dateMin, typeof(dateMin), date > dateMin, date < dateMax, dateMax);
+    if (animal.price < rangeMax && animal.price > rangeMin && date >= dateMin && date <= dateMax) {
+      if (searchReq) {
+        if (animal.name.indexOf(textFilter) != -1) return 1;
+        else return 0;
+      }
+      return 1;
+    } else return 0;
+  };
+
   render() {
-    const { users } = this.props;
+    const { users, animals } = this.props;
     const {
       textFilter,
       typeFilter,
       searchReq,
       rangeMax,
       rangeMin,
+      dateMin,
+      dateMax,
       filterOpen
     } = this.state;
-    const animals = searchReq
-      ? this.props.animals.filter(
-          animal =>
-            animal.name.indexOf(textFilter) != -1 &&
-            animal.price < rangeMax &&
-            animal.price > rangeMin
-        )
-      : this.props.animals.filter(
-          animal => animal.price < rangeMax && animal.price > rangeMin
-        );
 
     // console.log('ЖИВВООТТННЫЫЕЕ',animals);
     // console.log('searchReq inside render', searchReq);
@@ -140,21 +159,27 @@ export class Shop extends React.Component {
           </i>
         </a>
         {filterOpen ? (
-          <div className='row card card-content'>
-            <div className='card-action'>
-              <RangeFilterCard
-                onChangeRangeMin={this.onChangeRangeMin}
-                onChangeRangeMax={this.onChangeRangeMax}
-                rangeMin={rangeMin}
-                rangeMax={rangeMax}
-              />
+            <div className='row card card-content'>
+              <div className='card-action'>
+                <h5> Фильтровать</h5>
+                <RangeFilterCard
+                  onChangeRangeMin={this.onChangeRangeMin}
+                  onChangeRangeMax={this.onChangeRangeMax}
+                  rangeMin={rangeMin}
+                  rangeMax={rangeMax}
+                />
+                <DateFilterCard
+                  onChangeDateMin={this.onChangeDateMin}
+                  onChangeDateMax={this.onChangeDateMax}
+                  dateMin={dateMin}
+                  dateMax={dateMax}
+                />
+              </div>
             </div>
-          </div>
         ) : (
           ''
         )}
 
-        {/* список всех животных в магазине, данные получены из redux store */}
         {typeof animals !== 'undefined' &&
         animals.length > 0 &&
         typeof users !== 'undefined' &&
@@ -165,10 +190,11 @@ export class Shop extends React.Component {
               });
               //console.log('filter in render shop!!!!!!!!!!!!! ANIMAL', animal, animal.name);
               owner = Object.assign({}, owner[0]);
-
-              return (
-                <AnimalCard animal={animal} owner={owner} key={animal.id} />
-              );
+              if (this.isDisplay(animal))
+                return (
+                  <AnimalCard animal={animal} owner={owner} key={animal.id} />
+                );
+              else null;
             })
           : null}
       </div>
@@ -177,14 +203,3 @@ export class Shop extends React.Component {
 }
 
 export default Shop;
-
-// const animals =
-//   !textFilter
-//     ? (rangeMin || rangeMax<1000000)?
-//     (this.props.animals.filter(
-//       animal => animal.price<rangeMax && animal.price>rangeMin)
-//     )
-//     :(this.props.animals
-//     )
-//     :  this.props.animals.filter(
-//         animal => animal.name.indexOf(textFilter) != -1);
