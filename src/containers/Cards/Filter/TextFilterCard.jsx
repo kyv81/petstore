@@ -10,8 +10,7 @@ export class TextFilterCard extends React.Component {
     const { textFilter, onChangeTextFilter, onFilter } = this.props;
     console.log('animals inside render');
     return (
-      <div className='row card card-content'>
-        <div className='card-action'>
+        <Fragment>
           <div className='input-field col s8'>
             <input
               id='first_name'
@@ -28,8 +27,7 @@ export class TextFilterCard extends React.Component {
           >
             Найти
           </button>
-        </div>
-      </div>
+      </Fragment>
     );
   }
 }
