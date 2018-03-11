@@ -60,6 +60,7 @@ class AnimalAdd extends React.Component {
           <Input
             onChange={this.handleChangePrice}
             placeholder="Введите цену животного"
+            type="number"
             value={price}
           />
           <p>Описание:</p>
