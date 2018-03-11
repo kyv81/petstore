@@ -9,8 +9,6 @@ export class DateFilterCard extends React.Component {
     const { dateMin, dateMax, onChangeDateMin, onChangeDateMax } = this.props;
     //   var elem = document.querySelector('.datepicker');
     // var instance = M.Datepicker.init(elem, options);
-    //onst min = rangeMin==0?rangeMax:0;
-    //const max = rangeMax==1000000?rangeMin:1000000;
     return (
       <div className={styles.container + ' container row'}>
         <output className='left'>По дате</output>
