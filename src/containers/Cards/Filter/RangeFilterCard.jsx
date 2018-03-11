@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import styles from './index.css';
 
-import { Input, Button } from 'components';
+// import { Input, Button } from 'components';
 
 export class RangeFilterCard extends React.Component {
   state = {

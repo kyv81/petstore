@@ -8,7 +8,6 @@ import { Input, Button } from 'components';
 export class TextFilterCard extends React.Component {
   render() {
     const { textFilter, onChangeTextFilter, onFilter } = this.props;
-    console.log('animals inside render');
     return (
       <Fragment>
         <div className='input-field col s8'>
