@@ -6,7 +6,9 @@ import { connect } from 'react-redux';
 import { Button, Image } from 'components';
 import { AnimalEdit, ModalContainer } from 'containers';
 
-import { tryEditAnimal } from 'actions';
+import { tryEditAnimal, tryDeleteAnimal } from 'actions';
+
+import styles from './index.css';
 
 @connect()
 export default class AnimalCardSmall extends React.Component {
@@ -55,6 +57,11 @@ export default class AnimalCardSmall extends React.Component {
     });
   };
 
+  onDelete = () => {
+    const { dispatch, animal } = this.props;
+    dispatch(tryDeleteAnimal(animal));
+  };
+
   render() {
     let { animal: { date, description, price, name, imgUrl } } = this.props;
     let { isEdited } = this.state;
@@ -81,7 +88,7 @@ export default class AnimalCardSmall extends React.Component {
           path="/cabinet"
           render={() => {
             return (
-              <div className="card-action">
+              <div className={`card-action ${styles.btns}`}>
                 <Button onClick={this.onEdit}>Редактировать</Button>
                 {isEdited ? (
                   <ModalContainer>
@@ -94,6 +101,7 @@ export default class AnimalCardSmall extends React.Component {
                     />
                   </ModalContainer>
                 ) : null}
+                <Button onClick={this.onDelete}>Удалить</Button>
               </div>
             );
           }}
