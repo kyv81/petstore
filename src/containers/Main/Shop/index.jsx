@@ -46,10 +46,6 @@ export class Shop extends React.Component {
     let { searchReq, textFilter } = this.state;
     this.setState({ textFilter: e.target.value });
     this.setState({ searchReq: false });
-<<<<<<< HEAD
-=======
-    console.log('searchReq inside func', searchReq);
->>>>>>> 3488a7880122203a924fdc9c8eecf7ec959a6377
   };
 
   onChangeRangeMin = e => {
@@ -73,7 +69,6 @@ export class Shop extends React.Component {
     const { dateMax } = this.state;
     this.setState({ dateMax: new Date(e.target.value) });
   };
-<<<<<<< HEAD
 
   //фильтры
   onFilter = e => {
@@ -123,104 +118,7 @@ export class Shop extends React.Component {
 
   showTextFilter = e => {
     const {asc} = this.state;
-      this.setState({asc: !asc});
-    // e.preventDefault();
-    this.setState({
-      sorting: 'NameSort',
-    });
-  };
-
-  showPriceFilter = e => {
-    const {asc} = this.state;
-    this.setState({asc: !asc});
-    this.setState({
-      sorting: 'PriceSort',
-    });
-  };
-
-  showDateFilter = e => {
-    const {asc} = this.state;
-    this.setState({asc: !asc});
-    this.setState({
-      sorting: 'DateSort',
-    });
-  };
-
-  Sort = animals => {
-    const {asc, sorting} = this.state;
-    animals.sort((a, b) => {
-      if(sorting == 'PriceSort'){
-        const El1 = a.price;
-        const El2 = b.price;
-        return asc ? El2 - El1 : El1 - El2;
-      }else if (sorting == 'DateSort')
-       {
-         const El1 = a.date;
-         const El2 = b.date;
-         return asc ? El2 - El1 : El1 - El2;
-       }else if(sorting == 'NameSort'){
-         const El1 = a.name;
-         const El2 = b.name;
-         if(asc) {
-           return  El1 < El2 ? -1 : El1 > El2 ? 1 : 0;
-         }else{
-            return El1 > El2 ? -1 : El1 < El2 ? 1 : 0;
-         }
-       }
-     });
-    return animals;
-};
-=======
-
-  //фильтры
-  onFilter = e => {
-    const { textFilter, searchReq } = this.state;
-    e.preventDefault();
-    this.setState({ searchReq: true });
-  };
-
-  onToggleFilters = e => {
-    e.preventDefault();
-    const { filterOpen } = this.state;
-    this.setState({ filterOpen: !filterOpen });
-  };
-
-  isDisplay = animal => {
-    const {
-      textFilter,
-      searchReq,
-      rangeMax,
-      rangeMin,
-      dateMin,
-      dateMax
-    } = this.state;
-    const {date, price} = animal;
-    // console.log(
-    //   date,
-    //   typeof date,
-    //   +dateMin,
-    //   typeof dateMin,
-    //   date > dateMin,
-    //   date < dateMax,
-    //   +dateMax
-    // );
-    if (
-      price < rangeMax &&
-      price > rangeMin &&
-      date >= +dateMin &&
-      date <= +dateMax
-    ) {
-      if (searchReq) {
-        if (animal.name.indexOf(textFilter) != -1) return 1;
-        else return 0;
-      }
-      return 1;
-    } else return 0;
-  };
-
-  showTextFilter = e => {
-    const {asc} = this.state;
-      this.setState({asc: !asc});
+    this.setState({ asc: !asc });
     // e.preventDefault();
     this.setState({
       sorting: 'NameSort',
@@ -274,7 +172,6 @@ export class Shop extends React.Component {
 
 
 
->>>>>>> 3488a7880122203a924fdc9c8eecf7ec959a6377
 
   render() {
     const { users, animals } = this.props;
