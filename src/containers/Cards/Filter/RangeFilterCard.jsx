@@ -15,10 +15,8 @@ export class RangeFilterCard extends React.Component {
     //const max = rangeMax==1000000?rangeMin:1000000;
     console.log('range inside render', rangeMax, onChangeRangeMin);
     return (
-      <Fragment>
-        <h5>Фильтровать</h5>
         <div className={styles.container + ' container'}>
-          <div className={styles.slider + ' slider'}>
+          <div className={styles.slider}>
             <output className='left'>По цене</output>
             <output className='right'>
               От {rangeMin} до {rangeMax} руб.
@@ -45,7 +43,6 @@ export class RangeFilterCard extends React.Component {
             </p>
           </div>
         </div>
-      </Fragment>
     );
   }
 }
