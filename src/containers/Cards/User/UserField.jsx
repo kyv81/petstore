@@ -5,6 +5,7 @@ import styles from './index.css';
 
 const propTypes = {
   text: PropTypes.string,
+  isEditable: PropTypes.bool.isRequired,
 };
 
 class UserField extends React.Component {
@@ -41,12 +42,15 @@ class UserField extends React.Component {
 
   renderView = () => {
     const { textValue } = this.state;
+    const { isEditable } = this.props;
     return (
       <span className={styles.field}>
         {textValue}
-        <Button onClick={this.onClick}>
-          <i className="material-icons">edit</i>
-        </Button>
+        {isEditable ? (
+          <Button onClick={this.onClick}>
+            <i className="material-icons">edit</i>
+          </Button>
+        ) : null}
       </span>
     );
   };
