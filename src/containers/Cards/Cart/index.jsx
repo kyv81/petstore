@@ -39,11 +39,14 @@ export default class CartCard extends React.PureComponent {
   render() {
     let { cart, animals } = this.props;
 
+    // филтруем cart на наличие животных в магазине,
+    // и не удалили из из магазина уже
     let filteredAnimals = cart
       .map(cartItem => {
         return animals.find(animal => animal.id === cartItem);
       })
-      .toJS();
+      .toJS()
+      .filter(animal => animal);
 
     let resultPrice = filteredAnimals
       ? filteredAnimals.reduce((a, b) => a + b.price, 0)
