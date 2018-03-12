@@ -30,7 +30,7 @@ export class RangeFilterCard extends React.Component {
               min={this.state.min}
               max={this.state.max}
               step="500"
-              onInput={onChangeRangeMin}
+              onChange={onChangeRangeMin}
               className={styles.inpt}
             />
             <input
@@ -40,7 +40,7 @@ export class RangeFilterCard extends React.Component {
               min="0"
               max="600000"
               step="500"
-              onInput={onChangeRangeMax}
+              onChange={onChangeRangeMax}
               className={styles.inpt}
             />
           </p>
