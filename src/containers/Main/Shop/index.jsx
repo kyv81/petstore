@@ -4,7 +4,7 @@ import {
   AnimalCard,
   TextFilterCard,
   RangeFilterCard,
-  DateFilterCard
+  DateFilterCard,
 } from 'containers';
 import { object, number, date } from 'prop-types';
 import { Checkbox } from 'components';
@@ -14,7 +14,7 @@ import styles from './index.css';
 function mapStateToProps(state) {
   return {
     animals: state.animals.animals,
-    users: state.users.users
+    users: state.users.users,
   };
 }
 
@@ -32,7 +32,7 @@ export class Shop extends React.Component {
     filterOpen: false,
     sorting: false,
     sortType: undefined,
-    asc: true
+    asc: true,
   };
 
   static propTypes = {
@@ -40,7 +40,7 @@ export class Shop extends React.Component {
     rangeMin: number,
     rangeMax: number,
     dateMin: object,
-    dateMax: object
+    dateMax: object,
   };
 
   //хэндлеры всех инпутов
@@ -93,11 +93,11 @@ export class Shop extends React.Component {
       rangeMax,
       rangeMin,
       dateMin,
-      dateMax
+      dateMax,
     } = this.state;
     const { date, price } = animal;
-    const dmax = +dateMax+86400000;
-    const dmin = +dateMin-10800000;
+    const dmax = +dateMax + 86400000;
+    const dmin = +dateMin - 10800000;
     if (
       price < +rangeMax &&
       price > +rangeMin &&
@@ -118,7 +118,7 @@ export class Shop extends React.Component {
     this.setState({ sorting: true });
     // e.preventDefault();
     this.setState({
-      sortType: 'NameSort'
+      sortType: 'NameSort',
     });
   };
 
@@ -127,7 +127,7 @@ export class Shop extends React.Component {
     this.setState({ asc: !asc });
     this.setState({ sorting: true });
     this.setState({
-      sortType: 'PriceSort'
+      sortType: 'PriceSort',
     });
   };
 
@@ -135,8 +135,9 @@ export class Shop extends React.Component {
     const { asc, sorting } = this.state;
     this.setState({ asc: !asc });
     this.setState({ sorting: true });
+
     this.setState({
-      sortType: 'DateSort'
+      sortType: 'DateSort',
     });
   };
 
@@ -176,13 +177,13 @@ export class Shop extends React.Component {
       rangeMin,
       dateMin,
       dateMax,
-      filterOpen
+      filterOpen,
     } = this.state;
     const Animals = this.Sort(animals);
     return (
       <div>
-        <div className='row card card-content'>
-          <div className='card-action'>
+        <div className="row card card-content">
+          <div className="card-action">
             <TextFilterCard
               onFilter={this.onFilter}
               onChangeTextFilter={this.onChangeTextFilter}
@@ -193,31 +194,31 @@ export class Shop extends React.Component {
                 filter_list
               </i>
             </a>
-            <form action='#'>
+            <form action="#">
               <p>
                 <label>
                   <input
-                    className='with-gap'
-                    name='group1'
-                    type='radio'
+                    className="with-gap"
+                    name="group1"
+                    type="radio"
                     onClick={this.showTextFilter}
                   />
                   <span>по названию</span>
                 </label>
                 <label>
                   <input
-                    className='with-gap'
-                    name='group1'
-                    type='radio'
+                    className="with-gap"
+                    name="group1"
+                    type="radio"
                     onClick={this.showPriceFilter}
                   />
                   <span>по цене</span>
                 </label>
                 <label>
                   <input
-                    className='with-gap'
-                    name='group1'
-                    type='radio'
+                    className="with-gap"
+                    name="group1"
+                    type="radio"
                     onClick={this.showDateFilter}
                   />
                   <span>по дате</span>

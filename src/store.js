@@ -80,10 +80,22 @@ const initStore = history => {
   );
 
   store.subscribe(() => {
-    localStorage.setItem(
-      'cartState',
-      JSON.stringify(store.getState().cart.toJS()),
-    );
+    // найдем живтоного по id
+    function findById(array, id) {
+      let index = array.findIndex(user => user.id === id);
+      return index !== -1;
+    }
+
+    let animals = store.getState().animals.animals;
+    let cart = store.getState().cart;
+    // если животные пришли, то обновляем cart
+    if (animals.length) {
+      let listAnimalsId = cart.get('items');
+      listAnimalsId = listAnimalsId.filter(id => findById(animals, id));
+      cart = cart.set('items', listAnimalsId);
+    }
+
+    localStorage.setItem('cartState', JSON.stringify(cart.toJS()));
   });
 
   return store;
