@@ -30,7 +30,8 @@ export class Shop extends React.Component {
 
     searchReq: false,
     filterOpen: false,
-    sorting: undefined,
+    sorting: false,
+    sortType: undefined,
     asc: true,
   };
 
@@ -45,8 +46,9 @@ export class Shop extends React.Component {
   //хэндлеры всех инпутов
   onChangeTextFilter = e => {
     // const { searchReq, textFilter } = this.state;
-    this.setState({ searchReq: false });
     this.setState({ textFilter: e.target.value });
+    this.setState({ searchReq: false });
+    this.setState({ sorting: false });
   };
 
   onChangeRangeMin = e => {
@@ -94,12 +96,13 @@ export class Shop extends React.Component {
       dateMax,
     } = this.state;
     const { date, price } = animal;
-
+    const dmax = +dateMax + 86400000;
+    const dmin = +dateMin - 10800000;
     if (
       price < +rangeMax &&
       price > +rangeMin &&
-      date >= dateMin &&
-      date <= dateMax
+      date >= dmin &&
+      date <= dmax
     ) {
       if (searchReq) {
         if (animal.name.indexOf(textFilter) != -1) return 1;
@@ -110,52 +113,57 @@ export class Shop extends React.Component {
   };
 
   showTextFilter = e => {
-    const { asc } = this.state;
+    const { asc, sorting } = this.state;
     this.setState({ asc: !asc });
+    this.setState({ sorting: true });
     // e.preventDefault();
     this.setState({
-      sorting: 'NameSort',
+      sortType: 'NameSort',
     });
   };
 
   showPriceFilter = e => {
-    const { asc } = this.state;
+    const { asc, sorting } = this.state;
     this.setState({ asc: !asc });
+    this.setState({ sorting: true });
     this.setState({
-      sorting: 'PriceSort',
+      sortType: 'PriceSort',
     });
   };
 
   showDateFilter = e => {
-    const { asc } = this.state;
+    const { asc, sorting } = this.state;
     this.setState({ asc: !asc });
+    this.setState({ sorting: true });
+
     this.setState({
-      sorting: 'DateSort',
+      sortType: 'DateSort',
     });
   };
 
   Sort = animals => {
-    const { asc, sorting } = this.state;
-
-    animals.sort((a, b) => {
-      if (sorting == 'PriceSort') {
-        const El1 = a.price;
-        const El2 = b.price;
-        return asc ? El2 - El1 : El1 - El2;
-      } else if (sorting == 'DateSort') {
-        const El1 = a.date;
-        const El2 = b.date;
-        return asc ? El2 - El1 : El1 - El2;
-      } else if (sorting == 'NameSort') {
-        const El1 = a.name;
-        const El2 = b.name;
-        if (asc) {
-          return El1 < El2 ? -1 : El1 > El2 ? 1 : 0;
-        } else {
-          return El1 > El2 ? -1 : El1 < El2 ? 1 : 0;
+    const { asc, sortType, sorting } = this.state;
+    if (sorting) {
+      animals.sort((a, b) => {
+        if (sortType == 'PriceSort') {
+          const El1 = a.price;
+          const El2 = b.price;
+          return asc ? El2 - El1 : El1 - El2;
+        } else if (sortType == 'DateSort') {
+          const El1 = a.date;
+          const El2 = b.date;
+          return asc ? El2 - El1 : El1 - El2;
+        } else if (sortType == 'NameSort') {
+          const El1 = a.name;
+          const El2 = b.name;
+          if (asc) {
+            return El1 < El2 ? -1 : El1 > El2 ? 1 : 0;
+          } else {
+            return El1 > El2 ? -1 : El1 < El2 ? 1 : 0;
+          }
         }
-      }
-    });
+      });
+    }
     return animals;
   };
 
