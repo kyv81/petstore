@@ -38,18 +38,19 @@ export class Shop extends React.Component {
     animals: object,
     rangeMin: number,
     rangeMax: number,
-    dateMin: date
+    dateMin: object,
+    dateMax: object
   };
 
   //хэндлеры всех инпутов
   onChangeTextFilter = e => {
-    let { searchReq, textFilter } = this.state;
-    this.setState({ textFilter: e.target.value });
+    // const { searchReq, textFilter } = this.state;
     this.setState({ searchReq: false });
+    this.setState({ textFilter: e.target.value });
   };
 
   onChangeRangeMin = e => {
-    let { rangeMin, rangeMax } = this.state;
+    const { rangeMin, rangeMax } = this.state;
     +rangeMin <= +rangeMax
       ? this.setState({ rangeMin: e.target.value })
       : this.setState({ rangeMin: rangeMax });
@@ -93,20 +94,22 @@ export class Shop extends React.Component {
       dateMax
     } = this.state;
     const {date, price} = animal;
-    // console.log(
-    //   date,
-    //   typeof date,
-    //   +dateMin,
-    //   typeof dateMin,
-    //   date > dateMin,
-    //   date < dateMax,
-    //   +dateMax
-    // );
+    console.log(
+      date,
+      typeof date,
+      +dateMin,
+      typeof dateMin,
+      date > dateMin,
+      date < dateMax,
+      dateMax,
+      new Date(dateMax)
+    );
+
     if (
-      price < rangeMax &&
-      price > rangeMin &&
-      date >= +dateMin &&
-      date <= +dateMax
+      price < +rangeMax &&
+      price > +rangeMin &&
+      date >= dateMin &&
+      date <= dateMax
     ) {
       if (searchReq) {
         if (animal.name.indexOf(textFilter) != -1) return 1;
@@ -141,8 +144,6 @@ export class Shop extends React.Component {
     });
   };
 
-
-
   Sort = animals => {
     const {asc, sorting} = this.state;
     console.log("сортируется несколько раз?")
@@ -163,15 +164,11 @@ export class Shop extends React.Component {
            return  El1 < El2 ? -1 : El1 > El2 ? 1 : 0;
          }else{
             return El1 > El2 ? -1 : El1 < El2 ? 1 : 0;
-         }
-       }
-     });
-
+        }
+      }
+    });
     return animals;
 };
-
-
-
 
   render() {
     const { users, animals } = this.props;
