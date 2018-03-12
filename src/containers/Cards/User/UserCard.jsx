@@ -17,9 +17,16 @@ const propTypes = {
   users: PropTypes.array,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+  // найдем юзера в массиве юзеров
+  function findUser(users, id) {
+    let index = users.findIndex(user => user.id === id);
+    let user = users[index];
+    return user;
+  }
+
   return {
-    users: state.users.users,
+    user: findUser(state.users.users, ownProps.id),
   };
 };
 
@@ -56,7 +63,7 @@ class UserCard extends React.Component {
   };
 
   render() {
-    const { id, users } = this.props;
+    const { user } = this.props;
     const { isEdited } = this.state;
     return (
       <div className="col s6">
@@ -66,74 +73,71 @@ class UserCard extends React.Component {
           <div className="card-image">
             <Image src="http://via.placeholder.com/350x150" />
           </div>
-          {users.map(user => {
-            return user.id === id ? (
-              <div key={Date.now()}>
-                <div className="card-content row">
-                  <h3 className="card-title">Личные данные</h3>
-                  <div className={`col s10 ${styles.fieldRow}`}>
-                    <div>Имя:</div>
-                    <Route
-                      path="/cabinet"
-                      render={() => (
-                        <UserField text={user.firstName} isEditable />
-                      )}
-                    />
-                    <Route
-                      path="/user/:id"
-                      render={() => (
-                        <UserField text={user.firstName} isEditable={false} />
-                      )}
-                    />
-                  </div>
-                  <div className={`col s10 ${styles.fieldRow}`}>
-                    <div>Фамилия:</div>
-                    <Route
-                      path="/cabinet"
-                      render={() => (
-                        <UserField text={user.lastName} isEditable />
-                      )}
-                    />
-                    <Route
-                      path="/user/:id"
-                      render={() => (
-                        <UserField text={user.lastName} isEditable={false} />
-                      )}
-                    />
-                  </div>
+          {user ? (
+            <div key={user.id}>
+              <div className="card-content row">
+                <h3 className="card-title">Личные данные</h3>
+                <div className={`col s10 ${styles.fieldRow}`}>
+                  <div>Имя:</div>
+                  <Route
+                    path="/cabinet"
+                    render={() => (
+                      <UserField text={user.firstName} isEditable />
+                    )}
+                  />
+                  <Route
+                    path="/user/:id"
+                    render={() => (
+                      <UserField text={user.firstName} isEditable={false} />
+                    )}
+                  />
                 </div>
-                <div className="card-content row">
-                  <h3 className="card-title">Контакты</h3>
-                  <div className={`col s10 ${styles.fieldRow}`}>
-                    <i className="material-icons">phone</i>
-                    <Route
-                      path="/cabinet"
-                      render={() => <UserField text={user.phone} isEditable />}
-                    />
-                    <Route
-                      path="/user/:id"
-                      render={() => (
-                        <UserField text={user.phone} isEditable={false} />
-                      )}
-                    />
-                  </div>
-                  <div className={`col s10 ${styles.fieldRow}`}>
-                    <i className="material-icons">mail_outline</i>
-                    <Route
-                      path="/cabinet"
-                      render={() => <UserField text={user.email} isEditable />}
-                    />
-                    <Route
-                      path="/user/:id"
-                      render={() => (
-                        <UserField text={user.email} isEditable={false} />
-                      )}
-                    />
-                  </div>
+                <div className={`col s10 ${styles.fieldRow}`}>
+                  <div>Фамилия:</div>
+                  <Route
+                    path="/cabinet"
+                    render={() => <UserField text={user.lastName} isEditable />}
+                  />
+                  <Route
+                    path="/user/:id"
+                    render={() => (
+                      <UserField text={user.lastName} isEditable={false} />
+                    )}
+                  />
                 </div>
               </div>
-            ) : null;
-          })}
+              <div className="card-content row">
+                <h3 className="card-title">Контакты</h3>
+                <div className={`col s10 ${styles.fieldRow}`}>
+                  <i className="material-icons">phone</i>
+                  <Route
+                    path="/cabinet"
+                    render={() => <UserField text={user.phone} isEditable />}
+                  />
+                  <Route
+                    path="/user/:id"
+                    render={() => (
+                      <UserField text={user.phone} isEditable={false} />
+                    )}
+                  />
+                </div>
+                <div className={`col s10 ${styles.fieldRow}`}>
+                  <i className="material-icons">mail_outline</i>
+                  <Route
+                    path="/cabinet"
+                    render={() => <UserField text={user.email} isEditable />}
+                  />
+                  <Route
+                    path="/user/:id"
+                    render={() => (
+                      <UserField text={user.email} isEditable={false} />
+                    )}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : null}
+
           <Route path="/cabinet" render={() => <FAB onClick={this.onAdd} />} />
           {isEdited ? (
             <ModalContainer>
