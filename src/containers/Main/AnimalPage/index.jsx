@@ -13,8 +13,9 @@ function mapStateToProps(state, ownProps) {
     return item;
   }
 
+  // нужно проверять есть ли данные вообще
   let animal = findById(state.animals.animals, ownProps.id);
-  let owner = findById(state.users.users, animal.salerId);
+  let owner = animal ? findById(state.users.users, animal.salerId) : null;
 
   return {
     animal: animal,
@@ -27,10 +28,10 @@ function mapStateToProps(state, ownProps) {
 export default class AnimalPage extends React.Component {
   render() {
     let { animal, user } = this.props;
-    return (
+    return animal && user ? (
       <div className="section">
         <AnimalCard animal={animal} owner={user} />
       </div>
-    );
+    ) : null;
   }
 }
