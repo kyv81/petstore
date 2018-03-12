@@ -30,8 +30,9 @@ export class Shop extends React.Component {
 
     searchReq: false,
     filterOpen: false,
-    sorting: undefined,
-    asc: true,
+    sorting: false,
+    sortType: undefined,
+    asc: true
   };
 
   static propTypes = {
@@ -45,8 +46,9 @@ export class Shop extends React.Component {
   //хэндлеры всех инпутов
   onChangeTextFilter = e => {
     // const { searchReq, textFilter } = this.state;
-    this.setState({ searchReq: false });
     this.setState({ textFilter: e.target.value });
+    this.setState({ searchReq: false });
+    this.setState({ sorting: false });
   };
 
   onChangeRangeMin = e => {
@@ -93,23 +95,14 @@ export class Shop extends React.Component {
       dateMin,
       dateMax
     } = this.state;
-    const {date, price} = animal;
-    console.log(
-      date,
-      typeof date,
-      +dateMin,
-      typeof dateMin,
-      date > dateMin,
-      date < dateMax,
-      dateMax,
-      new Date(dateMax)
-    );
-
+    const { date, price } = animal;
+    const dmax = +dateMax+86400000;
+    const dmin = +dateMin-10800000;
     if (
       price < +rangeMax &&
       price > +rangeMin &&
-      date >= dateMin &&
-      date <= dateMax
+      date >= dmin &&
+      date <= dmax
     ) {
       if (searchReq) {
         if (animal.name.indexOf(textFilter) != -1) return 1;
@@ -120,55 +113,58 @@ export class Shop extends React.Component {
   };
 
   showTextFilter = e => {
-    const {asc} = this.state;
+    const { asc, sorting } = this.state;
     this.setState({ asc: !asc });
+    this.setState({ sorting: true });
     // e.preventDefault();
     this.setState({
-      sorting: 'NameSort',
+      sortType: 'NameSort'
     });
   };
 
   showPriceFilter = e => {
-    const {asc} = this.state;
-    this.setState({asc: !asc});
+    const { asc, sorting } = this.state;
+    this.setState({ asc: !asc });
+    this.setState({ sorting: true });
     this.setState({
-      sorting: 'PriceSort',
+      sortType: 'PriceSort'
     });
   };
 
   showDateFilter = e => {
-    const {asc} = this.state;
-    this.setState({asc: !asc});
+    const { asc, sorting } = this.state;
+    this.setState({ asc: !asc });
+    this.setState({ sorting: true });
     this.setState({
-      sorting: 'DateSort',
+      sortType: 'DateSort'
     });
   };
 
   Sort = animals => {
-    const {asc, sorting} = this.state;
-    console.log("сортируется несколько раз?")
-    animals.sort((a, b) => {
-      if(sorting == 'PriceSort'){
-        const El1 = a.price;
-        const El2 = b.price;
-        return asc ? El2 - El1 : El1 - El2;
-      }else if (sorting == 'DateSort')
-       {
-         const El1 = a.date;
-         const El2 = b.date;
-         return asc ? El2 - El1 : El1 - El2;
-       }else if(sorting == 'NameSort'){
-         const El1 = a.name;
-         const El2 = b.name;
-         if(asc) {
-           return  El1 < El2 ? -1 : El1 > El2 ? 1 : 0;
-         }else{
+    const { asc, sortType, sorting } = this.state;
+    if (sorting) {
+      animals.sort((a, b) => {
+        if (sortType == 'PriceSort') {
+          const El1 = a.price;
+          const El2 = b.price;
+          return asc ? El2 - El1 : El1 - El2;
+        } else if (sortType == 'DateSort') {
+          const El1 = a.date;
+          const El2 = b.date;
+          return asc ? El2 - El1 : El1 - El2;
+        } else if (sortType == 'NameSort') {
+          const El1 = a.name;
+          const El2 = b.name;
+          if (asc) {
+            return El1 < El2 ? -1 : El1 > El2 ? 1 : 0;
+          } else {
             return El1 > El2 ? -1 : El1 < El2 ? 1 : 0;
+          }
         }
-      }
-    });
+      });
+    }
     return animals;
-};
+  };
 
   render() {
     const { users, animals } = this.props;
@@ -197,18 +193,33 @@ export class Shop extends React.Component {
                 filter_list
               </i>
             </a>
-            <form action="#">
+            <form action='#'>
               <p>
                 <label>
-                  <input className="with-gap" name="group1" type="radio" onClick={this.showTextFilter}/>
+                  <input
+                    className='with-gap'
+                    name='group1'
+                    type='radio'
+                    onClick={this.showTextFilter}
+                  />
                   <span>по названию</span>
                 </label>
                 <label>
-                  <input className="with-gap" name="group1" type="radio" onClick={this.showPriceFilter}/>
+                  <input
+                    className='with-gap'
+                    name='group1'
+                    type='radio'
+                    onClick={this.showPriceFilter}
+                  />
                   <span>по цене</span>
                 </label>
                 <label>
-                  <input className="with-gap" name="group1" type="radio" onClick={this.showDateFilter}/>
+                  <input
+                    className='with-gap'
+                    name='group1'
+                    type='radio'
+                    onClick={this.showDateFilter}
+                  />
                   <span>по дате</span>
                 </label>
               </p>
@@ -217,7 +228,7 @@ export class Shop extends React.Component {
         </div>
         {filterOpen ? (
           <div className={styles.filtercontent + ' row card card-content'}>
-            <div className={styles.filteraction +' card-action'}>
+            <div className={styles.filteraction + ' card-action'}>
               <h5> Фильтровать</h5>
               <RangeFilterCard
                 onChangeRangeMin={this.onChangeRangeMin}
@@ -239,8 +250,8 @@ export class Shop extends React.Component {
         {typeof Animals !== 'undefined' &&
         Animals.length > 0 &&
         typeof users !== 'undefined' &&
-        users.length > 0 ?
-          Animals.map(animal => {
+        users.length > 0
+          ? Animals.map(animal => {
               let owner = users.filter(user => {
                 return user.id === animal.salerId;
               });
@@ -251,8 +262,7 @@ export class Shop extends React.Component {
                 );
               else null;
             })
-           :  null
-        }
+          : null}
       </div>
     );
   }
