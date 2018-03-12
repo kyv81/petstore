@@ -73,28 +73,68 @@ class UserCard extends React.Component {
                   <h3 className="card-title">Личные данные</h3>
                   <div className={`col s10 ${styles.fieldRow}`}>
                     <div>Имя:</div>
-                    <UserField text={user.firstName} />
+                    <Route
+                      path="/cabinet"
+                      render={() => (
+                        <UserField text={user.firstName} isEditable />
+                      )}
+                    />
+                    <Route
+                      path="/user/:id"
+                      render={() => (
+                        <UserField text={user.firstName} isEditable={false} />
+                      )}
+                    />
                   </div>
                   <div className={`col s10 ${styles.fieldRow}`}>
                     <div>Фамилия:</div>
-                    <UserField text={user.lastName} />
+                    <Route
+                      path="/cabinet"
+                      render={() => (
+                        <UserField text={user.lastName} isEditable />
+                      )}
+                    />
+                    <Route
+                      path="/user/:id"
+                      render={() => (
+                        <UserField text={user.lastName} isEditable={false} />
+                      )}
+                    />
                   </div>
                 </div>
                 <div className="card-content row">
                   <h3 className="card-title">Контакты</h3>
                   <div className={`col s10 ${styles.fieldRow}`}>
                     <i className="material-icons">phone</i>
-                    <UserField text={user.phone} />
+                    <Route
+                      path="/cabinet"
+                      render={() => <UserField text={user.phone} isEditable />}
+                    />
+                    <Route
+                      path="/user/:id"
+                      render={() => (
+                        <UserField text={user.phone} isEditable={false} />
+                      )}
+                    />
                   </div>
                   <div className={`col s10 ${styles.fieldRow}`}>
                     <i className="material-icons">mail_outline</i>
-                    <UserField text={user.email} />
+                    <Route
+                      path="/cabinet"
+                      render={() => <UserField text={user.email} isEditable />}
+                    />
+                    <Route
+                      path="/user/:id"
+                      render={() => (
+                        <UserField text={user.email} isEditable={false} />
+                      )}
+                    />
                   </div>
                 </div>
               </div>
             ) : null;
           })}
-          <FAB onClick={this.onAdd} />
+          <Route path="/cabinet" render={() => <FAB onClick={this.onAdd} />} />
           {isEdited ? (
             <ModalContainer>
               <AnimalAdd
