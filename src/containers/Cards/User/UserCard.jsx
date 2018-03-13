@@ -14,6 +14,7 @@ const propTypes = {
   lastName: PropTypes.string,
   phone: PropTypes.number,
   email: PropTypes.string,
+  user: PropTypes.object,
   users: PropTypes.array,
 };
 
@@ -144,6 +145,9 @@ class UserCard extends React.Component {
               <AnimalAdd
                 onAddCancel={this.onAddCancel}
                 onAddSubmit={this.onAddSubmit}
+                name={undefined}
+                price={undefined}
+                description={undefined}
               />
             </ModalContainer>
           ) : null}

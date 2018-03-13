@@ -1,97 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input } from 'components';
+import AnimalModal from './AnimalModal';
 
 const propTypes = {
   description: PropTypes.string,
   name: PropTypes.string,
-  onEditSubmit: PropTypes.func.isRequired,
-  onEditCancel: PropTypes.func.isRequired,
+  onEditSubmit: PropTypes.func,
+  onEditCancel: PropTypes.func,
   price: PropTypes.number,
 };
 
 class AnimalEdit extends React.Component {
-  state = {
-    name: this.props.name,
-    price: this.props.price,
-    description: this.props.description,
-  };
-
-  componentDidMount() {
-    if (this.inputField) {
-      const inputValue = this.inputField.value;
-      this.inputField.value = '';
-      this.inputField.focus();
-      this.inputField.value = inputValue;
-    }
-  }
-
-  handleEdit = e => {
-    e.preventDefault();
-    const { name, price, description } = this.state;
+  handleEdit = (name, price, description) => {
     const { onEditSubmit } = this.props;
     onEditSubmit(name, parseInt(price, 10), description);
   };
 
-  handleCancel = e => {
-    e.preventDefault();
-    const { name, price, description, onEditCancel } = this.props;
-    this.setState({ name, price, description });
+  handleCancel = () => {
+    const { onEditCancel } = this.props;
     onEditCancel();
   };
 
-  handleChangeDesc = e => {
-    const val = e.target.value;
-    this.setState({ description: val });
-  };
-
-  handleChangeName = e => {
-    const val = e.target.value;
-    this.setState({ name: val });
-  };
-
-  handleChangePrice = e => {
-    const val = e.target.value;
-    this.setState({ price: val });
-  };
-
   render() {
-    const { name, price, description } = this.state;
-
+    const { name, price, description } = this.props;
     return (
-      <div className="card">
-        <div className="card-content">
-          <span className="card-title">Редактирование</span>
-          <p>Имя:</p>
-          <Input
-            onChange={this.handleChangeName}
-            placeholder="Введите имя"
-            value={name}
-            inputField={input => (this.inputField = input)}
-          />
-          <p>Цена:</p>
-          <Input
-            onChange={this.handleChangePrice}
-            placeholder="Введите цену"
-            value={price}
-            type="number"
-          />
-          <p>Описание:</p>
-          <Input
-            onChange={this.handleChangeDesc}
-            placeholder="Введите описание"
-            value={description}
-          />
-        </div>
-        <div className="card-action">
-          <a href="" onClick={this.handleEdit}>
-            Применить
-          </a>
-          <a href="" onClick={this.handleCancel}>
-            Отмена
-          </a>
-        </div>
-      </div>
+      <AnimalModal
+        description={description}
+        name={name}
+        price={price}
+        onAccept={this.handleEdit}
+        onCancel={this.handleCancel}
+        title="Редактировать"
+      />
     );
   }
 }
