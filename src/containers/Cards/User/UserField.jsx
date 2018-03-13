@@ -18,6 +18,12 @@ class UserField extends React.Component {
     };
   }
 
+  componentDidUpdate() {
+    if (this.inputField) {
+      this.inputField.focus();
+    }
+  }
+
   onClick = () => {
     const { edit } = this.state;
     this.setState({ edit: !edit });
@@ -32,7 +38,11 @@ class UserField extends React.Component {
     const { textValue } = this.state;
     return (
       <span className={`input-field ${styles.field}`}>
-        <Input value={textValue} onChange={this.onChange} />
+        <Input
+          value={textValue}
+          onChange={this.onChange}
+          inputField={input => (this.inputField = input)}
+        />
         <Button onClick={this.onClick}>
           <i className="material-icons">edit</i>
         </Button>
