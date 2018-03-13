@@ -18,6 +18,7 @@ class UserField extends React.Component {
     };
   }
 
+
   onCancel = () => {
     const { edit } = this.state;
     const { text } = this.props;
@@ -30,7 +31,18 @@ class UserField extends React.Component {
     this.setState({ edit: !edit });
   };
 
+  
+  componentDidUpdate() {
+    if (this.inputField) {
+      const inputValue = this.inputField.value;
+      this.inputField.value = '';
+      this.inputField.focus();
+      this.inputField.value = inputValue;
+    }
+  }
+
   onEdit = () => {
+
     const { edit } = this.state;
     this.setState({ edit: !edit });
   };

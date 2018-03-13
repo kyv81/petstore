@@ -17,6 +17,15 @@ class AnimalEdit extends React.Component {
     description: this.props.description,
   };
 
+  componentDidMount() {
+    if (this.inputField) {
+      const inputValue = this.inputField.value;
+      this.inputField.value = '';
+      this.inputField.focus();
+      this.inputField.value = inputValue;
+    }
+  }
+
   handleEdit = e => {
     e.preventDefault();
     const { name, price, description } = this.state;
@@ -56,20 +65,21 @@ class AnimalEdit extends React.Component {
           <p>Имя:</p>
           <Input
             onChange={this.handleChangeName}
-            placeholder="Введите имя животного"
+            placeholder="Введите имя"
             value={name}
+            inputField={input => (this.inputField = input)}
           />
           <p>Цена:</p>
           <Input
             onChange={this.handleChangePrice}
-            placeholder="Введите цену животного"
+            placeholder="Введите цену"
             value={price}
             type="number"
           />
           <p>Описание:</p>
           <Input
             onChange={this.handleChangeDesc}
-            placeholder="Введите описание животного"
+            placeholder="Введите описание"
             value={description}
           />
         </div>
