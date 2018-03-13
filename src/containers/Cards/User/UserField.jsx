@@ -20,7 +20,10 @@ class UserField extends React.Component {
 
   componentDidUpdate() {
     if (this.inputField) {
+      const inputValue = this.inputField.value;
+      this.inputField.value = '';
       this.inputField.focus();
+      this.inputField.value = inputValue;
     }
   }
 
