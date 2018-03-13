@@ -49,7 +49,7 @@ export default class CartCard extends React.PureComponent {
       .filter(animal => animal);
 
     let resultPrice = filteredAnimals
-      ? filteredAnimals.reduce((a, b) => a + b.price, 0)
+      ? filteredAnimals.reduce((a, b) => a + parseInt(b.price), 0)
       : 0;
 
     return (
@@ -64,9 +64,12 @@ export default class CartCard extends React.PureComponent {
           <div className="card-title">Итого: {resultPrice}</div>
         </div>
         <div className="card-action">
-          <a href="" onClick={this.handleSubmit}>
-            Купить
-          </a>
+          {filteredAnimals.length ? (
+            <a href="" onClick={this.handleSubmit}>
+              Купить
+            </a>
+          ) : null}
+
           <a href="" onClick={this.handleCancel}>
             Отмена
           </a>
