@@ -28,11 +28,7 @@ export default class Main extends React.Component {
     return (
       <main className="container">
         <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => (isLoggedIn ? <Redirect to="/shop" /> : <Home />)}
-          />
+          <Route exact path="/" component={Home} />
           <Route path="/shop" component={Shop} />
           <Route
             path="/animal/:id"
