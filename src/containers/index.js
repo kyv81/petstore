@@ -23,6 +23,7 @@ export {
   default as AnimalCardSmall,
 } from 'containers/Cards/Animal/AnimalCardSmall';
 export { default as AnimalEdit } from 'containers/Cards/Animal/AnimalEdit';
+export { default as AnimalModal } from 'containers/Cards/Animal/AnimalModal';
 
 export {
   default as DateFilterCard,

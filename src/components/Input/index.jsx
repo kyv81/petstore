@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   inputField: PropTypes.any,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   placeholder: PropTypes.string,
   type: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
