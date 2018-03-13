@@ -13,6 +13,8 @@ import {
   DELETE_ANIMAL_FAILED,
 } from 'constants';
 
+import { getAllAnimals, createAnimal, editAnimal, removeAnimal } from 'api';
+
 const requestCreateAnimal = animal => {
   return {
     type: REQUEST_CREATE_ANIMAL,
@@ -114,19 +116,11 @@ const deleteAnimalFailed = error => {
 
 const getAnimals = () => {
   return (dispatch, getState, getFirebase) => {
-    const firebaseDb = getFirebase().database();
     dispatch(requestGetAnimals());
 
     return new Promise((resolve, reject) => {
-      return firebaseDb
-        .ref('animals')
-        .once('value')
-        .then(snapshot => {
-          // TODO: переделать(?) нормально
-          let animals = [];
-          snapshot.forEach(item => {
-            animals = [...animals, item.val()];
-          });
+      getAllAnimals(getFirebase())
+        .then(animals => {
           dispatch(getAnimalsSuccess(animals));
           resolve(animals);
         })
@@ -138,29 +132,13 @@ const getAnimals = () => {
   };
 };
 
-const createAnimal = animal => {
+const create = animal => {
   return (dispatch, getState, getFirebase) => {
-    const firebaseDb = getFirebase().database();
     dispatch(requestCreateAnimal(animal));
 
     return new Promise((resolve, reject) => {
-      const id = firebaseDb.ref('animals/').push().key;
-      const newAnimal = {
-        id: id,
-        salerId: animal.salerId,
-        imgUrl: animal.imgUrl
-          ? animal.imgUrl
-          : 'http://via.placeholder.com/150x150',
-        name: animal.name,
-        description: animal.description,
-        date: Date.now(),
-        price: animal.price,
-      };
-
-      return firebaseDb
-        .ref('animals/' + id)
-        .set(newAnimal)
-        .then(() => {
+      createAnimal(getFirebase(), animal)
+        .then(newAnimal => {
           dispatch(createAnimalSuccess(newAnimal));
           resolve(newAnimal);
         })
@@ -172,15 +150,12 @@ const createAnimal = animal => {
   };
 };
 
-const editAnimal = animal => {
+const edit = animal => {
   return (dispatch, getState, getFirebase) => {
-    const firebaseDb = getFirebase().database();
     dispatch(requestEditAnimal(animal));
 
     return new Promise((resolve, reject) => {
-      return firebaseDb
-        .ref('animals/' + animal.id)
-        .set(animal)
+      editAnimal(getFirebase(), animal)
         .then(() => {
           dispatch(editAnimalSuccess(animal));
           resolve(animal);
@@ -193,15 +168,12 @@ const editAnimal = animal => {
   };
 };
 
-const deleteAnimal = animal => {
+const remove = animal => {
   return (dispatch, getState, getFirebase) => {
-    const firebaseDb = getFirebase().database();
     dispatch(requestDeleteAnimal(animal));
 
     return new Promise((resolve, reject) => {
-      return firebaseDb
-        .ref('animals/' + animal.id)
-        .remove()
+      removeAnimal(getFirebase(), animal)
         .then(() => {
           dispatch(deleteAnimalSuccess(animal));
           resolve(animal);
@@ -217,7 +189,7 @@ const deleteAnimal = animal => {
 export const tryCreateAnimal = animal => {
   return (dispatch, getState) => {
     if (shouldCreateAnimal(getState())) {
-      return dispatch(createAnimal(animal));
+      return dispatch(create(animal));
     }
   };
 };
@@ -233,7 +205,7 @@ export const tryGetAnimals = () => {
 export const tryEditAnimal = animal => {
   return (dispatch, getState) => {
     if (shouldEditAnimal(getState())) {
-      return dispatch(editAnimal(animal));
+      return dispatch(edit(animal));
     }
   };
 };
@@ -241,7 +213,7 @@ export const tryEditAnimal = animal => {
 export const tryDeleteAnimal = animal => {
   return (dispatch, getState) => {
     if (shouldDeleteAnimal(getState())) {
-      return dispatch(deleteAnimal(animal));
+      return dispatch(remove(animal));
     }
   };
 };

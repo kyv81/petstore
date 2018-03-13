@@ -4,6 +4,8 @@ import {
   GET_USERS_FAILED,
 } from 'constants';
 
+import { getAllUsers } from 'api';
+
 const requestGetUsers = () => {
   return {
     type: REQUEST_GET_USERS,
@@ -30,19 +32,11 @@ const getUsersFailed = error => {
 
 const getUsers = () => {
   return (dispatch, getState, getFirebase) => {
-    const firebaseDb = getFirebase().database();
     dispatch(requestGetUsers());
 
     return new Promise((resolve, reject) => {
-      return firebaseDb
-        .ref('users')
-        .once('value')
-        .then(snapshot => {
-          // TODO: переделать(?) нормально
-          let users = [];
-          snapshot.forEach(item => {
-            users = [...users, item.val()];
-          });
+      getAllUsers(getFirebase())
+        .then(users => {
           dispatch(getUsersSuccess(users));
           resolve(users);
         })
