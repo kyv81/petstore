@@ -14,6 +14,15 @@ class AnimalAdd extends React.Component {
     description: '',
   };
 
+  componentDidMount() {
+    if (this.inputField) {
+      const inputValue = this.inputField.value;
+      this.inputField.value = '';
+      this.inputField.focus();
+      this.inputField.value = inputValue;
+    }
+  }
+
   handleAdd = e => {
     e.preventDefault();
     const { description, name, price } = this.state;
@@ -53,20 +62,21 @@ class AnimalAdd extends React.Component {
           <p>Имя:</p>
           <Input
             onChange={this.handleChangeName}
-            placeholder="Введите имя животного"
+            placeholder="Введите имя"
             value={name}
+            inputField={input => (this.inputField = input)}
           />
           <p>Цена:</p>
           <Input
             onChange={this.handleChangePrice}
-            placeholder="Введите цену животного"
+            placeholder="Введите цену"
             type="number"
             value={price}
           />
           <p>Описание:</p>
           <Input
             onChange={this.handleChangeDesc}
-            placeholder="Введите описание животного"
+            placeholder="Введите описание"
             value={description}
           />
         </div>
