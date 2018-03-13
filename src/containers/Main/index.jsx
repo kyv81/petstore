@@ -36,8 +36,6 @@ export default class Main extends React.Component {
           <Route path="/shop" component={Shop} />
           <Route
             path="/animal/:id"
-            //TODO : может как ты вынести эту функцию
-            // находим владельца по Id
             render={({ match }) => {
               return <AnimalPage id={match.params.id} />;
             }}

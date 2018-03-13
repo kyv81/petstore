@@ -18,7 +18,19 @@ class UserField extends React.Component {
     };
   }
 
-  onClick = () => {
+  onCancel = () => {
+    const { edit } = this.state;
+    const { text } = this.props;
+    this.setState({ textValue: text, edit: !edit });
+  };
+
+  onSubmit = e => {
+    // тут нужно сделать action в store на изменение определенного поля
+    const { edit } = this.state;
+    this.setState({ edit: !edit });
+  };
+
+  onEdit = () => {
     const { edit } = this.state;
     this.setState({ edit: !edit });
   };
@@ -33,8 +45,11 @@ class UserField extends React.Component {
     return (
       <span className={`input-field ${styles.field}`}>
         <Input value={textValue} onChange={this.onChange} />
-        <Button onClick={this.onClick}>
-          <i className="material-icons">edit</i>
+        <Button onClick={this.onSubmit}>
+          <i className="material-icons">check</i>
+        </Button>
+        <Button onClick={this.onCancel}>
+          <i className="material-icons">clear</i>
         </Button>
       </span>
     );
@@ -47,7 +62,7 @@ class UserField extends React.Component {
       <span className={styles.field}>
         {textValue}
         {isEditable ? (
-          <Button onClick={this.onClick}>
+          <Button onClick={this.onEdit}>
             <i className="material-icons">edit</i>
           </Button>
         ) : null}
