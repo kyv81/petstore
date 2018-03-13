@@ -7,11 +7,10 @@ import { AnimalCardCart } from 'containers';
 
 import styles from './index.css';
 
-// сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
   return {
-    cart: state.cart.get('items'),
-    animals: state.animals.animals,
+    cart: state.getIn(['cart', 'items']),
+    animals: state.getIn(['animals', 'animals']),
   };
 }
 
@@ -37,34 +36,34 @@ export default class CartCard extends React.PureComponent {
   };
 
   render() {
-    let { cart, animals } = this.props;
-
+    const { cart, animals } = this.props;
     // филтруем cart на наличие животных в магазине,
     // и не удалили из из магазина уже
-    let filteredAnimals = cart
-      .map(cartItem => {
-        return animals.find(animal => animal.id === cartItem);
-      })
-      .toJS()
-      .filter(animal => animal);
+    const filteredAnimals = cart.map(cartItem => {
+      return animals.find(animal => animal.get('id') === cartItem);
+    });
 
-    let resultPrice = filteredAnimals
-      ? filteredAnimals.reduce((a, b) => a + parseInt(b.price), 0)
-      : 0;
+    const resultPrice =
+      filteredAnimals.size > 0
+        ? filteredAnimals.reduce(
+            (total, value) => total + parseInt(value.get('price')),
+            0,
+          )
+        : 0;
 
     return (
-      <div className={`card`}>
+      <div className="card">
         <div className="card-content">
           <span className="card-title">Корзина</span>
           <ul className="">
             {filteredAnimals.map(animal => (
-              <AnimalCardCart key={animal.id} animal={animal} />
+              <AnimalCardCart key={animal.get('id')} animal={animal} />
             ))}
           </ul>
           <div className="card-title">Итого: {resultPrice}</div>
         </div>
         <div className="card-action">
-          {filteredAnimals.length ? (
+          {filteredAnimals.size ? (
             <a href="" onClick={this.handleSubmit}>
               Купить
             </a>

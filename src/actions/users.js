@@ -11,7 +11,7 @@ const requestGetUsers = () => {
 };
 
 const shouldGetUsers = state => {
-  return !state.users.isRequesting;
+  return !state.getIn(['users', 'isRequesting']);
 };
 
 const getUsersSuccess = users => {

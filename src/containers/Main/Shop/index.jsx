@@ -13,8 +13,8 @@ import styles from './index.css';
 // сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
   return {
-    animals: state.animals.animals,
-    users: state.users.users,
+    animals: state.getIn(['animals', 'animals']),
+    users: state.getIn(['users', 'users']),
   };
 }
 
@@ -37,15 +37,14 @@ export class Shop extends React.Component {
 
   static propTypes = {
     animals: object,
+    users: object,
     rangeMin: number,
     rangeMax: number,
     dateMin: object,
     dateMax: object,
   };
 
-  //хэндлеры всех инпутов
   onChangeTextFilter = e => {
-    // const { searchReq, textFilter } = this.state;
     this.setState({ textFilter: e.target.value });
     this.setState({ searchReq: false });
     this.setState({ sorting: false });
@@ -75,7 +74,6 @@ export class Shop extends React.Component {
 
   //фильтры
   onFilter = e => {
-    const { textFilter, searchReq } = this.state;
     e.preventDefault();
     this.setState({ searchReq: true });
   };
@@ -87,43 +85,44 @@ export class Shop extends React.Component {
   };
 
   isDisplay = animal => {
-    const {
-      textFilter,
-      searchReq,
-      rangeMax,
-      rangeMin,
-      dateMin,
-      dateMax,
-    } = this.state;
-    const { date, price } = animal;
-    const dmax = +dateMax + 86400000;
-    const dmin = +dateMin - 10800000;
-    if (
-      price < +rangeMax &&
-      price > +rangeMin &&
-      date >= dmin &&
-      date <= dmax
-    ) {
-      if (searchReq) {
-        if (animal.name.indexOf(textFilter) != -1) return 1;
-        else return 0;
-      }
-      return 1;
-    } else return 0;
+    return true;
+    //TODO переписать это
+    // const {
+    //   textFilter,
+    //   searchReq,
+    //   rangeMax,
+    //   rangeMin,
+    //   dateMin,
+    //   dateMax,
+    // } = this.state;
+    // const { date, price } = animal;
+    // const dmax = +dateMax + 86400000;
+    // const dmin = +dateMin - 10800000;
+    // if (
+    //   price < +rangeMax &&
+    //   price > +rangeMin &&
+    //   date >= dmin &&
+    //   date <= dmax
+    // ) {
+    //   if (searchReq) {
+    //     if (animal.name.indexOf(textFilter) != -1) return 1;
+    //     else return 0;
+    //   }
+    //   return 1;
+    // } else return 0;
   };
 
-  showTextFilter = e => {
-    const { asc, sorting } = this.state;
+  showTextFilter = () => {
+    const { asc } = this.state;
     this.setState({ asc: !asc });
     this.setState({ sorting: true });
-    // e.preventDefault();
     this.setState({
       sortType: 'NameSort',
     });
   };
 
-  showPriceFilter = e => {
-    const { asc, sorting } = this.state;
+  showPriceFilter = () => {
+    const { asc } = this.state;
     this.setState({ asc: !asc });
     this.setState({ sorting: true });
     this.setState({
@@ -131,8 +130,8 @@ export class Shop extends React.Component {
     });
   };
 
-  showDateFilter = e => {
-    const { asc, sorting } = this.state;
+  showDateFilter = () => {
+    const { asc } = this.state;
     this.setState({ asc: !asc });
     this.setState({ sorting: true });
 
@@ -142,33 +141,34 @@ export class Shop extends React.Component {
   };
 
   Sort = animals => {
-    const { asc, sortType, sorting } = this.state;
-    if (sorting) {
-      animals.sort((a, b) => {
-        if (sortType == 'PriceSort') {
-          const El1 = a.price;
-          const El2 = b.price;
-          return asc ? El2 - El1 : El1 - El2;
-        } else if (sortType == 'DateSort') {
-          const El1 = a.date;
-          const El2 = b.date;
-          return asc ? El2 - El1 : El1 - El2;
-        } else if (sortType == 'NameSort') {
-          const El1 = a.name;
-          const El2 = b.name;
-          if (asc) {
-            return El1 < El2 ? -1 : El1 > El2 ? 1 : 0;
-          } else {
-            return El1 > El2 ? -1 : El1 < El2 ? 1 : 0;
-          }
-        }
-      });
-    }
     return animals;
+    //TODO переписать
+    // const { asc, sortType, sorting } = this.state;
+    // if (sorting) {
+    //   animals.sort((a, b) => {
+    //     if (sortType == 'PriceSort') {
+    //       const El1 = a.price;
+    //       const El2 = b.price;
+    //       return asc ? El2 - El1 : El1 - El2;
+    //     } else if (sortType == 'DateSort') {
+    //       const El1 = a.date;
+    //       const El2 = b.date;
+    //       return asc ? El2 - El1 : El1 - El2;
+    //     } else if (sortType == 'NameSort') {
+    //       const El1 = a.name;
+    //       const El2 = b.name;
+    //       if (asc) {
+    //         return El1 < El2 ? -1 : El1 > El2 ? 1 : 0;
+    //       } else {
+    //         return El1 > El2 ? -1 : El1 < El2 ? 1 : 0;
+    //       }
+    //     }
+    //   });
+    // }
+    // return animals;
   };
 
   render() {
-    const { users, animals } = this.props;
     const {
       textFilter,
       typeFilter,
@@ -179,7 +179,9 @@ export class Shop extends React.Component {
       dateMax,
       filterOpen,
     } = this.state;
-    const Animals = this.Sort(animals);
+    //const Animals = this.Sort(animals);
+    const animals = this.props.animals;
+    const users = this.props.users;
     return (
       <div>
         <div className="row card card-content">
@@ -248,20 +250,16 @@ export class Shop extends React.Component {
         ) : (
           ''
         )}
-        {typeof Animals !== 'undefined' &&
-        Animals.length > 0 &&
+        {typeof animals !== 'undefined' &&
+        animals.size > 0 &&
         typeof users !== 'undefined' &&
-        users.length > 0
-          ? Animals.map(animal => {
-              let owner = users.filter(user => {
-                return user.id === animal.salerId;
+        users.size > 0
+          ? animals.map(animal => {
+              let owners = users.filter(user => {
+                return user.get('id') === animal.get('salerId');
               });
-              owner = Object.assign({}, owner[0]);
-              if (this.isDisplay(animal))
-                return (
-                  <AnimalCard animal={animal} owner={owner} key={animal.id} />
-                );
-              else null;
+              const owner = owners.first();
+              return <AnimalCard animal={animal} owner={owner} key={animal.get('id')} />;
             })
           : null}
       </div>

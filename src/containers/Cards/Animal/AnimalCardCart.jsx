@@ -16,12 +16,17 @@ export default class AnimalCardCart extends React.Component {
   };
 
   onDeleteAnimal = () => {
-    let { dispatch, animal: { id } } = this.props;
+    const { dispatch, animal } = this.props;
+    const id = animal.get('id');
     dispatch(removeFromCart(id));
   };
 
   render() {
-    const { price, name, imgUrl } = this.props.animal;
+    const { animal } = this.props;
+
+    const price = animal.get('price');
+    const name = animal.get('name');
+    const imgUrl = animal.get('imgUrl');
 
     return (
       <li className="card">

@@ -1,4 +1,5 @@
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { combineReducers } from 'redux-immutable';
 import thunkMiddleware from 'redux-thunk';
 import {
   reactReduxFirebase,
@@ -8,31 +9,20 @@ import {
 import * as firebase from 'firebase';
 import { firebaseConfig } from 'constants';
 
-import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { routerMiddleware } from 'react-router-redux';
 
-import { List, fromJS } from 'immutable';
+import { toJSON, fromJS } from 'immutable';
 
-import { Animals, Auth, Cart, Users } from 'reducers';
+import { Animals, Auth, Cart, Router, Users } from 'reducers';
 
 const initStore = history => {
   firebase.initializeApp(firebaseConfig);
 
-  const rootReducer = combineReducers({
-    routerReducer: routerReducer,
-    firebase: firebaseReducer,
-    auth: Auth,
-    animals: Animals,
-    cart: Cart,
-    users: Users,
-  });
-
   const cart = localStorage.getItem('cartState')
     ? fromJS(JSON.parse(localStorage.getItem('cartState')))
-    : fromJS({ items: List() });
+    : fromJS({ items: [] });
 
-  console.log(cart);
-
-  const initialState = {
+  const initialState = fromJS({
     animals: {
       isRequesting: false,
       isEditing: false,
@@ -50,7 +40,16 @@ const initStore = history => {
       isRequesting: false,
       users: [],
     },
-  };
+  });
+
+  const rootReducer = combineReducers({
+    routerReducer: Router,
+    firebase: firebaseReducer,
+    auth: Auth,
+    animals: Animals,
+    cart: Cart,
+    users: Users,
+  });
 
   // логирование при изменении store redux
   // чисто для разработки
@@ -80,22 +79,16 @@ const initStore = history => {
   );
 
   store.subscribe(() => {
-    // найдем живтоного по id
-    function findById(array, id) {
-      let index = array.findIndex(user => user.id === id);
-      return index !== -1;
+    const animals = store.getState().getIn(['animals', 'animals']);
+    let cart = store.getState().get('cart');
+    console.log(store.getState());
+    // если животные есть, то проверяем корзину, нет ли там чего некорректного
+    if (animals.size) {
+      const cartItems = cart.get('items').filter(id => animals.has(id));
+      cart = cart.set('items', cartItems);
     }
 
-    let animals = store.getState().animals.animals;
-    let cart = store.getState().cart;
-    // если животные пришли, то обновляем cart
-    if (animals.length) {
-      let listAnimalsId = cart.get('items');
-      listAnimalsId = listAnimalsId.filter(id => findById(animals, id));
-      cart = cart.set('items', listAnimalsId);
-    }
-
-    localStorage.setItem('cartState', JSON.stringify(cart.toJS()));
+    localStorage.setItem('cartState', JSON.stringify(cart.toJSON()));
   });
 
   return store;

@@ -8,21 +8,20 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { Header, Main } from 'containers';
+import { tryGetAnimals, tryGetUsers } from 'actions';
+
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min';
-
-import { tryGetAnimals, tryGetUsers } from 'actions';
 
 import initStore from './store';
 
 const history = createHistory();
 const store = initStore(history);
 
-// сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
   return {
-    animals: state.animals.animals,
-    users: state.users.users,
+    animals: state.getIn(['animals', ['animals']]),
+    users: state.getIn(['users', 'users']),
   };
 }
 
@@ -34,15 +33,16 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.props.dispatch(tryGetAnimals());
-    this.props.dispatch(tryGetUsers());
+    const { dispatch } = this.props;
+    dispatch(tryGetAnimals());
+    dispatch(tryGetUsers());
   }
 
   render() {
     return (
       <div>
-        <Header store={store} />
-        <Main store={store} />
+        <Header />
+        <Main />
       </div>
     );
   }

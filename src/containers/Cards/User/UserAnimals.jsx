@@ -1,14 +1,13 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Route } from 'react-router';
 import { connect } from 'react-redux';
-import { object, array } from 'prop-types';
+import { object, string } from 'prop-types';
 
 import { AnimalCardSmall } from 'containers';
 
-// сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
   return {
-    animals: state.animals.animals,
+    animals: state.getIn(['animals', 'animals']),
   };
 }
 
@@ -22,8 +21,9 @@ export default class UserAnimals extends React.Component {
   };
 
   static propTypes = {
-    animals: array,
+    animals: object,
     user: object,
+    id: string,
   };
   render() {
     const { animals, id } = this.props;
@@ -35,10 +35,10 @@ export default class UserAnimals extends React.Component {
         {/* TODO: тут должен быть фильтр */}
         <ul>
           {/* проверим есть ли животные в animals и сразу фильтранем по id */}
-          {typeof animals !== 'undefined' && animals.length > 0
+          {typeof animals !== 'undefined' && animals.size > 0
             ? animals.map(animal => {
-                return id === animal.salerId ? (
-                  <AnimalCardSmall key={animal.id} animal={animal} />
+                return id === animal.get('salerId') ? (
+                  <AnimalCardSmall key={animal.get('id')} animal={animal} />
                 ) : null;
               })
             : null}

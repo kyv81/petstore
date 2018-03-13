@@ -18,20 +18,19 @@ class UserField extends React.Component {
     };
   }
 
-
   onCancel = () => {
     const { edit } = this.state;
     const { text } = this.props;
     this.setState({ textValue: text, edit: !edit });
   };
 
-  onSubmit = e => {
-    // тут нужно сделать action в store на изменение определенного поля
+  onSubmit = () => {
+    // TODO тут нужно сделать action в store на изменение определенного поля
     const { edit } = this.state;
     this.setState({ edit: !edit });
   };
 
-  
+  // TODO: wtf?
   componentDidUpdate() {
     if (this.inputField) {
       const inputValue = this.inputField.value;
@@ -42,14 +41,12 @@ class UserField extends React.Component {
   }
 
   onEdit = () => {
-
     const { edit } = this.state;
     this.setState({ edit: !edit });
   };
 
   onChange = e => {
-    const val = e.target.value;
-    this.setState({ textValue: val });
+    this.setState({ textValue: e.target.value });
   };
 
   renderEdit = () => {

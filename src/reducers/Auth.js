@@ -10,67 +10,47 @@ import {
   REGISTER_FAILED,
 } from 'constants';
 
-const initialState = {
+import { fromJS } from 'immutable';
+
+const initialState = fromJS({
   isRequesting: false,
   isLoggedIn: false,
   data: {},
-};
+});
 
 const Auth = (state = initialState, action) => {
   switch (action.type) {
     case REQUEST_LOGIN:
-      return {
-        ...state,
-        isRequesting: true,
-      };
+      return state.set('isRequesting', true);
     case LOG_IN:
-      return {
-        ...state,
-        isRequesting: false,
-        isLoggedIn: true,
-        data: action.user,
-      };
+      return state
+        .set('isRequesting', false)
+        .set('isLoggedIn', true)
+        .set('data', fromJS(action.user));
     case LOG_IN_FAILED:
-      return {
-        ...state,
-        isRequesting: false,
-        isLoggedIn: false,
-      };
+      return state
+        .set('isRequesting', false)
+        .set('isLoggedIn', false);
     case REQUEST_LOGOUT:
-      return {
-        ...state,
-        isRequesting: true,
-      };
+      return state.set('isRequesting', true);
     case LOGOUT_SUCCESS:
-      return {
-        ...state,
-        isRequesting: false,
-        isLoggedIn: false,
-        data: {},
-      };
+      return state
+        .set('isRequesting', false)
+        .set('isLoggedIn', false)
+        .set('data', fromJS({}));
     case LOGOUT_FAILED:
-      return {
-        ...state,
-        isRequesting: false,
-        isLoggedIn: true,
-      };
+      return state
+        .set('isRequesting', false)
+        .set('isLoggedIn', true);
     case REQUEST_REGISTER:
-      return {
-        ...state,
-        isRequesting: true,
-      };
+      return state.set('isRequesting', true);
     case REGISTER_SUCCESS:
-      return {
-        ...state,
-        isRequesting: false,
-        isLoggedIn: true,
-        data: action.user,
-      };
+      return state
+        .set('isRequesting', false)
+        .set('isLoggedIn', true)
+        .set('data', fromJS(action.user));
     case REGISTER_FAILED:
-      return {
-        ...state,
-        isRequesting: false,
-      };
+      return state.set('isRequesting', false);
     default:
       return state;
   }

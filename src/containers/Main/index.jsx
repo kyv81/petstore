@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { bool } from 'prop-types';
@@ -9,9 +9,9 @@ import { Home, Shop, AnimalPage, UserPage, Cabinet } from 'containers';
 // сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
   return {
-    isLoggedIn: state.auth.isLoggedIn,
-    animals: state.animals.animals,
-    users: state.users.users,
+    isLoggedIn: state.getIn(['auth', 'isLoggedIn']),
+    animals: state.getIn(['animals', 'animals']),
+    users: state.getIn('users', 'users'),
   };
 }
 

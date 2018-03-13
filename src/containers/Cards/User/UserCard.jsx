@@ -21,13 +21,12 @@ const propTypes = {
 const mapStateToProps = (state, ownProps) => {
   // найдем юзера в массиве юзеров
   function findUser(users, id) {
-    let index = users.findIndex(user => user.id === id);
-    let user = users[index];
-    return user;
+    const index = users.findIndex(user => user.get('id') === id);
+    return users.get(index);
   }
 
   return {
-    user: findUser(state.users.users, ownProps.id),
+    user: findUser(state.getIn(['users', 'users']), ownProps.id),
   };
 };
 
@@ -66,6 +65,13 @@ class UserCard extends React.Component {
   render() {
     const { user } = this.props;
     const { isEdited } = this.state;
+
+    const id = user.get('id');
+    const firstName = user.get('firstName');
+    const lastName = user.get('lastName');
+    const phone = user.get('phone');
+    const email = user.get('email');
+
     return (
       <div className="col s6">
         <Route path="/cabinet" render={() => <h2>Мой кабинет</h2>} />
@@ -75,7 +81,7 @@ class UserCard extends React.Component {
             <Image src="http://via.placeholder.com/350x150" />
           </div>
           {user ? (
-            <div key={user.id}>
+            <div key={id}>
               <div className="card-content row">
                 <h3 className="card-title">Личные данные</h3>
                 <div className={`col s10 ${styles.fieldRow}`}>
@@ -83,13 +89,13 @@ class UserCard extends React.Component {
                   <Route
                     path="/cabinet"
                     render={() => (
-                      <UserField text={user.firstName} isEditable />
+                      <UserField text={firstName} isEditable />
                     )}
                   />
                   <Route
                     path="/user/:id"
                     render={() => (
-                      <UserField text={user.firstName} isEditable={false} />
+                      <UserField text={firstName} isEditable={false} />
                     )}
                   />
                 </div>
@@ -97,12 +103,12 @@ class UserCard extends React.Component {
                   <div>Фамилия:</div>
                   <Route
                     path="/cabinet"
-                    render={() => <UserField text={user.lastName} isEditable />}
+                    render={() => <UserField text={lastName} isEditable />}
                   />
                   <Route
                     path="/user/:id"
                     render={() => (
-                      <UserField text={user.lastName} isEditable={false} />
+                      <UserField text={lastName} isEditable={false} />
                     )}
                   />
                 </div>
@@ -113,12 +119,12 @@ class UserCard extends React.Component {
                   <i className="material-icons">phone</i>
                   <Route
                     path="/cabinet"
-                    render={() => <UserField text={user.phone} isEditable />}
+                    render={() => <UserField text={phone} isEditable />}
                   />
                   <Route
                     path="/user/:id"
                     render={() => (
-                      <UserField text={user.phone} isEditable={false} />
+                      <UserField text={phone} isEditable={false} />
                     )}
                   />
                 </div>
@@ -126,12 +132,12 @@ class UserCard extends React.Component {
                   <i className="material-icons">mail_outline</i>
                   <Route
                     path="/cabinet"
-                    render={() => <UserField text={user.email} isEditable />}
+                    render={() => <UserField text={email} isEditable />}
                   />
                   <Route
                     path="/user/:id"
                     render={() => (
-                      <UserField text={user.email} isEditable={false} />
+                      <UserField text={email} isEditable={false} />
                     )}
                   />
                 </div>
@@ -145,9 +151,9 @@ class UserCard extends React.Component {
               <AnimalAdd
                 onAddCancel={this.onAddCancel}
                 onAddSubmit={this.onAddSubmit}
-                name={undefined}
-                price={undefined}
-                description={undefined}
+                name={''}
+                price={0}
+                description={''}
               />
             </ModalContainer>
           ) : null}

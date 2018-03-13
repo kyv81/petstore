@@ -13,84 +13,54 @@ import {
   DELETE_ANIMAL_FAILED,
 } from 'constants';
 
-const initialState = {
+import { fromJS } from 'immutable';
+
+const initialState = fromJS({
   isRequesting: false,
   isCreating: false,
   isEditing: false,
   isDeleting: false,
   animals: [],
-};
+});
 
 const Animals = (state = initialState, action) => {
   switch (action.type) {
     case REQUEST_GET_ANIMALS:
-      return {
-        ...state,
-        isRequesting: true,
-      };
+      return state.set('isRequesting', true);
     case GET_ANIMALS_SUCCESS:
-      return {
-        ...state,
-        isRequesting: false,
-        animals: action.animals,
-      };
+      return state
+        .set('isRequesting', false)
+        .set('animals', fromJS(action.animals));
     case GET_ANIMALS_FAILED:
-      return {
-        ...state,
-        isRequesting: false,
-      };
+      return state.set('isRequesting', false);
     case REQUEST_CREATE_ANIMAL:
-      return {
-        ...state,
-        isCreating: true,
-      };
+      return state.set('isCreating', true);
     case CREATE_ANIMAL_SUCCESS:
-      return {
-        ...state,
-        isCreating: false,
-        animals: [...state.animals, action.animal],
-      };
+      return state
+        .set('isCreating', false)
+        .update('animals', animals => animals.push(fromJS(action.animal)));
     case CREATE_ANIMAL_FAILED:
-      return {
-        ...state,
-        isCreating: false,
-      };
+      return state.set('isCreating', false);
     case REQUEST_EDIT_ANIMAL:
-      return {
-        ...state,
-        isEditing: true,
-      };
+      return state.set('isEditing', true);
     case EDIT_ANIMAL_SUCCESS:
-      return {
-        ...state,
-        isEditing: false,
-        animals: state.animals.map(item => {
-          return item.id === action.animal.id ? action.animal : item;
-        }),
-      };
+      return state
+        .set('isEditing', false)
+        .update('animals', animals => animals.map(animal => {
+          return animal.get('id') === fromJS(action.animal.id) ? fromJS(action.animal) : animal;
+        }));
     case EDIT_ANIMAL_FAILED:
-      return {
-        ...state,
-        isEditing: false,
-      };
+      return state.set('isEditing', false);
     case REQUEST_DELETE_ANIMAL:
-      return {
-        ...state,
-        isDeleting: true,
-      };
+      return state.set('isDeleting', true);
     case DELETE_ANIMAL_SUCCESS:
-      return {
-        ...state,
-        isDeleting: false,
-        animals: state.animals.filter(item => {
-          return item.id !== action.animal.id;
-        }),
-      };
+      return state
+        .set('isDeleting', false)
+        .update('animals', animals => animals.filter(animal => {
+          return animal.get('id') !== fromJS(action.animal.id);
+        }));
     case DELETE_ANIMAL_FAILED:
-      return {
-        ...state,
-        isDeleting: false,
-      };
+      return state.set('isDeleting', false);
     default:
       return state;
   }

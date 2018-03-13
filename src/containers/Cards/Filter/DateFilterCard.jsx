@@ -1,7 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
+import { Input, Button } from "components";
+
 import styles from "./index.css";
 
-import { Input, Button } from "components";
 
 export class DateFilterCard extends React.Component {
   render() {

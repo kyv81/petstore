@@ -41,19 +41,19 @@ const requestDeleteAnimal = animal => {
 };
 
 const shouldCreateAnimal = state => {
-  return !state.animals.isCreating;
+  return !state.getIn(['animals', 'isCreating']);
 };
 
 const shouldGetAnimals = state => {
-  return !state.animals.isRequesting;
+  return !state.getIn(['animals', 'isRequesting']);
 };
 
 const shouldEditAnimal = state => {
-  return !state.animals.isEditing;
+  return !state.getIn(['animals', 'isEditing']);
 };
 
 const shouldDeleteAnimal = state => {
-  return !state.animals.isDeleting;
+  return !state.getIn(['animals', 'isDeleting']);
 };
 
 const createAnimalSuccess = animal => {
