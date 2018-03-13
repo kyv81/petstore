@@ -7,11 +7,11 @@ import { Image } from 'components';
 
 import { tryAddToCart } from 'actions/cart';
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
-    auth: state.auth,
+    auth: state.get('auth'),
   };
-}
+};
 
 @withRouter
 @connect(mapStateToProps)
@@ -26,7 +26,8 @@ export class AnimalCard extends React.PureComponent {
 
   onAddToCart = e => {
     e.preventDefault();
-    const { animal: { id }, dispatch } = this.props;
+    const { animal, dispatch } = this.props;
+    const id = animal.get('id');
 
     dispatch(tryAddToCart(id))
       .then(() => {
@@ -44,13 +45,22 @@ export class AnimalCard extends React.PureComponent {
   };
 
   render() {
-    const {
-      animal: { imgUrl, id, name, salerId, description, date, price },
-      owner: { firstName, lastName },
-      auth: { data: { id: userId } },
-      location: { pathname: path },
-    } = this.props;
+    const { animal, owner, auth, location: { pathname: path } } = this.props;
+
+    const id = animal.get('id');
+    const imgUrl = animal.get('imgUrl');
+    const name = animal.get('name');
+    const date = animal.get('date');
+    const price = animal.get('price');
+    const description = animal.get('description');
+    const salerId = animal.get('salerId');
+
+    const userId = auth.getIn(['data', 'id']);
+    const firstName = owner.get('firstName');
+    const lastName = owner.get('lastName');
+
     const localisedDate = new Date(date).toLocaleDateString();
+
     return (
       <div className="card">
         <div className="card-content row">

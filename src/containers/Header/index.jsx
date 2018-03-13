@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
-import { List } from 'immutable';
+import { List, fromJS } from 'immutable';
 
 import ModalContainer from 'containers/Modals/ModalContainer';
 
@@ -18,15 +18,15 @@ import { buy } from 'actions/cart';
 
 function mapStateToProps(state) {
   return {
-    isLoggedIn: state.auth.isLoggedIn,
-    cartItems: state.cart.get('items'),
+    isLoggedIn: state.getIn(['auth', 'isLoggedIn']),
+    cartItems: state.getIn(['cart', 'items']),
   };
 }
 @connect()
 export class Header extends React.Component {
-  state = {
+  state = fromJS({
     modal: '',
-  };
+  });
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,

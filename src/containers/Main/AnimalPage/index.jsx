@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 
 import { AnimalCard } from 'containers';
 
-// сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state, ownProps) {
   // найдем живтоного по id
   function findById(array, id) {
@@ -14,8 +13,8 @@ function mapStateToProps(state, ownProps) {
   }
 
   // нужно проверять есть ли данные вообще
-  let animal = findById(state.animals.animals, ownProps.id);
-  let owner = animal ? findById(state.users.users, animal.salerId) : null;
+  let animal = findById(state.getIn(['animals', 'animals']), ownProps.id);
+  let owner = animal ? findById(state.getIn(['users', 'users']), animal.get('salerId')) : null;
 
   return {
     animal: animal,

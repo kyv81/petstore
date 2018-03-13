@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router';
-import { object } from 'prop-types';
+import { func, object } from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Button, Image } from 'components';
@@ -18,27 +18,30 @@ export default class AnimalCardSmall extends React.Component {
   };
 
   static propTypes = {
+    dispatch: func,
     animal: object,
   };
-
-  // по нажатию на кнопку сохранить, животное сохраняется в редакс, который потом и обновляет пропсы этого
-  // компонента, изменяя и старые пропсы
 
   onEdit = () => {
     this.setState({ isEdited: true });
   };
 
   onEditCancel = () => {
-    // восстановим значения в state если нажали отмена
     this.setState({
       isEdited: false,
     });
   };
 
   onEditSubmit = (newName, newPrice, newDescription) => {
-    let { dispatch } = this.props;
-    let { animal: { date, imgUrl, salerId, id } } = this.props;
-    let editedAnimal = {
+    const { dispatch } = this.props;
+    const { animal } = this.props;
+
+    const date = animal.get('date');
+    const id = animal.get('id');
+    const imgUrl = animal.get('imgUrl');
+    const salerId = animal.get('salerId');
+
+    const editedAnimal = {
       date,
       description: newDescription,
       id,
@@ -48,26 +51,41 @@ export default class AnimalCardSmall extends React.Component {
       salerId,
     };
 
-    //передаем новое животное
-    dispatch(tryEditAnimal(editedAnimal));
-
-    // уберем модалку редактирования
-    this.setState({
-      isEdited: false,
-    });
+    dispatch(tryEditAnimal(editedAnimal))
+      .then(() => {
+        this.setState({
+          isEdited: false,
+        });
+      })
+      .catch(error => {
+        M.toast({
+          html: error.toString(),
+          classes: 'red',
+        });
+      });
   };
 
   onDelete = () => {
     const { dispatch, animal } = this.props;
-    dispatch(tryDeleteAnimal(animal));
+    dispatch(tryDeleteAnimal(animal.toJS())).catch(error => {
+      M.toast({
+        html: error.toString(),
+        classes: 'red',
+      });
+    });
   };
 
   render() {
-    let { animal: { date, description, price, name, imgUrl } } = this.props;
-    let { isEdited } = this.state;
+    const { animal } = this.props;
+    const { isEdited } = this.state;
+
+    const imgUrl = animal.get('imgUrl');
+    const name = animal.get('name');
+    const price = parseInt(animal.get('price'));
+    const date = animal.get('date');
+    const description = animal.get('description');
 
     const localisedDate = new Date(date).toLocaleDateString();
-    price = parseInt(price);
 
     return (
       <li className="card">
