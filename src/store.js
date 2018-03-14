@@ -79,15 +79,7 @@ const initStore = history => {
   );
 
   store.subscribe(() => {
-    const animals = store.getState().getIn(['animals', 'animals']);
     let cart = store.getState().get('cart');
-    console.log(store.getState());
-    // если животные есть, то проверяем корзину, нет ли там чего некорректного
-    if (animals.size) {
-      const cartItems = cart.get('items').filter(id => animals.has(id));
-      cart = cart.set('items', cartItems);
-    }
-
     localStorage.setItem('cartState', JSON.stringify(cart.toJSON()));
   });
 
