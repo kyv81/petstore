@@ -13,8 +13,8 @@ import { routerMiddleware } from 'react-router-redux';
 
 import { toJSON, fromJS } from 'immutable';
 
-import { Animals, Auth, Cart, Router, Users } from 'reducers';
-
+import { Animals, Auth, Cart, Router, Users, Filter } from 'reducers';
+console.log(Filter);
 const initStore = history => {
   firebase.initializeApp(firebaseConfig);
 
@@ -40,6 +40,13 @@ const initStore = history => {
       isRequesting: false,
       users: [],
     },
+    // filter: {
+    //   textFilterValue: '',
+    //   minPriceFilterValue: 0,
+    //   maxPriceFilterValue: 600000,
+    //   minDateFilterValue: new Date(0),
+    //   maxDateFilterValue: new Date(),
+    // },
   });
 
   const rootReducer = combineReducers({
@@ -49,6 +56,7 @@ const initStore = history => {
     animals: Animals,
     cart: Cart,
     users: Users,
+    filter: Filter,
   });
 
   // логирование при изменении store redux

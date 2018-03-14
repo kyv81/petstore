@@ -33,3 +33,11 @@ export {
 } from 'constants/ActionTypes/users';
 
 export { ADD_TO_CART, REMOVE_FROM_CART, BUY } from 'constants/ActionTypes/cart';
+
+export {
+  CHANGE_TEXT_FILTER,
+  MIN_PRICE_FILTER_VALUE,
+  MAX_PRICE_FILTER_VALUE,
+  MIN_DATE_FILTER_VALUE,
+  MAX_DATE_FILTER_VALUE,
+} from 'constants/ActionTypes/filter';

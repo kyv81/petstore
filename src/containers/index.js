@@ -27,13 +27,16 @@ export { default as AnimalModal } from 'containers/Cards/Animal/AnimalModal';
 
 export {
   default as DateFilterCard,
-} from 'containers/Cards/Filter/DateFilterCard';
+} from 'components/Filters/DateFilterCard';
 export {
   default as RangeFilterCard,
-} from 'containers/Cards/Filter/RangeFilterCard';
+} from 'components/Filters/RangeFilterCard';
 export {
   default as TextFilterCard,
-} from 'containers/Cards/Filter/TextFilterCard';
+} from 'components/Filters/TextFilterCard';
+export {
+  default as FilterPanel,
+} from 'containers/Cards/Filter/FilterPanel';
 
 export { default as LoginCard } from 'containers/Cards/Auth/LoginCard';
 export { default as RegisterCard } from 'containers/Cards/Auth/RegisterCard';
