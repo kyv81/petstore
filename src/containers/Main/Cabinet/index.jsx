@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 // сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
   return {
-    user: state.getIn(['auth', 'data']),
+    user: state.getIn(['auth', 'id']),
   };
 }
 

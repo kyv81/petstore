@@ -85,14 +85,7 @@ export const authUser = (firebaseInstance, email, pass) => {
       .auth()
       .signInWithEmailAndPassword(email, pass)
       .then(authUser => {
-        firebaseInstance
-          .database()
-          .ref('users/' + authUser.uid)
-          .once('value')
-          .then(snapshot => {
-            const user = snapshot.val();
-            resolve(user);
-          });
+        resolve(authUser);
       })
       .catch(error => {
         reject(error);
@@ -128,6 +121,7 @@ export const registerUser = (firebaseInstance, user) => {
           firstName: user.firstName,
           lastName: user.lastName,
           phone: user.phone,
+          imgUrl: 'http://via.placeholder.com/150x150',
         };
         usersRef.push();
         usersRef.set(newUser).then(() => {

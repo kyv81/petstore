@@ -26,7 +26,7 @@ const Auth = (state = initialState, action) => {
       return state
         .set('isRequesting', false)
         .set('isLoggedIn', true)
-        .set('data', fromJS(action.user));
+        .set('id', fromJS(action.user.uid));
     case LOG_IN_FAILED:
       return state
         .set('isRequesting', false)
@@ -37,7 +37,7 @@ const Auth = (state = initialState, action) => {
       return state
         .set('isRequesting', false)
         .set('isLoggedIn', false)
-        .set('data', fromJS({}));
+        .set('id', fromJS(''));
     case LOGOUT_FAILED:
       return state
         .set('isRequesting', false)
@@ -48,7 +48,7 @@ const Auth = (state = initialState, action) => {
       return state
         .set('isRequesting', false)
         .set('isLoggedIn', true)
-        .set('data', fromJS(action.user));
+        .set('id', fromJS(action.user.id));
     case REGISTER_FAILED:
       return state.set('isRequesting', false);
     default:
