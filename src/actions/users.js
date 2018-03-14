@@ -2,9 +2,12 @@ import {
   REQUEST_GET_USERS,
   GET_USERS_SUCCESS,
   GET_USERS_FAILED,
+  REQUEST_EDIT_USER,
+  EDIT_USER_SUCCESS,
+  EDIT_USER_FAILED,
 } from 'constants';
 
-import { getAllUsers } from 'api';
+import { getAllUsers, editUser } from 'api';
 
 const requestGetUsers = () => {
   return {
@@ -12,8 +15,19 @@ const requestGetUsers = () => {
   };
 };
 
+const requestEditUser = user => {
+  return {
+    type: REQUEST_EDIT_USER,
+    user,
+  };
+};
+
 const shouldGetUsers = state => {
   return !state.getIn(['users', 'isRequesting']);
+};
+
+const shouldEditUser = state => {
+  return !state.getIn(['users', 'isEditing']);
 };
 
 const getUsersSuccess = users => {
@@ -23,9 +37,23 @@ const getUsersSuccess = users => {
   };
 };
 
+const editUserSuccess = user => {
+  return {
+    type: EDIT_USER_SUCCESS,
+    user,
+  };
+};
+
 const getUsersFailed = error => {
   return {
     type: GET_USERS_FAILED,
+    error,
+  };
+};
+
+const editUserFailed = error => {
+  return {
+    type: EDIT_USER_FAILED,
     error,
   };
 };
@@ -48,7 +76,25 @@ const getUsers = () => {
   };
 };
 
-const tryGetUsers = () => {
+const edit = user => {
+  return (dispatch, getState, getFirebase) => {
+    dispatch(requestEditUser(user));
+
+    return new Promise((resolve, reject) => {
+      editUser(getFirebase(), user)
+        .then(user => {
+          dispatch(editUserSuccess(user));
+          resolve(user);
+        })
+        .catch(error => {
+          dispatch(editUserFailed(error));
+          reject(error);
+        });
+    });
+  };
+};
+
+export const tryGetUsers = () => {
   return (dispatch, getState) => {
     if (shouldGetUsers(getState())) {
       return dispatch(getUsers());
@@ -56,4 +102,10 @@ const tryGetUsers = () => {
   };
 };
 
-export default tryGetUsers;
+export const tryEditUser = user => {
+  return (dispatch, getState) => {
+    if (shouldEditUser(getState())) {
+      return dispatch(edit(user));
+    }
+  };
+};

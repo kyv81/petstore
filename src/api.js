@@ -159,3 +159,18 @@ export const getAllUsers = firebaseInstance => {
       });
   });
 };
+
+export const editUser = (firebaseInstance, user) => {
+  return new Promise((resolve, reject) => {
+    firebaseInstance
+      .database()
+      .ref('users/' + user.id)
+      .set(user)
+      .then(() => {
+        resolve(user);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
