@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Map } from 'immutable';
 
 import { AnimalCardCart } from 'containers';
 
@@ -40,13 +41,17 @@ export default class CartCard extends React.PureComponent {
     // филтруем cart на наличие животных в магазине,
     // и не удалили из из магазина уже
     const filteredAnimals = cart.map(cartItem => {
-      return animals.find(animal => animal.get('id') === cartItem);
+      let animal = animals.find(animal => animal.get('id') === cartItem);
+      return animal ? animal : Map({ id: cartItem });
     });
+
+    console.log(filteredAnimals);
 
     const resultPrice =
       filteredAnimals.size > 0
         ? filteredAnimals.reduce(
-            (total, value) => total + parseInt(value.get('price')),
+            (total, value) =>
+              value.has('price') ? total + parseInt(value.get('price')) : total,
             0,
           )
         : 0;
