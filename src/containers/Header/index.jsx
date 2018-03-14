@@ -16,10 +16,13 @@ import { Button } from 'components';
 import { tryLogin, tryRegister, tryLogout } from 'actions/auth';
 import { buy } from 'actions/cart';
 
+import { selectCurrentUserId } from 'selectors';
+
 function mapStateToProps(state) {
   return {
     isLoggedIn: state.getIn(['auth', 'isLoggedIn']),
     cartItems: state.getIn(['cart', 'items']),
+    userId: selectCurrentUserId(state),
   };
 }
 @connect()
@@ -116,6 +119,7 @@ export class Header extends React.Component {
 
   render() {
     const { modal } = this.state;
+    const { userId } = this.props;
     const animalsInCartCount = this.props.cartItems.size;
     const isLoggedIn = this.props.isLoggedIn;
 
@@ -149,7 +153,7 @@ export class Header extends React.Component {
               ) : (
                 <Fragment>
                   <li>
-                    <Link to="/cabinet" href="/cabinet">
+                    <Link to={`/user/${userId}`} href={`/user/${userId}`}>
                       Профиль
                     </Link>
                   </li>

@@ -5,9 +5,11 @@ import { UserAnimals } from 'containers';
 import { UserCard } from 'components';
 import { tryEditUser } from 'actions';
 
+import { selectCurrentUserId, selectUserById, selectUsersList } from 'selectors';
+
 const mapStateToProps = state => {
-  const users = state.getIn(['users', 'users']);
-  const localUser = state.getIn(['auth', 'data']);
+  const localUser = selectUserById(state, selectCurrentUserId(state));
+  const users = selectUsersList(state);
   return {
     users,
     localUser,
@@ -44,7 +46,9 @@ export default class UserPage extends React.Component {
     const { id, users, localUser } = this.props;
     const user = users.find(item => item.get('id') === id);
     const isEditable =
-      localUser.size > 0 && localUser.get('id') === user.get('id');
+      localUser !== undefined &&
+      localUser.size > 0 &&
+      localUser.get('id') === user.get('id');
 
     return (
       <div className="row">
