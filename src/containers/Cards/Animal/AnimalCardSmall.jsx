@@ -4,7 +4,7 @@ import { func, object } from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Button, Image } from 'components';
-import { AnimalEdit, ModalContainer } from 'containers';
+import { AnimalModal, ModalContainer } from 'containers';
 
 import { tryEditAnimal, tryDeleteAnimal } from 'actions';
 
@@ -110,12 +110,13 @@ export default class AnimalCardSmall extends React.Component {
                 <Button onClick={this.onEdit}>Редактировать</Button>
                 {isEdited ? (
                   <ModalContainer>
-                    <AnimalEdit
-                      onEditSubmit={this.onEditSubmit}
-                      onEditCancel={this.onEditCancel}
+                    <AnimalModal
+                      onAccept={this.onEditSubmit}
+                      onCancel={this.onEditCancel}
                       description={description}
                       name={name}
                       price={price}
+                      title="Редактировать"
                     />
                   </ModalContainer>
                 ) : null}
