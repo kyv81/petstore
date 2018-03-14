@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import { Image, FAB } from 'components';
-import { AnimalAdd, ModalContainer, UserField } from 'containers';
+import { AnimalModal, ModalContainer, UserField } from 'containers';
 import { tryCreateAnimal } from 'actions';
 import styles from './index.css';
 
@@ -88,9 +88,7 @@ class UserCard extends React.Component {
                   <div>Имя:</div>
                   <Route
                     path="/cabinet"
-                    render={() => (
-                      <UserField text={firstName} isEditable />
-                    )}
+                    render={() => <UserField text={firstName} isEditable />}
                   />
                   <Route
                     path="/user/:id"
@@ -123,9 +121,7 @@ class UserCard extends React.Component {
                   />
                   <Route
                     path="/user/:id"
-                    render={() => (
-                      <UserField text={phone} isEditable={false} />
-                    )}
+                    render={() => <UserField text={phone} isEditable={false} />}
                   />
                 </div>
                 <div className={`col s10 ${styles.fieldRow}`}>
@@ -136,9 +132,7 @@ class UserCard extends React.Component {
                   />
                   <Route
                     path="/user/:id"
-                    render={() => (
-                      <UserField text={email} isEditable={false} />
-                    )}
+                    render={() => <UserField text={email} isEditable={false} />}
                   />
                 </div>
               </div>
@@ -148,12 +142,13 @@ class UserCard extends React.Component {
           <Route path="/cabinet" render={() => <FAB onClick={this.onAdd} />} />
           {isEdited ? (
             <ModalContainer>
-              <AnimalAdd
-                onAddCancel={this.onAddCancel}
-                onAddSubmit={this.onAddSubmit}
+              <AnimalModal
+                onCancel={this.onAddCancel}
+                onAccept={this.onAddSubmit}
                 name={''}
                 price={0}
                 description={''}
+                title="Добавить"
               />
             </ModalContainer>
           ) : null}

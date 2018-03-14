@@ -6,10 +6,11 @@ import PropTypes from 'prop-types';
 import { Image } from 'components';
 
 import { tryAddToCart } from 'actions/cart';
+import { selectCurrentUserId } from 'selectors';
 
 const mapStateToProps = state => {
   return {
-    auth: state.get('auth'),
+    userId: selectCurrentUserId(state),
   };
 };
 
@@ -45,7 +46,7 @@ export class AnimalCard extends React.PureComponent {
   };
 
   render() {
-    const { animal, owner, auth, location: { pathname: path } } = this.props;
+    const { animal, owner, userId, location: { pathname: path } } = this.props;
 
     const id = animal.get('id');
     const imgUrl = animal.get('imgUrl');
@@ -55,7 +56,6 @@ export class AnimalCard extends React.PureComponent {
     const description = animal.get('description');
     const salerId = animal.get('salerId');
 
-    const userId = auth.getIn(['data', 'id']);
     const firstName = owner.get('firstName');
     const lastName = owner.get('lastName');
 

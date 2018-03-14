@@ -10,6 +10,8 @@ import {
   REGISTER_FAILED,
 } from 'constants';
 
+import { authUser, logoutUser, registerUser } from 'api';
+
 const requestLogin = (email, password) => {
   return {
     type: REQUEST_LOGIN,
@@ -32,15 +34,24 @@ const requestRegister = user => {
 };
 
 const shouldLoginUser = state => {
-  return !state.getIn(['auth', 'isLoggedIn']) && !state.getIn(['auth', 'isRequesting']);
+  return (
+    !state.getIn(['auth', 'isLoggedIn']) &&
+    !state.getIn(['auth', 'isRequesting'])
+  );
 };
 
 const shouldRegisterUser = state => {
-  return !state.getIn(['auth', 'isLoggedIn']) && !state.getIn(['auth', 'isRequesting']);
+  return (
+    !state.getIn(['auth', 'isLoggedIn']) &&
+    !state.getIn(['auth', 'isRequesting'])
+  );
 };
 
 const shouldLogoutUser = state => {
-  return state.getIn(['auth', 'isLoggedIn']) && !state.getIn(['auth', 'isRequesting']);
+  return (
+    state.getIn(['auth', 'isLoggedIn']) &&
+    !state.getIn(['auth', 'isRequesting'])
+  );
 };
 
 const logIn = user => {
@@ -86,23 +97,13 @@ const logoutFailed = error => {
 
 const auth = (email, password) => {
   return (dispatch, getState, getFirebase) => {
-    const firebase = getFirebase();
-
     dispatch(requestLogin(email, password));
+
     return new Promise((resolve, reject) => {
-      return firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(authUser => {
-          firebase
-            .database()
-            .ref('users/' + authUser.uid)
-            .once('value')
-            .then(snapshot => {
-              const user = snapshot.val();
-              dispatch(logIn(user));
-              resolve(user);
-            });
+      authUser(getFirebase(), email, password)
+        .then(user => {
+          dispatch(logIn(user));
+          resolve(user);
         })
         .catch(error => {
           dispatch(logInFailed(error));
@@ -114,13 +115,10 @@ const auth = (email, password) => {
 
 const logout = () => {
   return (dispatch, getState, getFirebase) => {
-    const firebase = getFirebase();
-
     dispatch(requestLogout());
+
     return new Promise((resolve, reject) => {
-      return firebase
-        .auth()
-        .signOut()
+      logoutUser(getFirebase())
         .then(() => {
           dispatch(logoutSuccess());
           resolve();
@@ -135,28 +133,13 @@ const logout = () => {
 
 const register = user => {
   return (dispatch, getState, getFirebase) => {
-    const firebase = getFirebase();
-
     dispatch(requestRegister(user));
+
     return new Promise((resolve, reject) => {
-      return firebase
-        .auth()
-        .createUserWithEmailAndPassword(user.email, user.password)
-        .then(data => {
-          const id = data.uid;
-          const usersRef = firebase.database().ref('users/' + id);
-          const newUser = {
-            id: id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            phone: user.phone,
-          };
-          usersRef.push();
-          usersRef.set(newUser).then(() => {
-            dispatch(registerSuccess(newUser));
-            resolve(newUser);
-          });
+      registerUser(getFirebase(), user)
+        .then(newUser => {
+          dispatch(registerSuccess(newUser));
+          resolve(newUser);
         })
         .catch(error => {
           dispatch(registerFailed(error));

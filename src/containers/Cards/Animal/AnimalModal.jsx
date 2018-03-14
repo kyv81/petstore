@@ -34,7 +34,9 @@ class AnimalModal extends React.Component {
     e.preventDefault();
     const { onAccept } = this.props;
     const { name, price, description } = this.state;
-    onAccept(name, price, description);
+    if (name && price && description) {
+      onAccept(name, parseInt(price, 10), description);
+    }
   };
 
   handleCancel = e => {

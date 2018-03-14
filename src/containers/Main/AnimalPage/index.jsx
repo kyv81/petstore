@@ -1,24 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { selectAnimalById, selectUserById } from 'selectors';
 
 import { AnimalCard } from 'containers';
 
 function mapStateToProps(state, ownProps) {
-  // найдем живтоного по id
-  function findById(array, id) {
-    let index = array.findIndex(user => user.id === id);
-    let item = array[index];
-    return item;
-  }
-
-  // нужно проверять есть ли данные вообще
-  let animal = findById(state.getIn(['animals', 'animals']), ownProps.id);
-  let owner = animal ? findById(state.getIn(['users', 'users']), animal.get('salerId')) : null;
+  const animal = selectAnimalById(state, ownProps.id);
+  //проверим есть ли уже животные
+  const user = animal ? selectUserById(state, animal.get('salerId')) : null;
 
   return {
     animal: animal,
-    user: owner,
+    user: user,
   };
 }
 
