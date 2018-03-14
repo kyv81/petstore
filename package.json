@@ -52,6 +52,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-firebase": "^2.2.8",
+    "react-firebase-image-uploader": "^1.1.0",
     "react-redux": "^5.0.7",
     "react-redux-firebase": "^2.0.4",
     "react-router": "^4.2.0",

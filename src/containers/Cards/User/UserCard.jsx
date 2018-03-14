@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import firebase from 'firebase';
+import ImageUploader from 'react-firebase-image-uploader';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import { Image, FAB } from 'components';
@@ -34,6 +36,11 @@ const mapStateToProps = (state, ownProps) => {
 class UserCard extends React.Component {
   state = {
     isEdited: false,
+    username: '',
+    avatar: '',
+    isUploading: false,
+    progress: 0,
+    avatarURL: '',
   };
 
   onAdd = () => {
@@ -62,6 +69,33 @@ class UserCard extends React.Component {
     this.setState({ isEdited: !isEdited });
   };
 
+  handleChangeUsername = e => {
+    this.setState({ username: e.target.value });
+  };
+
+  handleUploadStart = () => {
+    this.setState({ isUploading: true, progress: 0 });
+  };
+
+  handleProgress = progress => {
+    this.setState({ progress });
+  };
+
+  handleUploadError = error => {
+    this.setState({ isUploading: false });
+    console.error(error);
+  };
+
+  handleUploadSuccess = filename => {
+    this.setState({ avatar: filename, progress: 100, isUploading: false });
+    firebase
+      .storage()
+      .ref('images')
+      .child(filename)
+      .getDownloadURL()
+      .then(url => this.setState({ avatarURL: url }));
+  };
+
   render() {
     const { user } = this.props;
     const { isEdited } = this.state;
@@ -80,6 +114,27 @@ class UserCard extends React.Component {
           <div className="card-image">
             <Image src="http://via.placeholder.com/350x150" />
           </div>
+          <form>
+            <label>Username:</label>
+            <input
+              type="text"
+              value={this.state.username}
+              name="username"
+              onChange={this.handleChangeUsername}
+            />
+            <label>Avatar</label>
+            {this.state.isUploading && <p>Progress: {this.state.progress}</p>}
+            {this.state.avatar && <img src={this.state.avatarURL} />}
+            <ImageUploader
+              name="avatar"
+              storageRef={firebase.storage().ref('images')}
+              onUploadStart={this.handleUploadStart}
+              onUploadError={this.onUploadError}
+              onUploadSuccess={this.handleUploadSuccess}
+              onProgress={this.handleProgress}
+            />
+            <button type="submit">Submit</button>
+          </form>
           {user ? (
             <div key={id}>
               <div className="card-content row">
