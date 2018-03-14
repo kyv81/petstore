@@ -20,7 +20,6 @@ export default class UserCard extends React.PureComponent {
   };
 
   handleFirstName = firstName => {
-    console.log(firstName);
     this.setState({
         user: Object.assign(this.state.user, {firstName}),
       },

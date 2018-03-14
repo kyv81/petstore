@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { UserAnimals } from 'containers';
 import { UserCard } from 'components';
+import { tryEditUser } from 'actions';
 
 const mapStateToProps = state => {
   const users = state.getIn(['users', 'users']);
@@ -16,14 +17,27 @@ const mapStateToProps = state => {
 @connect(mapStateToProps)
 export default class UserPage extends React.Component {
   static propTypes = {
+    dispatch: PropTypes.func,
     id: PropTypes.string,
     users: PropTypes.object,
     localUser: PropTypes.object,
   };
 
   editUser = user => {
-    // TODO: тут сделать редактирование юзера через API
-    console.log(user);
+    const { dispatch } = this.props;
+    dispatch(tryEditUser(user))
+      .then(() => {
+        M.toast({
+          html: 'Обновлено',
+          classes: 'green',
+        });
+      })
+      .catch(error => {
+        M.toast({
+          html: error.toString(),
+          classes: 'red',
+        });
+      })
   };
 
   render() {
