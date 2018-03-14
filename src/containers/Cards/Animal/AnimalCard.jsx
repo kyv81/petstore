@@ -8,6 +8,7 @@ import { Image } from 'components';
 import { tryAddToCart } from 'actions/cart';
 
 const mapStateToProps = state => {
+  // тут нужно взять id юзера
   return {
     auth: state.get('auth'),
   };

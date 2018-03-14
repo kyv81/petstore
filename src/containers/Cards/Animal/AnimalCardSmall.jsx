@@ -79,6 +79,8 @@ export default class AnimalCardSmall extends React.Component {
     const { animal } = this.props;
     const { isEdited } = this.state;
 
+    console.log(animal);
+
     const imgUrl = animal.get('imgUrl');
     const name = animal.get('name');
     const price = parseInt(animal.get('price'));
