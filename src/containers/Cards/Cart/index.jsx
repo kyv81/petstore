@@ -45,8 +45,6 @@ export default class CartCard extends React.PureComponent {
       return animal ? animal : Map({ id: cartItem });
     });
 
-    console.log(filteredAnimals);
-
     const resultPrice =
       filteredAnimals.size > 0
         ? filteredAnimals.reduce(
