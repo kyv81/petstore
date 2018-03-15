@@ -12,13 +12,7 @@ import {
 
 import { fromJS } from 'immutable';
 
-const initialState = fromJS({
-  isRequesting: false,
-  isLoggedIn: false,
-  data: {},
-});
-
-const Auth = (state = initialState, action) => {
+const Auth = (state, action) => {
   switch (action.type) {
     case REQUEST_LOGIN:
       return state.set('isRequesting', true);
@@ -28,9 +22,7 @@ const Auth = (state = initialState, action) => {
         .set('isLoggedIn', true)
         .set('id', fromJS(action.user.uid));
     case LOG_IN_FAILED:
-      return state
-        .set('isRequesting', false)
-        .set('isLoggedIn', false);
+      return state.set('isRequesting', false).set('isLoggedIn', false);
     case REQUEST_LOGOUT:
       return state.set('isRequesting', true);
     case LOGOUT_SUCCESS:
@@ -39,9 +31,7 @@ const Auth = (state = initialState, action) => {
         .set('isLoggedIn', false)
         .set('id', fromJS(''));
     case LOGOUT_FAILED:
-      return state
-        .set('isRequesting', false)
-        .set('isLoggedIn', true);
+      return state.set('isRequesting', false).set('isLoggedIn', true);
     case REQUEST_REGISTER:
       return state.set('isRequesting', true);
     case REGISTER_SUCCESS:

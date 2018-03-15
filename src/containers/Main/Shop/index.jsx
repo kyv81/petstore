@@ -259,7 +259,13 @@ export class Shop extends React.Component {
                 return user.get('id') === animal.get('salerId');
               });
               const owner = owners.first();
-              return <AnimalCard animal={animal} owner={owner} key={animal.get('id')} />;
+              return (
+                <AnimalCard
+                  animal={animal}
+                  owner={owner}
+                  key={animal.get('id')}
+                />
+              );
             })
           : null}
       </div>
