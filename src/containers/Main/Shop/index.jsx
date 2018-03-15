@@ -253,23 +253,21 @@ export class Shop extends React.Component {
         {typeof animals !== 'undefined' &&
         animals.size > 0 &&
         typeof users !== 'undefined' &&
-        users.size > 0 ? (
-          animals.map(animal => {
-            let owners = users.filter(user => {
-              return user.get('id') === animal.get('salerId');
-            });
-            const owner = owners.first();
-            return (
-              <AnimalCard
-                animal={animal}
-                owner={owner}
-                key={animal.get('id')}
-              />
-            );
-          })
-        ) : (
-          <IndeterminateLoader />
-        )}
+        users.size > 0
+          ? animals.map(animal => {
+              let owners = users.filter(user => {
+                return user.get('id') === animal.get('salerId');
+              });
+              const owner = owners.first();
+              return (
+                <AnimalCard
+                  animal={animal}
+                  owner={owner}
+                  key={animal.get('id')}
+                />
+              );
+            })
+          : null}
       </div>
     );
   }

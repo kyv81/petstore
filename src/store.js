@@ -40,6 +40,9 @@ const initStore = history => {
       isRequesting: false,
       users: [],
     },
+    routerReducer: {
+      locationBeforeTransitions: null,
+    },
   });
 
   const rootReducer = combineReducers({
