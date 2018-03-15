@@ -7,7 +7,7 @@ import {
   DateFilterCard,
 } from 'containers';
 import { object, number, date } from 'prop-types';
-import { Checkbox } from 'components';
+import { Checkbox, IndeterminateLoader } from 'components';
 import styles from './index.css';
 
 // сделаем пропсом данного компонента данные из store redux
@@ -253,15 +253,23 @@ export class Shop extends React.Component {
         {typeof animals !== 'undefined' &&
         animals.size > 0 &&
         typeof users !== 'undefined' &&
-        users.size > 0
-          ? animals.map(animal => {
-              let owners = users.filter(user => {
-                return user.get('id') === animal.get('salerId');
-              });
-              const owner = owners.first();
-              return <AnimalCard animal={animal} owner={owner} key={animal.get('id')} />;
-            })
-          : null}
+        users.size > 0 ? (
+          animals.map(animal => {
+            let owners = users.filter(user => {
+              return user.get('id') === animal.get('salerId');
+            });
+            const owner = owners.first();
+            return (
+              <AnimalCard
+                animal={animal}
+                owner={owner}
+                key={animal.get('id')}
+              />
+            );
+          })
+        ) : (
+          <IndeterminateLoader />
+        )}
       </div>
     );
   }
