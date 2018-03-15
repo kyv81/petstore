@@ -61,14 +61,14 @@ export class Shop extends React.Component {
   };
   onFilter = e => {
     e.preventDefault();
-    let { dispatch } = this.props;
+    const { dispatch } = this.props;
     const { searchReq, textFilter } = this.state;
     // this.setState({ searchReq: true });
     dispatch(onChangeTextFilter(textFilter));
   };
 
   onChangeRangeMin = e => {
-    let { dispatch, minPriceFilterValue, maxPriceFilterValue } = this.props;
+    const { dispatch, minPriceFilterValue, maxPriceFilterValue } = this.props;
 
     +minPriceFilterValue <= +maxPriceFilterValue
       ? dispatch(onChangeMinPriceFilter(e.target.value))
@@ -76,7 +76,7 @@ export class Shop extends React.Component {
   };
 
   onChangeRangeMax = e => {
-    let { dispatch, minPriceFilterValue, maxPriceFilterValue } = this.props;
+    const { dispatch, minPriceFilterValue, maxPriceFilterValue } = this.props;
 
     +minPriceFilterValue <= +maxPriceFilterValue
       ? dispatch(onChangeMaxPriceFilter(e.target.value))
@@ -84,19 +84,19 @@ export class Shop extends React.Component {
   };
 
   onChangeDateMin = e => {
-    let { dispatch} = this.props;
+    const { dispatch} = this.props;
     dispatch(onChangeMinDateFilter(new Date(e.target.value)));
   };
-  
+
   onChangeDateMax = e => {
-    let { dispatch} = this.props;
+    const { dispatch} = this.props;
     dispatch(onChangeMaxDateFilter(new Date(e.target.value)));
   };
 
   //фильтры
 
   onToggleFilters = e => {
-    e.preventDefault();
+    // e.preventDefault();
     const { filterOpen } = this.state;
     this.setState({ filterOpen: !filterOpen });
   };
@@ -164,10 +164,6 @@ export class Shop extends React.Component {
       maxPriceFilterValue,
       minDateFilterValue,
       maxDateFilterValue
-      // searchReq,
-      // dateMin,
-      // dateMax,
-      // filterOpen,
     } = this.props;
     const {
       searchReq,

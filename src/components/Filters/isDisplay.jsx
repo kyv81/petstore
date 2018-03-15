@@ -8,20 +8,19 @@ export const isDisplay = (
   maxPriceFilterValue,
   minDateFilterValue,
   maxDateFilterValue
-  // dateMin,
-  // dateMax
 ) => {
   const filteredAnimals = animals.filter(animal => {
     const name = animal.get('name');
     const date = animal.get('date');
     const price = animal.get('price');
-    console.log(minDateFilterValue, maxDateFilterValue);
+    const dmax = +maxDateFilterValue + 86400000; //костыль
+    const dmin = +minDateFilterValue - 10800000; // еще костыль
     return (
       name.indexOf(textFilterValue) !== -1 &&
       price < +maxPriceFilterValue &&
       price > +minPriceFilterValue &&
-      date >= minDateFilterValue &&
-      date <= maxDateFilterValue
+      date >= dmin &&
+      date <= dmax
     );
   });
   return filteredAnimals;
