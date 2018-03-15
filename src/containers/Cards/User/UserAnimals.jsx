@@ -38,7 +38,6 @@ export default class UserAnimals extends React.Component {
           {/* проверим есть ли животные в animals и сразу фильтранем по id */}
           {typeof animals !== 'undefined' && animals.size > 0
             ? animals.map(animal => {
-                console.log(animal);
 
                 return (
                   <AnimalCardSmall key={animal.get('id')} animal={animal} />
