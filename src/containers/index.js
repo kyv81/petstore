@@ -40,5 +40,6 @@ export { default as CartCard } from 'containers/Cards/Cart';
 export { default as ModalContainer } from 'containers/Modals/ModalContainer';
 
 export { default as UserAnimals } from 'containers/Cards/User/UserAnimals';
+export { default as UserAvatar } from 'containers/Cards/User/UserAvatar';
 export { default as UserCard } from 'containers/Cards/User/UserCard';
 export { default as UserField } from 'containers/Cards/User/UserField';
