@@ -8,10 +8,9 @@ import { List, fromJS } from 'immutable';
 import ModalContainer from 'containers/Modals/ModalContainer';
 
 import CartCard from 'containers/Cards/Cart';
-import LoginCard from 'containers/Cards/Auth/LoginCard';
-import RegisterCard from 'containers/Cards/Auth/RegisterCard';
-
-import { Button } from 'components';
+import { LoginCard, RegisterCard, Button } from 'components';
+console.log('login', LoginCard);
+console.log('register', RegisterCard);
 
 import { tryLogin, tryRegister, tryLogout } from 'actions/auth';
 import { buy } from 'actions/cart';

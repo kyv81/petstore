@@ -9,13 +9,7 @@ import {
 
 import { fromJS } from 'immutable';
 
-const initialState = fromJS({
-  isRequesting: false,
-  isEditing: false,
-  users: [],
-});
-
-const Users = (state = initialState, action) => {
+const Users = (state, action) => {
   switch (action.type) {
     case REQUEST_GET_USERS:
       return state.set('isRequesting', true);

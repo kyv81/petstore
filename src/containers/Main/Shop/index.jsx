@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { AnimalCard, FilterPanel, isDisplay } from 'containers';
 import { object, number, date } from 'prop-types';
-import { Checkbox } from 'components';
+import { Checkbox, IndeterminateLoader } from 'components';
 import styles from './index.css';
 // сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
