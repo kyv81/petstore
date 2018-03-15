@@ -1,22 +1,31 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import {
-  AnimalCard,
   TextFilterCard,
   RangeFilterCard,
   DateFilterCard,
+  SortingCard
 } from 'containers';
 import { object, number, date } from 'prop-types';
 import { Checkbox } from 'components';
 import styles from './index.css';
 
+import {
+  onChangeTextFilter,
+  onChangeMinPriceFilter,
+  onChangeMaxPriceFilter,
+  onChangeMinDateFilter,
+  onChangeMaxDateFilter
+} from 'actions/filter';
+
 // сделаем пропсом данного компонента данные из store redux
 function mapStateToProps(state) {
   return {
-    animals: state.getIn(['animals', 'animals']),
-    users: state.getIn(['users', 'users']),
-    // textFilterValue: state.getIn(['filter', 'textFilterValue']),
-    filter: state.getIn(['filter', 'filter']),
+    textFilterValue: state.getIn(['filter', 'textFilterValue']),
+    minPriceFilterValue: state.getIn(['filter', 'minPriceFilterValue']),
+    maxPriceFilterValue: state.getIn(['filter', 'maxPriceFilterValue']),
+    minDateFilterValue: state.getIn(['filter', 'minDateFilterValue']),
+    maxDateFilterValue: state.getIn(['filter', 'maxDateFilterValue']),
   };
 }
 
@@ -34,51 +43,57 @@ export class Shop extends React.Component {
     filterOpen: false,
     sorting: false,
     sortType: undefined,
-    asc: true,
+    asc: true
   };
 
-  static propTypes = {
-    animals: object,
-    users: object,
-    rangeMin: number,
-    rangeMax: number,
-    dateMin: object,
-    dateMax: object,
-  };
+  // static propTypes = {
+  //   animals: object,
+  //   users: object,
+  //   rangeMin: number,
+  //   rangeMax: number,
+  //   dateMin: object,
+  //   dateMax: object,
+  // };
 
   onChangeTextFilter = e => {
     this.setState({ textFilter: e.target.value });
-    this.setState({ searchReq: false });
-    this.setState({ sorting: false });
+    // console.log('inside shop', e.target.value);
+  };
+  onFilter = e => {
+    e.preventDefault();
+    let { dispatch } = this.props;
+    const { searchReq, textFilter } = this.state;
+    // this.setState({ searchReq: true });
+    dispatch(onChangeTextFilter(textFilter));
   };
 
   onChangeRangeMin = e => {
-    const { rangeMin, rangeMax } = this.state;
-    +rangeMin <= +rangeMax
-      ? this.setState({ rangeMin: e.target.value })
-      : this.setState({ rangeMin: rangeMax });
+    let { dispatch, minPriceFilterValue, maxPriceFilterValue } = this.props;
+
+    +minPriceFilterValue <= +maxPriceFilterValue
+      ? dispatch(onChangeMinPriceFilter(e.target.value))
+      : dispatch(onChangeMinPriceFilter(maxPriceFilterValue));
   };
+
   onChangeRangeMax = e => {
-    const { rangeMin, rangeMax } = this.state;
-    +rangeMax >= +rangeMin
-      ? this.setState({ rangeMax: e.target.value })
-      : this.setState({ rangeMax: rangeMin });
+    let { dispatch, minPriceFilterValue, maxPriceFilterValue } = this.props;
+
+    +minPriceFilterValue <= +maxPriceFilterValue
+      ? dispatch(onChangeMaxPriceFilter(e.target.value))
+      : dispatch(onChangeMaxPriceFilter(minPriceFilterValue));
   };
 
   onChangeDateMin = e => {
-    const { dateMin } = this.state;
-    this.setState({ dateMin: new Date(e.target.value) });
+    let { dispatch} = this.props;
+    dispatch(onChangeMinDateFilter(new Date(e.target.value)));
   };
+  
   onChangeDateMax = e => {
-    const { dateMax } = this.state;
-    this.setState({ dateMax: new Date(e.target.value) });
+    let { dispatch} = this.props;
+    dispatch(onChangeMaxDateFilter(new Date(e.target.value)));
   };
 
   //фильтры
-  onFilter = e => {
-    e.preventDefault();
-    this.setState({ searchReq: true });
-  };
 
   onToggleFilters = e => {
     e.preventDefault();
@@ -86,40 +101,12 @@ export class Shop extends React.Component {
     this.setState({ filterOpen: !filterOpen });
   };
 
-  isDisplay = animal => {
-    return true;
-    //TODO переписать это
-    // const {
-    //   textFilter,
-    //   searchReq,
-    //   rangeMax,
-    //   rangeMin,
-    //   dateMin,
-    //   dateMax,
-    // } = this.state;
-    // const { date, price } = animal;
-    // const dmax = +dateMax + 86400000;
-    // const dmin = +dateMin - 10800000;
-    // if (
-    //   price < +rangeMax &&
-    //   price > +rangeMin &&
-    //   date >= dmin &&
-    //   date <= dmax
-    // ) {
-    //   if (searchReq) {
-    //     if (animal.name.indexOf(textFilter) != -1) return 1;
-    //     else return 0;
-    //   }
-    //   return 1;
-    // } else return 0;
-  };
-
   showTextFilter = () => {
     const { asc } = this.state;
     this.setState({ asc: !asc });
     this.setState({ sorting: true });
     this.setState({
-      sortType: 'NameSort',
+      sortType: 'NameSort'
     });
   };
 
@@ -128,7 +115,7 @@ export class Shop extends React.Component {
     this.setState({ asc: !asc });
     this.setState({ sorting: true });
     this.setState({
-      sortType: 'PriceSort',
+      sortType: 'PriceSort'
     });
   };
 
@@ -138,7 +125,7 @@ export class Shop extends React.Component {
     this.setState({ sorting: true });
 
     this.setState({
-      sortType: 'DateSort',
+      sortType: 'DateSort'
     });
   };
 
@@ -172,28 +159,67 @@ export class Shop extends React.Component {
 
   render() {
     const {
-      textFilter,
-      typeFilter,
-      searchReq,
-      rangeMax,
-      rangeMin,
-      dateMin,
-      dateMax,
-      filterOpen,
+      textFilterValue,
+      minPriceFilterValue,
+      maxPriceFilterValue,
+      minDateFilterValue,
+      maxDateFilterValue
+      // searchReq,
+      // dateMin,
+      // dateMax,
+      // filterOpen,
     } = this.props;
-    //const Animals = this.Sort(animals);
-    const animals = this.props.animals;
-    const users = this.props.users;
+    const {
+      searchReq,
+      textFilter,
+      filterOpen,
+      rangeMin,
+      rangeMax
+    } = this.state;
+
     return (
-        <div className="row card card-content">
-          <div className="card-action">
+      <Fragment>
+        <div className='row card card-content'>
+          <div className='card-action'>
             <TextFilterCard
               onFilter={this.onFilter}
               onChangeTextFilter={this.onChangeTextFilter}
-              textFilter={textFilter}
+              textFilterValue={textFilter}
+            />
+            <a onClick={this.onToggleFilters}>
+              <i className={styles.filterIcon + ' material-icons Small'}>
+                filter_list
+              </i>
+            </a>
+            <SortingCard
+              showTextFilter={this.showTextFilter}
+              showPriceFilter={this.showPriceFilter}
+              showDateFilter={this.showDateFilter}
             />
           </div>
         </div>
+        {filterOpen ? (
+          <div className={styles.filtercontent + ' row card card-content'}>
+            <div className={styles.filteraction + ' card-action'}>
+              <h5> Фильтровать</h5>
+              <RangeFilterCard
+                onChangeRangeMin={this.onChangeRangeMin}
+                onChangeRangeMax={this.onChangeRangeMax}
+                minPriceFilterValue={minPriceFilterValue}
+                maxPriceFilterValue={maxPriceFilterValue}
+              />
+              <DateFilterCard
+                onChangeDateMin={this.onChangeDateMin}
+                onChangeDateMax={this.onChangeDateMax}
+                minDateFilterValue={minDateFilterValue}
+                maxDateFilterValue={maxDateFilterValue}
+              />
+            </div>
+          </div>
+        ) : (
+          ''
+        )}
+      </Fragment>
     );
   }
 }

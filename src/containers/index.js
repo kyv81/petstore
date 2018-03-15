@@ -33,8 +33,14 @@ export {
   default as TextFilterCard,
 } from 'components/Filters/TextFilterCard';
 export {
+  default as SortingCard,
+} from 'components/Filters/SortingCard';
+export {
   default as FilterPanel,
 } from 'containers/Cards/Filter/FilterPanel';
+export {
+  default as isDisplay,
+} from 'components/Filters/isDisplay';
 
 export { default as LoginCard } from 'containers/Cards/Auth/LoginCard';
 export { default as RegisterCard } from 'containers/Cards/Auth/RegisterCard';

@@ -2,32 +2,33 @@ import React from 'react';
 import styles from './index.css';
 
 export const RangeFilterCard = ({
-  rangeMin,
-  rangeMax,
   onChangeRangeMin,
-  onChangeRangeMax
+  onChangeRangeMax,
+  minPriceFilterValue,
+  maxPriceFilterValue
 }) => {
+  console.log("maxPriceFilterValue",maxPriceFilterValue);
   return (
     <div className={styles.container + ' container'}>
       <div className={styles.slider}>
         <output className='left'>По цене</output>
         <output className='right'>
-          От {rangeMin} до {rangeMax} руб.
+          От {minPriceFilterValue} до {maxPriceFilterValue} руб.
         </output>
         <p className='range-field'>
           <input
             id={styles.start}
-            value={rangeMin}
+            value={minPriceFilterValue}
             type='range'
-            min={this.state.min}
-            max={this.state.max}
+            min='0'
+            max='600000'
             step='500'
             onChange={onChangeRangeMin}
             className={styles.inpt}
           />
           <input
             id='end'
-            value={rangeMax}
+            value={maxPriceFilterValue}
             type='range'
             min='0'
             max='600000'

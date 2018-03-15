@@ -7,34 +7,36 @@ import {
 } from 'constants';
 
 export const onChangeTextFilter = textFilterValue => {
-
-  console.log(textFilterValue);
   return {
     type: CHANGE_TEXT_FILTER,
     textFilterValue
   };
 };
 
-const minPriceFilterValue = () => {
+export const onChangeMinPriceFilter = minPriceFilterValue => {
   return {
     type: CHANGE_MIN_PRICE_FILTER,
+    minPriceFilterValue
   };
 };
 
-const maxPriceFilterValue = () => {
+export const onChangeMaxPriceFilter = maxPriceFilterValue => {
   return {
     type: CHANGE_MAX_PRICE_FILTER,
+    maxPriceFilterValue
   };
 };
 
-const minDateFilterValue = () => {
+export const onChangeMinDateFilter = minDateFilterValue => {
   return {
     type: CHANGE_MIN_DATE_FILTER,
+    minDateFilterValue
   };
 };
 
-const maxDateFilterValue = () => {
+export const onChangeMaxDateFilter = maxDateFilterValue => {
   return {
     type: CHANGE_MAX_DATE_FILTER,
+    maxDateFilterValue
   };
 };
