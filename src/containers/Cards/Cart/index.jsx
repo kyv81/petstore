@@ -6,8 +6,6 @@ import { Map } from 'immutable';
 
 import { AnimalCardCart } from 'containers';
 
-import styles from './index.css';
-
 function mapStateToProps(state) {
   return {
     cart: state.getIn(['cart', 'items']),

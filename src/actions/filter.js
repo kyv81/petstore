@@ -1,58 +1,37 @@
 import {
-  CHANGE_TEXT_FILTER,
-  CHANGE_MIN_PRICE_FILTER,
-  CHANGE_MAX_PRICE_FILTER,
-  CHANGE_MIN_DATE_FILTER,
-  CHANGE_MAX_DATE_FILTER,
-  CHANGE_TYPE_SORT,
-  CHANGE_INDEX_SORT,
+  CHANGE_FILTER_TEXT,
+  CHANGE_FILTER_PRICE,
+  CHANGE_FILTER_DATE,
+  CHANGE_FILTER_SORT,
 } from 'constants';
 
-export const onChangeTextFilter = textFilterValue => {
+export const changeFilterText = text => {
   return {
-    type: CHANGE_TEXT_FILTER,
-    textFilterValue
+    type: CHANGE_FILTER_TEXT,
+    text,
   };
 };
 
-export const onChangeMinPriceFilter = minPriceFilterValue => {
+export const changeFilterPrice = (min, max) => {
   return {
-    type: CHANGE_MIN_PRICE_FILTER,
-    minPriceFilterValue
+    type: CHANGE_FILTER_PRICE,
+    min,
+    max,
   };
 };
 
-export const onChangeMaxPriceFilter = maxPriceFilterValue => {
+export const changeFilterDate = (min, max) => {
   return {
-    type: CHANGE_MAX_PRICE_FILTER,
-    maxPriceFilterValue
+    type: CHANGE_FILTER_DATE,
+    min,
+    max,
   };
 };
 
-export const onChangeMinDateFilter = minDateFilterValue => {
+export const changeFilterSort = (sortType, asc) => {
   return {
-    type: CHANGE_MIN_DATE_FILTER,
-    minDateFilterValue
-  };
-};
-
-export const onChangeMaxDateFilter = maxDateFilterValue => {
-  return {
-    type: CHANGE_MAX_DATE_FILTER,
-    maxDateFilterValue
-  };
-};
-
-export const onChangeTypeSort= sortType => {
-  return {
-    type: CHANGE_TYPE_SORT,
-    sortType
-  };
-};
-
-export const onChangeIndexSort = asc => {
-  return {
-    type: CHANGE_INDEX_SORT,
-    asc
+    type: CHANGE_FILTER_SORT,
+    sortType,
+    asc,
   };
 };

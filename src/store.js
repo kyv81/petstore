@@ -8,12 +8,10 @@ import {
 } from 'react-redux-firebase';
 import * as firebase from 'firebase';
 import { firebaseConfig } from 'constants';
-
 import { routerMiddleware } from 'react-router-redux';
-
-import { toJSON, fromJS } from 'immutable';
-
+import { fromJS } from 'immutable';
 import { Animals, Auth, Cart, Router, Users, Filter } from 'reducers';
+
 const initStore = history => {
   firebase.initializeApp(firebaseConfig);
 
@@ -40,13 +38,13 @@ const initStore = history => {
       users: [],
     },
     filter: {
-      textFilterValue: '',
-      minPriceFilterValue: 0,
-      maxPriceFilterValue: 600000,
-      minDateFilterValue: new Date(0),
-      maxDateFilterValue: new Date(),
-      sortType: 'DateSort',
-      asc: true
+      text: '',
+      minPrice: 0,
+      maxPrice: 600000,
+      minDate: new Date(0),
+      maxDate: new Date(),
+      sortType: 'date',
+      sortAsc: false,
     },
     routerReducer: {
       locationBeforeTransitions: null,
@@ -63,16 +61,15 @@ const initStore = history => {
     filter: Filter,
   });
 
-  // логирование при изменении store redux
-  // чисто для разработки
-  const logger = store => next => action => {
-    console.group(action.type);
-    console.info('dispatching', action);
-    let result = next(action);
-    console.log('next state', store.getState());
-    console.groupEnd(action.type);
-    return result;
-  };
+  // логгирование при изменении redux store
+  // const logger = store => next => action => {
+  //   console.group(action.type);
+  //   console.info('dispatching', action);
+  //   const result = next(action);
+  //   console.log('next state', store.getState());
+  //   console.groupEnd(action.type);
+  //   return result;
+  // };
 
   const store = createStore(
     rootReducer,
@@ -81,7 +78,7 @@ const initStore = history => {
       applyMiddleware(
         routerMiddleware(history),
         thunkMiddleware.withExtraArgument(getFirebase),
-        logger,
+        //logger,
       ),
       reactReduxFirebase(firebase, {
         userProfile: 'users',
