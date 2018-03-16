@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
-import { Image, FAB } from 'components';
-import { AnimalModal, ModalContainer, UserField } from 'containers';
+import { FAB } from 'components';
+import { AnimalModal, ModalContainer, UserAvatar, UserField } from 'containers';
 import { tryCreateAnimal } from 'actions';
 import styles from './index.css';
 
@@ -78,8 +78,9 @@ class UserCard extends React.Component {
         <Route path="/user/:id" render={() => <h2>Кабинет пользователя</h2>} />
         <div className="card">
           <div className="card-image">
-            <Image src="http://via.placeholder.com/350x150" />
+            <UserAvatar />
           </div>
+
           {user ? (
             <div key={id}>
               <div className="card-content row">
