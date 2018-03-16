@@ -96,6 +96,10 @@ export default class UserAnimalsList extends React.PureComponent {
           isEditable={isEditable}
           onEdit={this.showEditModal}
           onRemove={this.onRemove}
+          storageRef={storageRef}
+          onUploadStart={onUploadStart}
+          onUploadError={onUploadError}
+          onUploadSuccess={onUploadSuccess}
         />
       );
     });
@@ -108,10 +112,6 @@ export default class UserAnimalsList extends React.PureComponent {
               animal={this.state.animal}
               onCancel={this.handleCancel}
               onSubmit={modal === 'edit' ? this.onEdit : this.onCreate}
-              storageRef={storageRef}
-              onUploadStart={onUploadStart}
-              onUploadError={onUploadError}
-              onUploadSuccess={onUploadSuccess}
             />
           </ModalContainer>
         )}

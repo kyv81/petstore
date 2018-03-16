@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import FileUploader from 'react-firebase-file-uploader';
 
 import { Image } from 'components';
 
@@ -26,7 +27,14 @@ export default class UserAnimalsListItem extends React.PureComponent {
   };
 
   render() {
-    const { isEditable, animal } = this.props;
+    const {
+      isEditable,
+      animal,
+      storageRef,
+      onUploadStart,
+      onUploadError,
+      onUploadSuccess,
+    } = this.props;
 
     const imgUrl = animal.get('imgUrl');
     const name = animal.get('name');
@@ -39,7 +47,22 @@ export default class UserAnimalsListItem extends React.PureComponent {
         <div className="card-content row">
           <div className="col s12 m4">
             <div className="center">
-              <Image src={`${imgUrl}`} alt="Фотография животного" />
+              <label>
+                <Image src={`${imgUrl}`} alt="Фотография животного" />
+                {isEditable && (
+                  <FileUploader
+                    hidden
+                    accept="image/*"
+                    name="avatar"
+                    storageRef={storageRef}
+                    onUploadStart={onUploadStart}
+                    onUploadError={onUploadError}
+                    onUploadSuccess={filename =>
+                      onUploadSuccess(filename, animal.get('id'))
+                    }
+                  />
+                )}
+              </label>
             </div>
           </div>
           <div className="col s12 m8">

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FileUploader from 'react-firebase-file-uploader';
 
 import { Input } from 'components';
 
@@ -41,16 +40,8 @@ export default class EditAnimalCard extends React.PureComponent {
     this.setState({ price: e.target.value });
   };
 
-  onChangeImage = filename => {
-    const { onUploadSuccess, animal, onCancel } = this.props;
-
-    onUploadSuccess(filename, animal.id);
-    onCancel();
-  };
-
   render() {
     const { name, description, price } = this.state;
-    const { storageRef, onUploadStart, onUploadError } = this.props;
 
     return (
       <div className="card">
@@ -70,14 +61,6 @@ export default class EditAnimalCard extends React.PureComponent {
             onChange={this.onChangeDescription}
             type="text"
             value={description}
-          />
-          <FileUploader
-            accept="image/*"
-            name="avatar"
-            storageRef={storageRef}
-            onUploadStart={onUploadStart}
-            onUploadError={onUploadError}
-            onUploadSuccess={this.onChangeImage}
           />
         </div>
         <div className="card-action">
