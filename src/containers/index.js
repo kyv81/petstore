@@ -40,6 +40,9 @@ export {
 export {
   default as isDisplay,
 } from 'components/Filters/isDisplay';
+export {
+  default as isSorting,
+} from 'components/Filters/isSorting';
 
 export { default as CartCard } from 'containers/Cards/Cart';
 

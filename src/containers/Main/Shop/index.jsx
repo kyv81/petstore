@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { AnimalCard, FilterPanel, isDisplay } from 'containers';
+import { AnimalCard, FilterPanel, isDisplay, isSorting } from 'containers';
 import { object, number, date } from 'prop-types';
 import { Checkbox, IndeterminateLoader } from 'components';
 import styles from './index.css';
@@ -14,26 +14,14 @@ function mapStateToProps(state) {
     minPriceFilterValue: state.getIn(['filter', 'minPriceFilterValue']),
     maxPriceFilterValue: state.getIn(['filter', 'maxPriceFilterValue']),
     minDateFilterValue: state.getIn(['filter', 'minDateFilterValue']),
-    maxDateFilterValue: state.getIn(['filter', 'maxDateFilterValue'])
+    maxDateFilterValue: state.getIn(['filter', 'maxDateFilterValue']),
+    sortType: state.getIn(['filter', 'sortType']),
+    asc: state.getIn(['filter', 'asc'])
   };
 }
 
 @connect(mapStateToProps)
 export class Shop extends React.Component {
-  // стейт в котором хранится фильтры
-  state = {
-    // textFilter: '',
-    rangeMin: 0,
-    rangeMax: 600000,
-    dateMin: new Date(0),
-    dateMax: new Date(),
-
-    searchReq: false,
-    sorting: false,
-    sortType: undefined,
-    asc: true
-  };
-
   // static propTypes = {
   //   animals: object,
   //   users: object,
@@ -45,17 +33,18 @@ export class Shop extends React.Component {
 
   render() {
     const {
+      animals,
+      users,
       textFilterValue,
       minPriceFilterValue,
       maxPriceFilterValue,
       minDateFilterValue,
-      maxDateFilterValue
+      maxDateFilterValue,
+      sortType,
+      asc
     } = this.props;
-    //const Animals = this.Sort(animals);
-    const animals = this.props.animals;
-    const users = this.props.users;
-
-    const filteredAnimals = isDisplay(
+    
+    const Animals = isDisplay(
       animals,
       textFilterValue,
       minPriceFilterValue,
@@ -63,6 +52,7 @@ export class Shop extends React.Component {
       minDateFilterValue,
       maxDateFilterValue
     );
+    const filteredAnimals = isSorting(Animals, sortType, asc);
     return (
       <div>
         <FilterPanel />

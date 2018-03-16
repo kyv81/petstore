@@ -45,6 +45,8 @@ const initStore = history => {
       maxPriceFilterValue: 600000,
       minDateFilterValue: new Date(0),
       maxDateFilterValue: new Date(),
+      sortType: 'DateSort',
+      asc: true
     },
     routerReducer: {
       locationBeforeTransitions: null,

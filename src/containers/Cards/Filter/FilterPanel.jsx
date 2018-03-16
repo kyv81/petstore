@@ -15,7 +15,9 @@ import {
   onChangeMinPriceFilter,
   onChangeMaxPriceFilter,
   onChangeMinDateFilter,
-  onChangeMaxDateFilter
+  onChangeMaxDateFilter,
+  onChangeTypeSort,
+  onChangeIndexSort
 } from 'actions/filter';
 
 // сделаем пропсом данного компонента данные из store redux
@@ -26,24 +28,16 @@ function mapStateToProps(state) {
     maxPriceFilterValue: state.getIn(['filter', 'maxPriceFilterValue']),
     minDateFilterValue: state.getIn(['filter', 'minDateFilterValue']),
     maxDateFilterValue: state.getIn(['filter', 'maxDateFilterValue']),
+    sortType: state.getIn(['filter', 'sortType']),
+    asc: state.getIn(['filter', 'asc'])
   };
 }
 
 @connect(mapStateToProps)
 export class Shop extends React.Component {
-  // стейт в котором хранится фильтры
   state = {
     textFilter: '',
-    rangeMin: 0,
-    rangeMax: 600000,
-    dateMin: new Date(0),
-    dateMax: new Date(),
-
-    searchReq: false,
     filterOpen: false,
-    sorting: false,
-    sortType: undefined,
-    asc: true
   };
 
   // static propTypes = {
@@ -57,19 +51,16 @@ export class Shop extends React.Component {
 
   onChangeTextFilter = e => {
     this.setState({ textFilter: e.target.value });
-    // console.log('inside shop', e.target.value);
   };
   onFilter = e => {
     e.preventDefault();
     const { dispatch } = this.props;
     const { searchReq, textFilter } = this.state;
-    // this.setState({ searchReq: true });
     dispatch(onChangeTextFilter(textFilter));
   };
 
   onChangeRangeMin = e => {
     const { dispatch, minPriceFilterValue, maxPriceFilterValue } = this.props;
-
     +minPriceFilterValue <= +maxPriceFilterValue
       ? dispatch(onChangeMinPriceFilter(e.target.value))
       : dispatch(onChangeMinPriceFilter(maxPriceFilterValue));
@@ -77,19 +68,18 @@ export class Shop extends React.Component {
 
   onChangeRangeMax = e => {
     const { dispatch, minPriceFilterValue, maxPriceFilterValue } = this.props;
-
     +minPriceFilterValue <= +maxPriceFilterValue
       ? dispatch(onChangeMaxPriceFilter(e.target.value))
       : dispatch(onChangeMaxPriceFilter(minPriceFilterValue));
   };
 
   onChangeDateMin = e => {
-    const { dispatch} = this.props;
+    const { dispatch } = this.props;
     dispatch(onChangeMinDateFilter(new Date(e.target.value)));
   };
 
   onChangeDateMax = e => {
-    const { dispatch} = this.props;
+    const { dispatch } = this.props;
     dispatch(onChangeMaxDateFilter(new Date(e.target.value)));
   };
 
@@ -102,59 +92,21 @@ export class Shop extends React.Component {
   };
 
   showTextFilter = () => {
-    const { asc } = this.state;
-    this.setState({ asc: !asc });
-    this.setState({ sorting: true });
-    this.setState({
-      sortType: 'NameSort'
-    });
+    const { asc, dispatch } = this.props;
+    dispatch(onChangeTypeSort('NameSort'));
+    dispatch(onChangeIndexSort(!asc));
   };
 
   showPriceFilter = () => {
-    const { asc } = this.state;
-    this.setState({ asc: !asc });
-    this.setState({ sorting: true });
-    this.setState({
-      sortType: 'PriceSort'
-    });
+    const { asc, dispatch } = this.props;
+    dispatch(onChangeTypeSort('PriceSort'));
+    dispatch(onChangeIndexSort(!asc));
   };
 
   showDateFilter = () => {
-    const { asc } = this.state;
-    this.setState({ asc: !asc });
-    this.setState({ sorting: true });
-
-    this.setState({
-      sortType: 'DateSort'
-    });
-  };
-
-  Sort = animals => {
-    return animals;
-    //TODO переписать
-    // const { asc, sortType, sorting } = this.state;
-    // if (sorting) {
-    //   animals.sort((a, b) => {
-    //     if (sortType == 'PriceSort') {
-    //       const El1 = a.price;
-    //       const El2 = b.price;
-    //       return asc ? El2 - El1 : El1 - El2;
-    //     } else if (sortType == 'DateSort') {
-    //       const El1 = a.date;
-    //       const El2 = b.date;
-    //       return asc ? El2 - El1 : El1 - El2;
-    //     } else if (sortType == 'NameSort') {
-    //       const El1 = a.name;
-    //       const El2 = b.name;
-    //       if (asc) {
-    //         return El1 < El2 ? -1 : El1 > El2 ? 1 : 0;
-    //       } else {
-    //         return El1 > El2 ? -1 : El1 < El2 ? 1 : 0;
-    //       }
-    //     }
-    //   });
-    // }
-    // return animals;
+    const { asc, dispatch } = this.props;
+    dispatch(onChangeTypeSort('DateSort'));
+    dispatch(onChangeIndexSort(!asc));
   };
 
   render() {
@@ -165,14 +117,7 @@ export class Shop extends React.Component {
       minDateFilterValue,
       maxDateFilterValue
     } = this.props;
-    const {
-      searchReq,
-      textFilter,
-      filterOpen,
-      rangeMin,
-      rangeMax
-    } = this.state;
-
+    const { textFilter, filterOpen } = this.state;
     return (
       <Fragment>
         <div className='row card card-content'>
@@ -212,9 +157,7 @@ export class Shop extends React.Component {
               />
             </div>
           </div>
-        ) : (
-          ''
-        )}
+        ) : null}
       </Fragment>
     );
   }

@@ -7,7 +7,6 @@ export const RangeFilterCard = ({
   minPriceFilterValue,
   maxPriceFilterValue
 }) => {
-  console.log("maxPriceFilterValue",maxPriceFilterValue);
   return (
     <div className={styles.container + ' container'}>
       <div className={styles.slider}>

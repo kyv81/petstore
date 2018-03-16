@@ -13,27 +13,30 @@ export const SortingCard = ({
   return (
     <form action='#'>
       <p>
-        <label>Сортировать: </label>
+        <label> Сортировать: </label>
         <label>
           <input
+            className='with-gap'
             name='group1'
-            type='checkbox'
+            type='radio'
             onClick={showTextFilter}
           />
           <span>по названию</span>
         </label>
         <label>
           <input
+            className='with-gap'
             name='group1'
-            type='checkbox'
+            type='radio'
             onClick={showPriceFilter}
           />
           <span>по цене</span>
         </label>
         <label>
           <input
+            className='with-gap'
             name='group1'
-            type='checkbox'
+            type='radio'
             onClick={showDateFilter}
           />
           <span>по дате</span>
