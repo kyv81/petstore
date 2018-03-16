@@ -78,7 +78,14 @@ export default class UserAnimalsList extends React.PureComponent {
   };
 
   render() {
-    const { isEditable, animals } = this.props;
+    const {
+      isEditable,
+      animals,
+      storageRef,
+      onUploadStart,
+      onUploadError,
+      onUploadSuccess,
+    } = this.props;
     const { modal } = this.state;
 
     const animalsList = animals.map(animal => {
@@ -89,6 +96,10 @@ export default class UserAnimalsList extends React.PureComponent {
           isEditable={isEditable}
           onEdit={this.showEditModal}
           onRemove={this.onRemove}
+          storageRef={storageRef}
+          onUploadStart={onUploadStart}
+          onUploadError={onUploadError}
+          onUploadSuccess={onUploadSuccess}
         />
       );
     });

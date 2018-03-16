@@ -55,11 +55,7 @@ export default class EditAnimalCard extends React.PureComponent {
             value={name}
           />
           <p>Цена:</p>
-          <Input
-            onChange={this.onChangePrice}
-            type="number"
-            value={price}
-          />
+          <Input onChange={this.onChangePrice} type="number" value={price} />
           <p>Описание</p>
           <Input
             onChange={this.onChangeDescription}

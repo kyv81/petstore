@@ -132,21 +132,34 @@ export default class UserPage extends React.Component {
     dispatch(uploadImageFailed(error));
   };
 
-  handleUploadSuccess = filename => {
+  // обработчик на успешную загрузку в storage картинки юзера, НЕ значит что юзер обновился
+  handleUploadUserImageSuccess = filename => {
     const { dispatch } = this.props;
+    // тут нам вернется url загруженной картинки в storage
     dispatch(uploadImageSuccess(filename))
-      .then(() => {
-        M.toast({
-          html: 'Обновлено',
-          classes: 'green',
-        });
+      .then(url => {
+        // возьмем данные авторизованного юзера
+        let { localUser } = this.props;
+        // получаем url и отправляем нового юзера
+        let editedUserData = localUser.set('imgUrl', url);
+        dispatch(tryEditUser(editedUserData.toJS()));
       })
-      .catch(() => {
-        M.toast({
-          html: 'Ошибка',
-          classes: 'red',
-        });
-      });
+      .catch(() => {});
+  };
+
+  // обработчик на успешную загрузку в storage картинки юзера, НЕ значит что животное обновилось
+  handleUploadAnimalImageSuccess = (filename, id) => {
+    const { dispatch, animals } = this.props;
+    console.log(filename);
+    console.log(id);
+    // тут нам вернется url загруженной картинки в storage
+    dispatch(uploadImageSuccess(filename))
+      .then(url => {
+        let findedAnimal = animals.find(animal => animal.get('id') === id);
+        let editedAnimal = findedAnimal.set('imgUrl', url);
+        dispatch(tryEditAnimal(editedAnimal.toJS()));
+      })
+      .catch(() => {});
   };
 
   render() {
@@ -183,7 +196,7 @@ export default class UserPage extends React.Component {
               isEditable={isEditable}
               onUploadStart={this.handleUploadStart}
               onUploadError={this.handleUploadError}
-              onUploadSuccess={this.handleUploadSuccess}
+              onUploadSuccess={this.handleUploadUserImageSuccess}
             />
           )}
         </div>
@@ -195,6 +208,10 @@ export default class UserPage extends React.Component {
             onRemove={this.onRemoveAnimal}
             animals={filteredAnimals}
             isEditable={isEditable}
+            storageRef={storageRef}
+            onUploadStart={this.handleUploadStart}
+            onUploadError={this.handleUploadError}
+            onUploadSuccess={this.handleUploadAnimalImageSuccess}
           />
         </div>
       </div>
