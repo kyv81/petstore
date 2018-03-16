@@ -141,21 +141,23 @@ export default class UserPage extends React.Component {
         // возьмем данные авторизованного юзера
         let { localUser } = this.props;
         // получаем url и отправляем нового юзера
-        let newUserData = localUser.set('imgUrl', url);
-        dispatch(tryEditUser(newUserData.toJS()));
+        let editedUserData = localUser.set('imgUrl', url);
+        dispatch(tryEditUser(editedUserData.toJS()));
       })
       .catch(() => {});
   };
 
-  // обработчик на успешную загрузку в storage картинки юзера, НЕ значит что юзер обновился
-  handleUploadAnimalImageSuccess = filename => {
+  // обработчик на успешную загрузку в storage картинки юзера, НЕ значит что животное обновилось
+  handleUploadAnimalImageSuccess = (filename, id) => {
     const { dispatch, animals } = this.props;
+    console.log(filename);
+    console.log(id);
     // тут нам вернется url загруженной картинки в storage
     dispatch(uploadImageSuccess(filename))
       .then(url => {
-        console.log(url);
-
-        // dispatch(tryEditUser(newUserData.toJS()));
+        let findedAnimal = animals.find(animal => animal.get('id') === id);
+        let editedAnimal = findedAnimal.set('imgUrl', url);
+        dispatch(tryEditAnimal(editedAnimal.toJS()));
       })
       .catch(() => {});
   };

@@ -41,15 +41,16 @@ export default class EditAnimalCard extends React.PureComponent {
     this.setState({ price: e.target.value });
   };
 
+  onChangeImage = filename => {
+    const { onUploadSuccess, animal, onCancel } = this.props;
+
+    onUploadSuccess(filename, animal.id);
+    onCancel();
+  };
+
   render() {
     const { name, description, price } = this.state;
-    const {
-      storageRef,
-      onUploadStart,
-      onUploadError,
-      onUploadSuccess,
-      animal,
-    } = this.props;
+    const { storageRef, onUploadStart, onUploadError } = this.props;
 
     return (
       <div className="card">
@@ -76,7 +77,7 @@ export default class EditAnimalCard extends React.PureComponent {
             storageRef={storageRef}
             onUploadStart={onUploadStart}
             onUploadError={onUploadError}
-            onUploadSuccess={onUploadSuccess}
+            onUploadSuccess={this.onChangeImage}
           />
         </div>
         <div className="card-action">
