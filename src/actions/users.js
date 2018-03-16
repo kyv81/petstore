@@ -135,21 +135,23 @@ export const uploadImageSuccess = filename => {
       .find(user => user.get('id') === userId);
     //ищем при помощи api картинку картинку
     return new Promise((res, rej) => {
-      getImageUrl(getFirebase(), filename).then(url => {
-        // получаем url и отправляем нового юзера
-        let newUserData = userData.set('imgUrl', url);
-        dispatch(tryEditUser(newUserData.toJS()))
-          .then(() => {
-            //если удалось обновить юзера
-            res();
-            dispatch({
-              type: UPLOAD_USER_IMAGE_SUCCESS,
-            });
-          })
-          .catch(error => {
-            rej(error);
+      getImageUrl(getFirebase(), filename)
+        .then(url => {
+          // получаем url и отправляем нового юзера
+          let newUserData = userData.set('imgUrl', url);
+          //ждем пока запишется новые данные о юзере
+          return dispatch(tryEditUser(newUserData.toJS()));
+        })
+        .then(() => {
+          //если удалось обновить юзера
+          res();
+          dispatch({
+            type: UPLOAD_USER_IMAGE_SUCCESS,
           });
-      });
+        })
+        .catch(error => {
+          rej(error);
+        });
     });
   };
 };
