@@ -72,6 +72,7 @@ export default class UserCard extends React.Component {
       onUploadSuccess,
       isEditable,
       user,
+      storageRef,
     } = this.props;
     const { firstName, lastName, phone, email } = this.state.user;
     let imgUrl = user.get('imgUrl');
@@ -85,6 +86,7 @@ export default class UserCard extends React.Component {
             onUploadError={onUploadError}
             onUploadSuccess={onUploadSuccess}
             isEditable={isEditable}
+            storageRef={storageRef}
           />
           <UserField
             type="text"

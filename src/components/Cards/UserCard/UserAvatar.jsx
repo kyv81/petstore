@@ -1,5 +1,4 @@
 import React from 'react';
-import firebase from 'firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import { Image } from 'components';
 
@@ -11,6 +10,7 @@ export default class UserAvatar extends React.Component {
       onUploadError,
       onUploadSuccess,
       isEditable,
+      storageRef,
     } = this.props;
     return (
       <form>
@@ -21,7 +21,7 @@ export default class UserAvatar extends React.Component {
               hidden
               accept="image/*"
               name="avatar"
-              storageRef={firebase.storage().ref('img/user')}
+              storageRef={storageRef}
               onUploadStart={onUploadStart}
               onUploadError={onUploadError}
               onUploadSuccess={onUploadSuccess}

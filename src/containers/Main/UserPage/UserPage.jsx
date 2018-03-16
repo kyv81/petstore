@@ -2,6 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { UserCard, IndeterminateLoader } from 'components';
+
+//TODO: может как то вынести firebase как объект в редаксе
+// типо интерфеса на всякий случай
+import firebase from 'firebase';
 import { UserAnimalsList } from 'containers';
 import {
   tryEditUser,
@@ -148,6 +152,9 @@ export default class UserPage extends React.Component {
   render() {
     const { id, users, animals, localUser } = this.props;
 
+    // ссылка на storage для загрузки картинок
+    const storageRef = firebase.storage().ref('img/user');
+
     if (users.size === 0) {
       return <IndeterminateLoader />;
     }
@@ -164,7 +171,7 @@ export default class UserPage extends React.Component {
 
     // TODO: добавить фильтрацию
     const filteredAnimals = userAnimals;
-    console.log(user);
+
     return (
       <div className="row">
         <div className="col s12 m4">
@@ -172,6 +179,7 @@ export default class UserPage extends React.Component {
             <UserCard
               onSave={this.onEditUser}
               user={user}
+              storageRef={storageRef}
               isEditable={isEditable}
               onUploadStart={this.handleUploadStart}
               onUploadError={this.handleUploadError}
