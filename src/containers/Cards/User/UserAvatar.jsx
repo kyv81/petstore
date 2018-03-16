@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import { Image } from 'components';
 
-class UserAvatar extends React.Component {
+export default class UserAvatar extends React.Component {
   state = {
     isUploading: false,
     avatarURL: 'http://via.placeholder.com/350x150',
@@ -45,5 +45,3 @@ class UserAvatar extends React.Component {
     );
   }
 }
-
-export default UserAvatar;

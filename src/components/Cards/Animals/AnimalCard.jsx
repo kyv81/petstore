@@ -1,52 +1,24 @@
-import React, { Fragment } from 'react';
-import { Link, Route, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
-
+import { Link } from 'react-router-dom';
 import { Image } from 'components';
 
-import { tryAddToCart } from 'actions/cart';
-import { selectCurrentUserId } from 'selectors';
-
-const mapStateToProps = state => {
-  return {
-    userId: selectCurrentUserId(state),
-  };
-};
-
-@withRouter
-@connect(mapStateToProps)
 export class AnimalCard extends React.PureComponent {
   static propTypes = {
     owner: PropTypes.object.isRequired,
     animal: PropTypes.object.isRequired,
-    auth: PropTypes.object,
-    location: PropTypes.string,
-    dispatch: PropTypes.func,
+    showCartButton: PropTypes.bool,
+    showMoreButton: PropTypes.bool,
+    onAddToCart: PropTypes.func,
   };
 
-  onAddToCart = e => {
+  handleAddToCart = e => {
     e.preventDefault();
-    const { animal, dispatch } = this.props;
-    const id = animal.get('id');
-
-    dispatch(tryAddToCart(id))
-      .then(() => {
-        M.toast({
-          html: 'Добавлено!',
-          classes: 'green accent-2',
-        });
-      })
-      .catch(() => {
-        M.toast({
-          html: 'Уже добавлена в корзину!',
-          classes: 'red accent-2',
-        });
-      });
+    this.props.onAddToCart(this.props.animal);
   };
 
   render() {
-    const { animal, owner, userId, location: { pathname: path } } = this.props;
+    const { animal, owner, showCartButton, showMoreButton } = this.props;
 
     const id = animal.get('id');
     const imgUrl = animal.get('imgUrl');
@@ -71,13 +43,9 @@ export class AnimalCard extends React.PureComponent {
           </div>
           <div className="col s12 m8">
             <span className="card-title">{name}</span>
-            {salerId === userId ? (
-              'ВЫ ВЛАДЕЛЕЦ '
-            ) : (
-              <Link to={`/user/${salerId}`} href={`/user/${salerId}`}>
-                {`${firstName} ${lastName} `}
-              </Link>
-            )}
+            <Link to={`/user/${salerId}`} href={`/user/${salerId}`}>
+              {`${firstName} ${lastName} `}
+            </Link>
             <span>Размещено {localisedDate}</span>
             <p>Цена: {price} руб.</p>
             <hr />
@@ -85,13 +53,13 @@ export class AnimalCard extends React.PureComponent {
           </div>
         </div>
         <div className="card-action">
-          {path === '/shop' && (
+          {showMoreButton && (
             <Link to={`/animal/${id}`} href={`/animal/${id}`}>
               Перейти к товару
             </Link>
           )}
-          {salerId !== userId && (
-            <a href="" onClick={this.onAddToCart}>
+          {showCartButton && (
+            <a href="" onClick={this.handleAddToCart}>
               В корзину
             </a>
           )}

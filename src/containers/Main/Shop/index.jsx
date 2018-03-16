@@ -1,80 +1,89 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { AnimalCard, FilterPanel, isDisplay, isSorting } from 'containers';
-import { object, number, date } from 'prop-types';
-import { Checkbox, IndeterminateLoader } from 'components';
-import styles from './index.css';
-// сделаем пропсом данного компонента данные из store redux
+import PropTypes from 'prop-types';
+import { FilterPanel } from 'containers';
+import { AnimalCard, IndeterminateLoader } from 'components';
+import { tryAddToCart } from 'actions';
+import {
+  selectAnimalsList,
+  selectUsersList,
+  selectFilter,
+  selectCartItems
+} from 'selectors';
+import { filterAnimals, sortAnimals } from 'utils';
+
 function mapStateToProps(state) {
   return {
-    animals: state.getIn(['animals', 'animals']),
-    users: state.getIn(['users', 'users']),
-    // filter: state.getIn(['filter','textFilterValue']),
-    textFilterValue: state.getIn(['filter', 'textFilterValue']),
-    minPriceFilterValue: state.getIn(['filter', 'minPriceFilterValue']),
-    maxPriceFilterValue: state.getIn(['filter', 'maxPriceFilterValue']),
-    minDateFilterValue: state.getIn(['filter', 'minDateFilterValue']),
-    maxDateFilterValue: state.getIn(['filter', 'maxDateFilterValue']),
-    sortType: state.getIn(['filter', 'sortType']),
-    asc: state.getIn(['filter', 'asc'])
+    animals: selectAnimalsList(state),
+    users: selectUsersList(state),
+    filter: selectFilter(state),
+    cartItems: selectCartItems(state),
   };
 }
 
 @connect(mapStateToProps)
 export class Shop extends React.Component {
-  // static propTypes = {
-  //   animals: object,
-  //   users: object,
-  //   rangeMin: number,
-  //   rangeMax: number,
-  //   dateMin: object,
-  //   dateMax: object,
-  // };
+  static propTypes = {
+    dispatch: PropTypes.object,
+    animals: PropTypes.object,
+    users: PropTypes.object,
+    filter: PropTypes.object,
+    cartItems: PropTypes.object,
+  };
+
+  onAddToCart = animal => {
+    const { dispatch } = this.props;
+    dispatch(tryAddToCart(animal.get('id')))
+      .then(() => {
+        M.toast({
+          html: 'Добавлено!',
+          classes: 'green accent-2',
+        });
+      })
+      .catch(() => {
+        M.toast({
+          html: 'Не удалось добавить в корзину',
+          classes: 'red',
+        });
+      });
+  };
 
   render() {
-    const {
-      animals,
-      users,
-      textFilterValue,
-      minPriceFilterValue,
-      maxPriceFilterValue,
-      minDateFilterValue,
-      maxDateFilterValue,
-      sortType,
-      asc
-    } = this.props;
-    
-    const Animals = isDisplay(
-      animals,
-      textFilterValue,
-      minPriceFilterValue,
-      maxPriceFilterValue,
-      minDateFilterValue,
-      maxDateFilterValue
-    );
-    const filteredAnimals = isSorting(Animals, sortType, asc);
+    const { animals, users, filter, cartItems } = this.props;
+    if (animals.size === 0 || users.size === 0) {
+      return <IndeterminateLoader />;
+    }
+
+    const sortType = filter.get('sortType');
+    const sortAsc = filter.get('sortAsc');
+
+    const filteredAnimals = filterAnimals(animals, filter);
+    const sortedAnimals = sortAnimals(filteredAnimals, sortType, sortAsc);
+
+    const animalCards = sortedAnimals.map(animal => {
+      const owner = users.find(
+        user => user.get('id') === animal.get('salerId'),
+      );
+      const showCartButton =
+        cartItems.find(item => item === animal.get('id')) === undefined;
+
+      return (
+        <AnimalCard
+          key={animal.get('id')}
+          animal={animal}
+          owner={owner}
+          showMoreButton={true}
+          showCartButton={showCartButton}
+          onAddToCart={this.onAddToCart}
+        />
+      );
+    });
+
     return (
-      <div>
+      <React.Fragment>
         <FilterPanel />
-        {typeof animals !== 'undefined' &&
-        animals.size > 0 &&
-        typeof users !== 'undefined' &&
-        users.size > 0
-          ? filteredAnimals.map(animal => {
-              const owners = users.filter(user => {
-                return user.get('id') === animal.get('salerId');
-              });
-              const owner = owners.first();
-              return (
-                <AnimalCard
-                  animal={animal}
-                  owner={owner}
-                  key={animal.get('id')}
-                />
-              );
-            })
-          : null}
-      </div>
+        {animalCards}
+      </React.Fragment>
     );
   }
 }

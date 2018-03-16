@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, UserField } from 'components';
+import { UserAvatar } from 'containers';
 
 export default class UserCard extends React.PureComponent {
   state = {
     isEditing: false,
     user: {
       id: this.props.user.get('id'),
+      imgUrl: 'http://via.placeholder.com/350x150',
       firstName: this.props.user.get('firstName'),
       lastName: this.props.user.get('lastName'),
       phone: this.props.user.get('phone'),
@@ -66,6 +68,7 @@ export default class UserCard extends React.PureComponent {
       <div className="card">
         <div className="card-content">
           <Image src={imgUrl} />
+          <UserAvatar />
           <UserField type="text" text={firstName} isEditable={isEditable} onSave={this.handleFirstName} />
           <UserField type="text" text={lastName} isEditable={isEditable} onSave={this.handleLastName} />
           <hr />

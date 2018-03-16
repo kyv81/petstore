@@ -9,9 +9,6 @@ import ModalContainer from 'containers/Modals/ModalContainer';
 
 import CartCard from 'containers/Cards/Cart';
 import { LoginCard, RegisterCard, Button } from 'components';
-console.log('login', LoginCard);
-console.log('register', RegisterCard);
-
 import { tryLogin, tryRegister, tryLogout } from 'actions/auth';
 import { buy } from 'actions/cart';
 

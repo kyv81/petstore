@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { UserCard, IndeterminateLoader } from 'components';
-import { UserAnimalsList } from 'containers';
+import { UserAnimalsList, FilterPanel } from 'containers';
+import { filterAnimals, sortAnimals } from 'utils';
 import {
   tryEditUser,
   tryEditAnimal,
@@ -15,16 +16,19 @@ import {
   selectUserById,
   selectUsersList,
   selectAnimalsList,
+  selectFilter,
 } from 'selectors';
 
 const mapStateToProps = state => {
   const localUser = selectUserById(state, selectCurrentUserId(state));
   const users = selectUsersList(state);
   const animals = selectAnimalsList(state);
+  const filter = selectFilter(state);
   return {
     animals,
     users,
     localUser,
+    filter,
   };
 };
 
@@ -112,10 +116,10 @@ export default class UserPage extends React.Component {
   };
 
   render() {
-    const { id, users, animals, localUser } = this.props;
+    const { id, users, animals, localUser, filter } = this.props;
 
     if (users.size === 0) {
-      return <IndeterminateLoader />
+      return <IndeterminateLoader />;
     }
 
     const user = users.find(item => item.get('id') === id);
@@ -126,8 +130,11 @@ export default class UserPage extends React.Component {
 
     const userAnimals = animals.filter(animal => animal.get('salerId') === user.get('id'));
 
-    // TODO: добавить фильтрацию
-    const filteredAnimals = userAnimals;
+    const sortType = filter.get('sortType');
+    const sortAsc = filter.get('sortAsc');
+
+    const filteredAnimals = filterAnimals(userAnimals, filter);
+    const sortedAnimals = sortAnimals(filteredAnimals, sortType, sortAsc);
 
     return (
       <div className="row">
@@ -141,12 +148,12 @@ export default class UserPage extends React.Component {
           )}
         </div>
         <div className="col s12 m8">
-          {/* TODO: вставить сюда фильтр */}
+          <FilterPanel />
           <UserAnimalsList
             onEdit={this.onEditAnimal}
             onCreate={this.onCreateAnimal}
             onRemove={this.onRemoveAnimal}
-            animals={filteredAnimals}
+            animals={sortedAnimals}
             isEditable={isEditable}
           />
         </div>
