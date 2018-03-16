@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Image, UserField } from 'components';
+import { Image, UserField, UserAvatar } from 'components';
 
-export default class UserCard extends React.PureComponent {
+export default class UserCard extends React.Component {
   state = {
     isEditing: false,
     user: {
@@ -20,37 +20,45 @@ export default class UserCard extends React.PureComponent {
   };
 
   handleFirstName = firstName => {
-    this.setState({
-        user: Object.assign(this.state.user, {firstName}),
+    this.setState(
+      {
+        user: Object.assign(this.state.user, { firstName }),
       },
-      () => this.onSave(this.state.user));
+      () => this.onSave(this.state.user),
+    );
   };
 
   handleLastName = lastName => {
-    this.setState({
+    this.setState(
+      {
         user: {
-          user: Object.assign(this.state.user, {lastName}),
+          user: Object.assign(this.state.user, { lastName }),
         },
       },
-      () => this.onSave(this.state.user));
+      () => this.onSave(this.state.user),
+    );
   };
 
   handlePhone = phone => {
-    this.setState({
+    this.setState(
+      {
         user: {
-          user: Object.assign(this.state.user, {phone}),
+          user: Object.assign(this.state.user, { phone }),
         },
       },
-      () => this.onSave(this.state.user));
+      () => this.onSave(this.state.user),
+    );
   };
 
   handleEmail = email => {
-    this.setState({
+    this.setState(
+      {
         user: {
-          user: Object.assign(this.state.user, {email}),
+          user: Object.assign(this.state.user, { email }),
         },
       },
-      () => this.onSave(this.state.user));
+      () => this.onSave(this.state.user),
+    );
   };
 
   onSave = user => {
@@ -58,19 +66,51 @@ export default class UserCard extends React.PureComponent {
   };
 
   render() {
-    const isEditable = this.props.isEditable;
+    const {
+      onUploadStart,
+      onUploadError,
+      onUploadSuccess,
+      isEditable,
+      user,
+    } = this.props;
     const { firstName, lastName, phone, email } = this.state.user;
-    const imgUrl = 'http://via.placeholder.com/350x150';
+    let imgUrl = user.get('imgUrl');
 
     return (
       <div className="card">
         <div className="card-content">
-          <Image src={imgUrl} />
-          <UserField type="text" text={firstName} isEditable={isEditable} onSave={this.handleFirstName} />
-          <UserField type="text" text={lastName} isEditable={isEditable} onSave={this.handleLastName} />
+          <UserAvatar
+            imgUrl={imgUrl}
+            onUploadStart={onUploadStart}
+            onUploadError={onUploadError}
+            onUploadSuccess={onUploadSuccess}
+            isEditable={isEditable}
+          />
+          <UserField
+            type="text"
+            text={firstName}
+            isEditable={isEditable}
+            onSave={this.handleFirstName}
+          />
+          <UserField
+            type="text"
+            text={lastName}
+            isEditable={isEditable}
+            onSave={this.handleLastName}
+          />
           <hr />
-          <UserField type="text" text={phone} isEditable={isEditable} onSave={this.handlePhone} />
-          <UserField type="text" text={email} isEditable={isEditable} onSave={this.handleEmail} />
+          <UserField
+            type="text"
+            text={phone}
+            isEditable={isEditable}
+            onSave={this.handlePhone}
+          />
+          <UserField
+            type="text"
+            text={email}
+            isEditable={isEditable}
+            onSave={this.handleEmail}
+          />
         </div>
       </div>
     );

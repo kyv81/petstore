@@ -14,6 +14,7 @@ import { routerMiddleware } from 'react-router-redux';
 import { toJSON, fromJS } from 'immutable';
 
 import { Animals, Auth, Cart, Router, Users, Filter } from 'reducers';
+
 const initStore = history => {
   firebase.initializeApp(firebaseConfig);
 
@@ -36,6 +37,8 @@ const initStore = history => {
     },
     cart: cart,
     users: {
+      isUploadAvatar: false,
+      isEditing: false,
       isRequesting: false,
       users: [],
     },
@@ -46,7 +49,7 @@ const initStore = history => {
       minDateFilterValue: new Date(0),
       maxDateFilterValue: new Date(),
       sortType: 'DateSort',
-      asc: true
+      asc: true,
     },
     routerReducer: {
       locationBeforeTransitions: null,

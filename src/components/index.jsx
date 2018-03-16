@@ -6,8 +6,11 @@ export { default as Input } from 'components/Input';
 
 export { default as UserCard } from 'components/Cards/UserCard/UserCard';
 export { default as UserField } from 'components/Cards/UserCard/UserField';
+export { default as UserAvatar } from 'components/Cards/UserCard/UserAvatar';
 
-export { default as EditAnimalCard } from 'components/Cards/Modal/EditAnimalCard';
+export {
+  default as EditAnimalCard,
+} from 'components/Cards/Modal/EditAnimalCard';
 export { default as LoginCard } from 'components/Cards/Modal/LoginCard';
 export { default as RegisterCard } from 'components/Cards/Modal/RegisterCard';
 
@@ -15,4 +18,6 @@ export {
   default as UserAnimalsListItem,
 } from 'components/Cards/UserAnimalsList/UserAnimalsListItem';
 
-export { default as IndeterminateLoader } from 'components/Loaders/IndeterminateLoader';
+export {
+  default as IndeterminateLoader,
+} from 'components/Loaders/IndeterminateLoader';

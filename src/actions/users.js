@@ -5,9 +5,12 @@ import {
   REQUEST_EDIT_USER,
   EDIT_USER_SUCCESS,
   EDIT_USER_FAILED,
+  REQUEST_UPLOAD_USER_IMAGE,
+  UPLOAD_USER_IMAGE_SUCCESS,
+  UPLOAD_USER_IMAGE_FAILED,
 } from 'constants';
 
-import { getAllUsers, editUser } from 'api';
+import { getAllUsers, editUser, getImageUrl } from 'api';
 
 const requestGetUsers = () => {
   return {
@@ -107,5 +110,46 @@ export const tryEditUser = user => {
     if (shouldEditUser(getState())) {
       return dispatch(edit(user));
     }
+  };
+};
+
+export const tryUploadImage = () => {
+  return {
+    type: REQUEST_UPLOAD_USER_IMAGE,
+  };
+};
+
+export const uploadImageFailed = error => {
+  return {
+    type: UPLOAD_USER_IMAGE_FAILED,
+    error,
+  };
+};
+
+export const uploadImageSuccess = filename => {
+  return (dispatch, getState, getFirebase) => {
+    // ищем юзера который хочет редактировать картинку
+    let userId = getState().getIn(['auth', 'id']);
+    let userData = getState()
+      .getIn(['users', 'users'])
+      .find(user => user.get('id') === userId);
+    //ищем при помощи api картинку картинку
+    return new Promise((res, rej) => {
+      getImageUrl(getFirebase(), filename).then(url => {
+        // получаем url и отправляем нового юзера
+        let newUserData = userData.set('imgUrl', url);
+        dispatch(tryEditUser(newUserData.toJS()))
+          .then(() => {
+            //если удалось обновить юзера
+            res();
+            dispatch({
+              type: UPLOAD_USER_IMAGE_SUCCESS,
+            });
+          })
+          .catch(error => {
+            rej(error);
+          });
+      });
+    });
   };
 };
