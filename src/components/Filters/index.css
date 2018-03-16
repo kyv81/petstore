@@ -23,16 +23,6 @@ body {
   top: 19px;
 }
 
-.filterIcon{
-  position: absolute;
-  top: 43px;
-  color: #2196f3;
-}
-
-.filtercontent, .filteraction{
-  height: 250px;
-}
-
 /* track */
 .inpt {
   -webkit-appearance: none !important;

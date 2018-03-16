@@ -2,11 +2,7 @@ import { ADD_TO_CART, REMOVE_FROM_CART, BUY } from 'constants';
 
 import { fromJS } from 'immutable';
 
-const initialState = fromJS({
-  items: [],
-});
-
-const Cart = (state = initialState, action) => {
+const Cart = (state, action) => {
   switch (action.type) {
     case ADD_TO_CART:
       return state.update(

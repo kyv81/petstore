@@ -2,12 +2,13 @@ import React from 'react';
 import { Route } from 'react-router';
 import { connect } from 'react-redux';
 import { object, string } from 'prop-types';
+import { selectUserAnimals } from 'selectors';
 
 import { AnimalCardSmall } from 'containers';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
-    animals: state.getIn(['animals', 'animals']),
+    animals: selectUserAnimals(state, ownProps.id),
   };
 }
 
@@ -26,7 +27,7 @@ export default class UserAnimals extends React.Component {
     id: string,
   };
   render() {
-    const { animals, id } = this.props;
+    const { animals } = this.props;
 
     return (
       <div className="col s6">
@@ -37,9 +38,10 @@ export default class UserAnimals extends React.Component {
           {/* проверим есть ли животные в animals и сразу фильтранем по id */}
           {typeof animals !== 'undefined' && animals.size > 0
             ? animals.map(animal => {
-                return id === animal.get('salerId') ? (
+
+                return (
                   <AnimalCardSmall key={animal.get('id')} animal={animal} />
-                ) : null;
+                );
               })
             : null}
         </ul>

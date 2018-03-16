@@ -11,8 +11,7 @@ export { default as Main } from 'containers/Main';
 export { default as Home } from 'containers/Main/Home';
 export { default as Shop } from 'containers/Main/Shop';
 export { default as AnimalPage } from 'containers/Main/AnimalPage';
-export { default as UserPage } from 'containers/Main/UserPage';
-export { default as Cabinet } from 'containers/Main/Cabinet';
+export { default as UserPage } from 'containers/Main/UserPage/UserPage';
 
 export { default as AnimalCard } from 'containers/Cards/Animal/AnimalCard';
 export {
@@ -25,16 +24,26 @@ export { default as AnimalModal } from 'containers/Cards/Animal/AnimalModal';
 
 export {
   default as DateFilterCard,
-} from 'containers/Cards/Filter/DateFilterCard';
+} from 'components/Filters/DateFilterCard';
 export {
   default as RangeFilterCard,
-} from 'containers/Cards/Filter/RangeFilterCard';
+} from 'components/Filters/RangeFilterCard';
 export {
   default as TextFilterCard,
-} from 'containers/Cards/Filter/TextFilterCard';
+} from 'components/Filters/TextFilterCard';
+export {
+  default as SortingCard,
+} from 'components/Filters/SortingCard';
+export {
+  default as FilterPanel,
+} from 'containers/Cards/Filter/FilterPanel';
+export {
+  default as isDisplay,
+} from 'components/Filters/isDisplay';
+export {
+  default as isSorting,
+} from 'components/Filters/isSorting';
 
-export { default as LoginCard } from 'containers/Cards/Auth/LoginCard';
-export { default as RegisterCard } from 'containers/Cards/Auth/RegisterCard';
 export { default as CartCard } from 'containers/Cards/Cart';
 
 export { default as ModalContainer } from 'containers/Modals/ModalContainer';
@@ -43,3 +52,7 @@ export { default as UserAnimals } from 'containers/Cards/User/UserAnimals';
 export { default as UserAvatar } from 'containers/Cards/User/UserAvatar';
 export { default as UserCard } from 'containers/Cards/User/UserCard';
 export { default as UserField } from 'containers/Cards/User/UserField';
+
+export {
+  default as UserAnimalsList,
+} from 'containers/Main/UserPage/UserAnimalsList';
