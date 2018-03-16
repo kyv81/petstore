@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
 import { AnimalCardCart } from 'containers';
+import { removeFromCart } from 'actions/cart';
 
 function mapStateToProps(state) {
   return {
     cart: state.getIn(['cart', 'items']),
-    animals: state.getIn(['animals', 'animals']),
+    animals: state.getIn(['animals', 'animals'])
   };
 }
 
@@ -17,7 +18,7 @@ function mapStateToProps(state) {
 export default class CartCard extends React.PureComponent {
   static propTypes = {
     onCancel: PropTypes.func,
-    onSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
   };
 
   handleSubmit = e => {
@@ -34,6 +35,11 @@ export default class CartCard extends React.PureComponent {
     onCancel();
   };
 
+  onDeleteAnimal = id => {
+    const { dispatch } = this.props;
+    dispatch(removeFromCart(id));
+  };
+
   render() {
     const { cart, animals } = this.props;
     // филтруем cart на наличие животных в магазине,
@@ -48,29 +54,33 @@ export default class CartCard extends React.PureComponent {
         ? filteredAnimals.reduce(
             (total, value) =>
               value.has('price') ? total + parseInt(value.get('price')) : total,
-            0,
+            0
           )
         : 0;
 
     return (
-      <div className="card">
-        <div className="card-content">
-          <span className="card-title">Корзина</span>
-          <ul className="">
+      <div className='card'>
+        <div className='card-content'>
+          <span className='card-title'>Корзина</span>
+          <ul className=''>
             {filteredAnimals.map(animal => (
-              <AnimalCardCart key={animal.get('id')} animal={animal} />
+              <AnimalCardCart
+                key={animal.get('id')}
+                animal={animal}
+                onDeleteAnimal={this.onDeleteAnimal}
+              />
             ))}
           </ul>
-          <div className="card-title">Итого: {resultPrice}</div>
+          <div className='card-title'>Итого: {resultPrice}</div>
         </div>
-        <div className="card-action">
+        <div className='card-action'>
           {filteredAnimals.size ? (
-            <a href="" onClick={this.handleSubmit}>
+            <a href='' onClick={this.handleSubmit}>
               Купить
             </a>
           ) : null}
 
-          <a href="" onClick={this.handleCancel}>
+          <a href='' onClick={this.handleCancel}>
             Отмена
           </a>
         </div>

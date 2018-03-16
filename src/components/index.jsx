@@ -8,6 +8,7 @@ export { default as AnimalCard } from 'components/Cards/Animals/AnimalCard';
 
 export { default as UserCard } from 'components/Cards/UserCard/UserCard';
 export { default as UserField } from 'components/Cards/UserCard/UserField';
+export { default as UserAvatar } from 'components/Cards/UserCard/UserAvatar';
 
 export { default as AnimalSortingSelector } from 'components/Cards/Filters/AnimalSortingSelector';
 export { default as DateFilterCard } from 'components/Cards/Filters/DateFilterCard';
@@ -22,4 +23,6 @@ export {
   default as UserAnimalsListItem,
 } from 'components/Cards/UserAnimalsList/UserAnimalsListItem';
 
-export { default as IndeterminateLoader } from 'components/Loaders/IndeterminateLoader';
+export {
+  default as IndeterminateLoader,
+} from 'components/Loaders/IndeterminateLoader';

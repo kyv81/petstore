@@ -17,3 +17,9 @@ export {
   changeFilterDate,
   changeFilterSort,
 } from 'actions/filter';
+
+export {
+  tryUploadImage,
+  uploadImageFailed,
+  uploadImageSuccess,
+} from 'actions/images';

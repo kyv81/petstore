@@ -168,3 +168,11 @@ export const editUser = (firebaseInstance, user) => {
       });
   });
 };
+
+export const getImageUrl = (firebaseInstance, filename) => {
+  return firebaseInstance
+    .storage()
+    .ref('img/user')
+    .child(filename)
+    .getDownloadURL();
+};

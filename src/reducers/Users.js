@@ -5,6 +5,9 @@ import {
   REQUEST_EDIT_USER,
   EDIT_USER_SUCCESS,
   EDIT_USER_FAILED,
+  REQUEST_UPLOAD_USER_IMAGE,
+  UPLOAD_USER_IMAGE_SUCCESS,
+  UPLOAD_USER_IMAGE_FAILED,
 } from 'constants';
 
 import { fromJS } from 'immutable';
@@ -31,6 +34,12 @@ const Users = (state, action) => {
       );
     case EDIT_USER_FAILED:
       return state.set('isEditing', false);
+    case REQUEST_UPLOAD_USER_IMAGE:
+      return state.set('isUploadAvatar', true);
+    case UPLOAD_USER_IMAGE_SUCCESS:
+      return state.set('isUploadAvatar', false);
+    case UPLOAD_USER_IMAGE_FAILED:
+      return state.set('isUploadAvatar', false);
     default:
       return state;
   }

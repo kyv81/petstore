@@ -34,6 +34,8 @@ const initStore = history => {
     },
     cart: cart,
     users: {
+      isUploadAvatar: false,
+      isEditing: false,
       isRequesting: false,
       users: [],
     },
