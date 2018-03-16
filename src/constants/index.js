@@ -36,3 +36,13 @@ export {
 } from 'constants/ActionTypes/users';
 
 export { ADD_TO_CART, REMOVE_FROM_CART, BUY } from 'constants/ActionTypes/cart';
+
+export {
+  CHANGE_TEXT_FILTER,
+  CHANGE_MIN_PRICE_FILTER,
+  CHANGE_MAX_PRICE_FILTER,
+  CHANGE_MIN_DATE_FILTER,
+  CHANGE_MAX_DATE_FILTER,
+  CHANGE_TYPE_SORT,
+  CHANGE_INDEX_SORT
+} from 'constants/ActionTypes/filter';
