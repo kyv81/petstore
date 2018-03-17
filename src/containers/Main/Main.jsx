@@ -4,7 +4,7 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import { Home, Shop, AnimalPage, UserPage } from 'containers';
 
 @withRouter
-export default class Main extends React.Component {
+export default class Main extends React.PureComponent {
   render() {
     return (
       <main className="container">

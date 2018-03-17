@@ -1,5 +1,5 @@
 export const filterAnimals = (animals, filter) => {
-  const text = filter.get('text');
+  const text = filter.get('text').toLowerCase();
   const minPrice = filter.get('minPrice');
   const maxPrice = filter.get('maxPrice');
   const minDate = filter.get('minDate');
@@ -8,12 +8,12 @@ export const filterAnimals = (animals, filter) => {
   const millisecsInDay = 86400000;
 
   return animals.filter(animal => {
-    const name = animal.get('name');
+    const name = animal.get('name').toLowerCase();
     const price = animal.get('price');
     const date = new Date(animal.get('date'));
     return (
       price >= minPrice &&
-      price <= maxPrice &&
+      (price <= maxPrice || maxPrice === 0) &&
       date >= minDate &&
       date <= new Date(+maxDate + millisecsInDay) &&
       (name.indexOf(text) !== -1 || !text)

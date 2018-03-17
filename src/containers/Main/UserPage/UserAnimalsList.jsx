@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { List } from 'immutable';
+
 import { UserAnimalsListItem, EditAnimalCard, FAB } from 'components';
 import { ModalContainer } from 'containers';
 
@@ -18,6 +20,12 @@ export default class UserAnimalsList extends React.PureComponent {
   };
 
   static propTypes = {
+    isEditable: PropTypes.bool,
+    animals: PropTypes.instanceOf(List),
+    storageRef: PropTypes.object,
+    onUploadStart: PropTypes.func,
+    onUploadError: PropTypes.func,
+    onUploadSuccess: PropTypes.func,
     onEdit: PropTypes.func,
     onCreate: PropTypes.func,
     onRemove: PropTypes.func,
@@ -27,19 +35,12 @@ export default class UserAnimalsList extends React.PureComponent {
     onUploadStart: PropTypes.func,
     onUploadError: PropTypes.func,
     onUploadSuccess: PropTypes.func,
+
   };
 
   showEditModal = animal => {
     this.setState({
-      animal: {
-        id: animal.get('id'),
-        salerId: animal.get('salerId'),
-        imgUrl: animal.get('imgUrl'),
-        name: animal.get('name'),
-        description: animal.get('description'),
-        date: animal.get('date'),
-        price: animal.get('price'),
-      },
+      animal: animal.toJS(),
       modal: 'edit',
     });
   };

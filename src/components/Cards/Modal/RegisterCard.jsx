@@ -13,7 +13,7 @@ export default class RegisterCard extends React.PureComponent {
   };
 
   static propTypes = {
-    onCancel: PropTypes.func,
+    onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
 

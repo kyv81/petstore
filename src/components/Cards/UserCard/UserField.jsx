@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Button } from 'components';
 
 export default class UserField extends React.PureComponent {
@@ -14,6 +15,11 @@ export default class UserField extends React.PureComponent {
     type: PropTypes.string,
     onSave: PropTypes.func,
   };
+
+  componentWillReceiveProps(nextProps) {
+    const text = nextProps.text;
+    this.setState({ text });
+  }
 
   onChange = e => {
     this.setState({

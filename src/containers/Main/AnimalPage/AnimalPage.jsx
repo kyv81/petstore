@@ -1,9 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectAnimalById, selectUserById, selectCartItems } from 'selectors';
 import PropTypes from 'prop-types';
+import { List, Map } from 'immutable';
+
 import { AnimalCard, IndeterminateLoader } from 'components';
+
 import { tryAddToCart } from 'actions';
+import { selectAnimalById, selectUserById, selectCartItems } from 'selectors';
 
 function mapStateToProps(state, ownProps) {
   const animal = selectAnimalById(state, ownProps.id);
@@ -19,11 +22,11 @@ function mapStateToProps(state, ownProps) {
 @connect(mapStateToProps)
 export default class AnimalPage extends React.Component {
   static propTypes = {
-    dispatch: PropTypes.object,
-    animal: PropTypes.object,
-    user: PropTypes.object,
-    filter: PropTypes.object,
-    cartItems: PropTypes.object,
+    dispatch: PropTypes.func,
+    animal: PropTypes.instanceOf(Map),
+    user: PropTypes.instanceOf(Map),
+    filter: PropTypes.instanceOf(Map),
+    cartItems: PropTypes.instanceOf(List),
   };
 
   onAddToCart = animal => {

@@ -1,15 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FileUploader from 'react-firebase-file-uploader';
+import { Map } from 'immutable';
 
 import { Image } from 'components';
 
 export default class UserAnimalsListItem extends React.PureComponent {
   static propTypes = {
+    isEditable: PropTypes.bool,
+    animal: PropTypes.instanceOf(Map).isRequired,
+    storageRef: PropTypes.object,
     onEdit: PropTypes.func,
     onRemove: PropTypes.func,
-    isEditable: PropTypes.bool,
-    animal: PropTypes.object,
+    onUploadStart: PropTypes.func,
+    onUploadError: PropTypes.func,
+    onUploadSuccess: PropTypes.func,
   };
 
   handleEdit = e => {
