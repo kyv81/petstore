@@ -16,6 +16,11 @@ export default class UserField extends React.PureComponent {
     onSave: PropTypes.func,
   };
 
+  componentWillReceiveProps(nextProps) {
+    const text = nextProps.text;
+    this.setState({ text });
+  }
+
   onChange = e => {
     this.setState({
       text: e.target.value,
