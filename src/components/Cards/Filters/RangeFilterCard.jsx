@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class RangeFilterCard extends React.Component {
+export default class RangeFilterCard extends React.PureComponent {
   state = {
     minLimit: this.props.minLimit,
     min: this.props.min,

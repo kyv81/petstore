@@ -1,22 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class DateFilterCard extends React.Component {
+export default class DateFilterCard extends React.PureComponent {
   state = {
-    minLimit: this.props.min,
     min: this.props.min.toString(),
-    maxLimit: this.props.max,
     max: this.props.max.toString(),
-    step: this.props.step,
   };
 
   static propTypes = {
     onSubmit: PropTypes.func,
-    minLimit: PropTypes.object,
     min: PropTypes.object,
-    maxLimit: PropTypes.object,
     max: PropTypes.object,
-    step: PropTypes.object,
   };
 
   componentDidMount() {

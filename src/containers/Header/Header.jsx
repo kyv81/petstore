@@ -1,37 +1,33 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
 
-import ModalContainer from 'containers/Modals/ModalContainer';
-
-import CartCard from 'containers/Cards/Cart';
 import { LoginCard, RegisterCard, Button } from 'components';
-import { tryLogin, tryRegister, tryLogout } from 'actions/auth';
-import { buy } from 'actions/cart';
-import { addUser } from 'actions/users';
+import { ModalContainer, CartCard } from 'containers';
 
-import { selectCurrentUserId } from 'selectors';
+import { tryLogin, tryRegister, tryLogout, buy, addUser } from 'actions';
+import { selectCurrentUserId, selectCartItems } from 'selectors';
 
 function mapStateToProps(state) {
   return {
     isLoggedIn: state.getIn(['auth', 'isLoggedIn']),
-    cartItems: state.getIn(['cart', 'items']),
+    cartItems: selectCartItems(state),
     userId: selectCurrentUserId(state),
   };
 }
 @connect(mapStateToProps)
-export class Header extends React.Component {
+export default class Header extends React.PureComponent {
   state = {
     modal: '',
   };
 
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
+    dispatch: PropTypes.func,
     cartItems: PropTypes.instanceOf(List),
     isLoggedIn: PropTypes.bool,
+    userId: PropTypes.string,
   };
 
   showCart = e => {
@@ -93,13 +89,6 @@ export class Header extends React.Component {
     const { dispatch } = this.props;
 
     dispatch(buy());
-    // если потом будет запрос на сервер, то вернется промис
-    // .then(() => {
-    //   this.onCancel();
-    // })
-    // .catch(error => {
-    //   this.showError(error);
-    // });
   };
 
   logout = e => {
@@ -188,4 +177,3 @@ export class Header extends React.Component {
     );
   }
 }
-export default connect(mapStateToProps)(Header);

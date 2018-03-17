@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Map } from 'immutable';
+
 import { Image } from 'components';
 
-export class AnimalCard extends React.PureComponent {
+export default class AnimalCard extends React.PureComponent {
   static propTypes = {
-    owner: PropTypes.object.isRequired,
-    animal: PropTypes.object.isRequired,
+    owner: PropTypes.instanceOf(Map).isRequired,
+    animal: PropTypes.instanceOf(Map).isRequired,
     showCartButton: PropTypes.bool,
     showMoreButton: PropTypes.bool,
-    onAddToCart: PropTypes.func,
+    onAddToCart: PropTypes.func.isRequired,
   };
 
   handleAddToCart = e => {
@@ -68,5 +70,3 @@ export class AnimalCard extends React.PureComponent {
     );
   }
 }
-
-export default AnimalCard;
