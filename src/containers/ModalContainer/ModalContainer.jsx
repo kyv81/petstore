@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import styles from './index.css';
+import styles from './ModalContainer.css';
 
 export default class ModalContainer extends React.PureComponent {
   static propTypes = {

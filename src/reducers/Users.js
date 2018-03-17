@@ -42,8 +42,7 @@ const Users = (state, action) => {
     case UPLOAD_USER_IMAGE_FAILED:
       return state.set('isUploadAvatar', false);
     case ADD_USER:
-      return state
-        .update('users', users => users.push(fromJS(action.user)));
+      return state.update('users', users => users.push(fromJS(action.user)));
     default:
       return state;
   }

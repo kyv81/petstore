@@ -1,7 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { AnimalSortingSelector, DateFilterCard, RangeFilterCard, TextFilterCard } from 'components';
-import { selectFilter } from 'selectors';
+import PropTypes from 'prop-types';
+import { List } from 'immutable';
+
+import {
+  AnimalSortingSelector,
+  DateFilterCard,
+  RangeFilterCard,
+  TextFilterCard,
+} from 'components';
 
 import {
   changeFilterText,
@@ -9,10 +16,12 @@ import {
   changeFilterDate,
   changeFilterSort,
 } from 'actions';
+import { selectFilter, selectAnimalsList } from 'selectors';
 
 function mapStateToProps(state) {
   const filter = selectFilter(state);
   return {
+    animals: selectAnimalsList(state),
     text: filter.get('text'),
     minPrice: filter.get('minPrice'),
     maxPrice: filter.get('maxPrice'),
@@ -23,26 +32,47 @@ function mapStateToProps(state) {
   };
 }
 
-// TODO: диспатчи
-@connect(mapStateToProps)
-export class Shop extends React.Component {
+const mapDispatchToProps = {
+  changeFilterText,
+  changeFilterPrice,
+  changeFilterDate,
+  changeFilterSort,
+};
+
+@connect(mapStateToProps, mapDispatchToProps)
+export default class FilterCard extends React.Component {
   state = {
     isFilterOpen: false,
   };
 
+  static propTypes = {
+    changeFilterText: PropTypes.func,
+    changeFilterPrice: PropTypes.func,
+    changeFilterDate: PropTypes.func,
+    changeFilterSort: PropTypes.func,
+    animals: PropTypes.instanceOf(List),
+    text: PropTypes.string,
+    minDate: PropTypes.object,
+    maxDate: PropTypes.object,
+    minPrice: PropTypes.number,
+    maxPrice: PropTypes.number,
+    sortAsc: PropTypes.bool,
+    sortType: PropTypes.string,
+  };
+
   onTextSubmit = text => {
-    const { dispatch } = this.props;
-    dispatch(changeFilterText(text));
+    const { changeFilterText } = this.props;
+    changeFilterText(text);
   };
 
   onRangeSubmit = (min, max) => {
-    const { dispatch } = this.props;
-    dispatch(changeFilterPrice(min, max));
+    const { changeFilterPrice } = this.props;
+    changeFilterPrice(min, max);
   };
 
   onDateSubmit = (min, max) => {
-    const { dispatch } = this.props;
-    dispatch(changeFilterDate(min, max));
+    const { changeFilterDate } = this.props;
+    changeFilterDate(min, max);
   };
 
   onFilterToggle = () => {
@@ -50,12 +80,27 @@ export class Shop extends React.Component {
   };
 
   onSortingChange = (type, asc) => {
-    const { dispatch } = this.props;
-    dispatch(changeFilterSort(type, asc));
+    const { changeFilterSort } = this.props;
+    changeFilterSort(type, asc);
   };
+
+  componentWillUnmount() {
+    const {
+      changeFilterText,
+      changeFilterSort,
+      changeFilterPrice,
+      changeFilterDate,
+    } = this.props;
+
+    changeFilterSort('date', false);
+    changeFilterPrice(0, 0);
+    changeFilterText('');
+    changeFilterDate(new Date(0), new Date());
+  }
 
   render() {
     const {
+      animals,
       text,
       minDate,
       maxDate,
@@ -65,6 +110,8 @@ export class Shop extends React.Component {
       sortType,
     } = this.props;
     const { isFilterOpen } = this.state;
+    const maxLimit = Math.max(...animals.map(animal => animal.get('price')));
+    const currentMaxPrice = maxPrice === 0 ? maxLimit : maxPrice;
     return (
       <div className="row">
         <div className="col s12">
@@ -85,16 +132,14 @@ export class Shop extends React.Component {
               <RangeFilterCard
                 min={minPrice}
                 minLimit={0}
-                max={maxPrice}
-                maxLimit={600000}
+                max={currentMaxPrice}
+                maxLimit={maxLimit}
                 onSubmit={this.onRangeSubmit}
               />
             </div>
             <div className="col s12 m6">
               <DateFilterCard
-                minLimit={new Date(0)}
                 min={minDate}
-                maxLimit={new Date()}
                 max={maxDate}
                 onSubmit={this.onDateSubmit}
               />
@@ -105,4 +150,3 @@ export class Shop extends React.Component {
     );
   }
 }
-export default Shop;

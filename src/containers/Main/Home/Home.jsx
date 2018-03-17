@@ -1,8 +1,8 @@
 import React from 'react';
 
-import styles from './index.css';
+import styles from './Home.css';
 
-export class Home extends React.Component {
+export class Home extends React.PureComponent {
   render() {
     return (
       <div className="section">
