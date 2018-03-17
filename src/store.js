@@ -42,19 +42,19 @@ const initStore = history => {
     filter: {
       text: '',
       minPrice: 0,
-      maxPrice: 600000,
+      maxPrice: 0,
       minDate: new Date(0),
       maxDate: new Date(),
       sortType: 'date',
       sortAsc: false,
     },
-    routerReducer: {
+    router: {
       locationBeforeTransitions: null,
     },
   });
 
   const rootReducer = combineReducers({
-    routerReducer: Router,
+    router: Router,
     firebase: firebaseReducer,
     auth: Auth,
     animals: Animals,

@@ -10,7 +10,9 @@ export { default as FilterCard } from 'containers/Cards/FilterCard';
 
 export { default as CartCard } from 'containers/Cards/CartCard';
 
-export { default as ModalContainer } from 'containers/ModalContainer/ModalContainer';
+export {
+  default as ModalContainer,
+} from 'containers/ModalContainer/ModalContainer';
 
 export {
   default as UserAnimalsList,
