@@ -24,5 +24,10 @@
         "trailingComma": "all"
       }
     ]
+  },
+  "settings": {
+    "import/resolver": {
+      "babel-module": {}
+    }
   }
 }
