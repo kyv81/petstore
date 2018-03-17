@@ -36,6 +36,7 @@ export {
   REQUEST_UPLOAD_USER_IMAGE,
   UPLOAD_USER_IMAGE_SUCCESS,
   UPLOAD_USER_IMAGE_FAILED,
+  ADD_USER,
 } from 'constants/ActionTypes/users';
 
 export { ADD_TO_CART, REMOVE_FROM_CART, BUY } from 'constants/ActionTypes/cart';
