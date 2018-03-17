@@ -27,6 +27,11 @@ export default class UserCard extends React.PureComponent {
     onUploadSuccess: PropTypes.func.isRequired,
   };
 
+  componentWillReceiveProps(nextProps) {
+    const user = nextProps.user.toJS();
+    this.setState({ user });
+  }
+
   handleFirstName = firstName => {
     this.setState(
       {
