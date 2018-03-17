@@ -112,15 +112,12 @@ export default class UserPage extends React.PureComponent {
   };
 
   handleUploadUserImageSuccess = filename => {
-    const { dispatch } = this.props;
+    const { dispatch, localUser } = this.props;
 
     // тут нам вернется url загруженной картинки в storage
     dispatch(uploadImageSuccess(filename))
       .then(url => {
-        // возьмем данные авторизованного юзера
-        let { localUser } = this.props;
-        // получаем url и отправляем нового юзера
-        let editedUserData = localUser.set('imgUrl', url);
+        const editedUserData = localUser.set('imgUrl', url);
         return dispatch(tryEditUser(editedUserData.toJS()));
       })
       .then(() => {
