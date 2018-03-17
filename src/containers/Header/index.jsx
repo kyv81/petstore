@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
-import { List, fromJS } from 'immutable';
+import { List } from 'immutable';
 
 import ModalContainer from 'containers/Modals/ModalContainer';
 
@@ -11,6 +11,7 @@ import CartCard from 'containers/Cards/Cart';
 import { LoginCard, RegisterCard, Button } from 'components';
 import { tryLogin, tryRegister, tryLogout } from 'actions/auth';
 import { buy } from 'actions/cart';
+import { addUser } from 'actions/users';
 
 import { selectCurrentUserId } from 'selectors';
 
@@ -21,11 +22,11 @@ function mapStateToProps(state) {
     userId: selectCurrentUserId(state),
   };
 }
-@connect()
+@connect(mapStateToProps)
 export class Header extends React.Component {
-  state = fromJS({
+  state = {
     modal: '',
-  });
+  };
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -79,7 +80,8 @@ export class Header extends React.Component {
   onRegisterSubmit = user => {
     const { dispatch } = this.props;
     dispatch(tryRegister(user))
-      .then(() => {
+      .then(user => {
+        dispatch(addUser(user));
         this.onCancel();
       })
       .catch(error => {

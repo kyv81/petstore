@@ -8,6 +8,7 @@ import {
   REQUEST_UPLOAD_USER_IMAGE,
   UPLOAD_USER_IMAGE_SUCCESS,
   UPLOAD_USER_IMAGE_FAILED,
+  ADD_USER,
 } from 'constants';
 
 import { fromJS } from 'immutable';
@@ -40,6 +41,9 @@ const Users = (state, action) => {
       return state.set('isUploadAvatar', false);
     case UPLOAD_USER_IMAGE_FAILED:
       return state.set('isUploadAvatar', false);
+    case ADD_USER:
+      return state
+        .update('users', users => users.push(fromJS(action.user)));
     default:
       return state;
   }

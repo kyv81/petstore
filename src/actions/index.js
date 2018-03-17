@@ -7,7 +7,7 @@ export {
 
 export { tryLogin, tryRegister, tryLogout } from 'actions/auth';
 
-export { tryGetUsers, tryEditUser } from 'actions/users';
+export { tryGetUsers, tryEditUser, addUser } from 'actions/users';
 
 export { tryAddToCart, removeFromCart, buy } from 'actions/cart';
 

@@ -5,6 +5,7 @@ import {
   REQUEST_EDIT_USER,
   EDIT_USER_SUCCESS,
   EDIT_USER_FAILED,
+  ADD_USER,
 } from 'constants';
 
 import { getAllUsers, editUser } from 'api';
@@ -107,5 +108,12 @@ export const tryEditUser = user => {
     if (shouldEditUser(getState())) {
       return dispatch(edit(user));
     }
+  };
+};
+
+export const addUser = user => {
+  return {
+    type: ADD_USER,
+    user,
   };
 };
