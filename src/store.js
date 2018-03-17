@@ -1,39 +1,100 @@
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { combineReducers } from 'redux-immutable';
 import thunkMiddleware from 'redux-thunk';
 import {
   reactReduxFirebase,
   firebaseReducer,
-  getFirebase
+  getFirebase,
 } from 'react-redux-firebase';
 import * as firebase from 'firebase';
 import { firebaseConfig } from 'constants';
-
-import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { routerMiddleware } from 'react-router-redux';
+import { fromJS } from 'immutable';
+import { Animals, Auth, Cart, Router, Users, Filter } from 'reducers';
 
 const initStore = history => {
-
   firebase.initializeApp(firebaseConfig);
 
-  const rootReducer = combineReducers({
-    routerReducer: routerReducer,
-    firebase: firebaseReducer
-  });
-  const initialState = {};
+  const cart = localStorage.getItem('cartState')
+    ? fromJS(JSON.parse(localStorage.getItem('cartState')))
+    : fromJS({ items: [] });
 
-  return createStore(
+  const initialState = fromJS({
+    animals: {
+      isRequesting: false,
+      isEditing: false,
+      isDeleting: false,
+      isCreating: false,
+      animals: [],
+    },
+    auth: {
+      isRequesting: false,
+      isLoggedIn: false,
+      data: {},
+    },
+    cart: cart,
+    users: {
+      isUploadAvatar: false,
+      isEditing: false,
+      isRequesting: false,
+      users: [],
+    },
+    filter: {
+      text: '',
+      minPrice: 0,
+      maxPrice: 0,
+      minDate: new Date(0),
+      maxDate: new Date(),
+      sortType: 'date',
+      sortAsc: false,
+    },
+    router: {
+      locationBeforeTransitions: null,
+    },
+  });
+
+  const rootReducer = combineReducers({
+    router: Router,
+    firebase: firebaseReducer,
+    auth: Auth,
+    animals: Animals,
+    cart: Cart,
+    users: Users,
+    filter: Filter,
+  });
+
+  // логгирование при изменении redux store
+  // const logger = store => next => action => {
+  //   console.group(action.type);
+  //   console.info('dispatching', action);
+  //   const result = next(action);
+  //   console.log('next state', store.getState());
+  //   console.groupEnd(action.type);
+  //   return result;
+  // };
+
+  const store = createStore(
     rootReducer,
     initialState,
     compose(
       applyMiddleware(
         routerMiddleware(history),
-        thunkMiddleware.withExtraArgument(getFirebase)
+        thunkMiddleware.withExtraArgument(getFirebase),
+        //logger,
       ),
       reactReduxFirebase(firebase, {
         userProfile: 'users',
-        enableLogging: false
+        enableLogging: false,
       }),
     ),
   );
+
+  store.subscribe(() => {
+    let cart = store.getState().get('cart');
+    localStorage.setItem('cartState', JSON.stringify(cart.toJSON()));
+  });
+
+  return store;
 };
 
 export default initStore;
