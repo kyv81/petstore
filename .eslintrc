@@ -1,6 +1,11 @@
 {
   "parser": "babel-eslint",
-  "extends": ["airbnb-base", "eslint:recommended", "prettier", "plugin:react/recommended"],
+  "extends": [
+    "airbnb-base",
+    "eslint:recommended",
+    "prettier",
+    "plugin:react/recommended"
+  ],
   "plugins": ["prettier"],
   "env": {
     "browser": true,
@@ -19,11 +24,5 @@
         "trailingComma": "all"
       }
     ]
-  },
-  "settings": {
-    "import/resolver": {
-      "babel-module": {}
-    }
-
   }
 }

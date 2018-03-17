@@ -127,16 +127,25 @@ export default class UserPage extends React.Component {
   handleUploadStart = () => {
     const { dispatch } = this.props;
     dispatch(tryUploadImage());
+    M.toast({
+      html: 'Началась загрузка картинки',
+      classes: 'green',
+    });
   };
 
   handleUploadError = error => {
     const { dispatch } = this.props;
     dispatch(uploadImageFailed(error));
+    M.toast({
+      html: 'Не удалось загрузить картинку',
+      classes: 'red',
+    });
   };
 
   // обработчик на успешную загрузку в storage картинки юзера, НЕ значит что юзер обновился
   handleUploadUserImageSuccess = filename => {
     const { dispatch } = this.props;
+
     // тут нам вернется url загруженной картинки в storage
     dispatch(uploadImageSuccess(filename))
       .then(url => {
@@ -144,16 +153,25 @@ export default class UserPage extends React.Component {
         let { localUser } = this.props;
         // получаем url и отправляем нового юзера
         let editedUserData = localUser.set('imgUrl', url);
-        dispatch(tryEditUser(editedUserData.toJS()));
+        return dispatch(tryEditUser(editedUserData.toJS()));
       })
-      .catch(() => {});
+      .then(() => {
+        M.toast({
+          html: 'Картинка успешно загружена и картинка пользователя изменена.',
+          classes: 'green',
+        });
+      })
+      .catch(() => {
+        M.toast({
+          html: 'Не удалось изменить данные пользователя',
+          classes: 'red',
+        });
+      });
   };
 
   // обработчик на успешную загрузку в storage картинки юзера, НЕ значит что животное обновилось
   handleUploadAnimalImageSuccess = (filename, id) => {
     const { dispatch, animals } = this.props;
-    console.log(filename);
-    console.log(id);
     // тут нам вернется url загруженной картинки в storage
     dispatch(uploadImageSuccess(filename))
       .then(url => {
@@ -161,7 +179,18 @@ export default class UserPage extends React.Component {
         let editedAnimal = findedAnimal.set('imgUrl', url);
         dispatch(tryEditAnimal(editedAnimal.toJS()));
       })
-      .catch(() => {});
+      .then(() => {
+        M.toast({
+          html: 'Картинка успешно загружена и картинка животного изменена.',
+          classes: 'green',
+        });
+      })
+      .catch(() => {
+        M.toast({
+          html: 'Не удалось изменить данные животного',
+          classes: 'red',
+        });
+      });
   };
 
   render() {
