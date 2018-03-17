@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Image, UserField, UserAvatar } from 'components';
+import { Map } from 'immutable';
 
-export default class UserCard extends React.Component {
+import { UserField, UserAvatar } from 'components';
+
+export default class UserCard extends React.PureComponent {
   state = {
     isEditing: false,
     user: {
       id: this.props.user.get('id'),
-      imgUrl: 'http://via.placeholder.com/350x150',
+      imgUrl: this.props.user.get('imgUrl'),
       firstName: this.props.user.get('firstName'),
       lastName: this.props.user.get('lastName'),
       phone: this.props.user.get('phone'),
@@ -16,8 +18,13 @@ export default class UserCard extends React.Component {
   };
 
   static propTypes = {
-    user: PropTypes.object.isRequired,
+    user: PropTypes.instanceOf(Map).isRequired,
     isEditable: PropTypes.bool,
+    storageRef: PropTypes.object,
+    onSave: PropTypes.func.isRequired,
+    onUploadStart: PropTypes.func.isRequired,
+    onUploadError: PropTypes.func.isRequired,
+    onUploadSuccess: PropTypes.func.isRequired,
   };
 
   handleFirstName = firstName => {
@@ -32,9 +39,7 @@ export default class UserCard extends React.Component {
   handleLastName = lastName => {
     this.setState(
       {
-        user: {
-          user: Object.assign(this.state.user, { lastName }),
-        },
+        user: Object.assign(this.state.user, { lastName }),
       },
       () => this.onSave(this.state.user),
     );
@@ -43,9 +48,7 @@ export default class UserCard extends React.Component {
   handlePhone = phone => {
     this.setState(
       {
-        user: {
-          user: Object.assign(this.state.user, { phone }),
-        },
+        user: Object.assign(this.state.user, { phone }),
       },
       () => this.onSave(this.state.user),
     );
@@ -54,9 +57,7 @@ export default class UserCard extends React.Component {
   handleEmail = email => {
     this.setState(
       {
-        user: {
-          user: Object.assign(this.state.user, { email }),
-        },
+        user: Object.assign(this.state.user, { email }),
       },
       () => this.onSave(this.state.user),
     );
@@ -76,7 +77,7 @@ export default class UserCard extends React.Component {
       storageRef,
     } = this.props;
     const { firstName, lastName, phone, email } = this.state.user;
-    let imgUrl = user.get('imgUrl');
+    const imgUrl = user.get('imgUrl');
 
     return (
       <div className="card">

@@ -1,14 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { FilterPanel } from 'containers';
+import { List, Map } from 'immutable';
+
 import { AnimalCard, IndeterminateLoader } from 'components';
+import { FilterCard } from 'containers';
+
 import { tryAddToCart } from 'actions';
 import {
   selectAnimalsList,
   selectUsersList,
   selectFilter,
-  selectCartItems
+  selectCartItems,
 } from 'selectors';
 import { filterAnimals, sortAnimals } from 'utils';
 
@@ -22,13 +25,13 @@ function mapStateToProps(state) {
 }
 
 @connect(mapStateToProps)
-export class Shop extends React.Component {
+export class Shop extends React.PureComponent {
   static propTypes = {
-    dispatch: PropTypes.object,
-    animals: PropTypes.object,
-    users: PropTypes.object,
-    filter: PropTypes.object,
-    cartItems: PropTypes.object,
+    dispatch: PropTypes.func,
+    animals: PropTypes.instanceOf(List),
+    users: PropTypes.instanceOf(List),
+    filter: PropTypes.instanceOf(Map),
+    cartItems: PropTypes.instanceOf(Map),
   };
 
   onAddToCart = animal => {
@@ -81,7 +84,7 @@ export class Shop extends React.Component {
 
     return (
       <React.Fragment>
-        <FilterPanel />
+        <FilterCard />
         {animalCards}
       </React.Fragment>
     );

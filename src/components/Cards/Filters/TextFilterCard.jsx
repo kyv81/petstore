@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Button } from 'components';
 
-export default class TextFilterCard extends React.Component {
+export default class TextFilterCard extends React.PureComponent {
   state = {
     text: this.props.text,
   };

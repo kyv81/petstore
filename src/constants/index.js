@@ -1,4 +1,4 @@
-export { default as firebaseConfig } from 'constants/firebase';
+export { default as firebaseConfig } from 'constants/firebaseConfig';
 export {
   REQUEST_LOGIN,
   LOG_IN,

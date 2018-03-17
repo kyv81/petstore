@@ -1,7 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { AnimalSortingSelector, DateFilterCard, RangeFilterCard, TextFilterCard } from 'components';
-import { selectFilter } from 'selectors';
+import PropTypes from 'prop-types';
+
+import {
+  AnimalSortingSelector,
+  DateFilterCard,
+  RangeFilterCard,
+  TextFilterCard,
+} from 'components';
 
 import {
   changeFilterText,
@@ -9,6 +15,7 @@ import {
   changeFilterDate,
   changeFilterSort,
 } from 'actions';
+import { selectFilter } from 'selectors';
 
 function mapStateToProps(state) {
   const filter = selectFilter(state);
@@ -25,9 +32,20 @@ function mapStateToProps(state) {
 
 // TODO: диспатчи
 @connect(mapStateToProps)
-export class Shop extends React.Component {
+export default class FilterCard extends React.Component {
   state = {
     isFilterOpen: false,
+  };
+
+  static propTypes = {
+    dispatch: PropTypes.func,
+    text: PropTypes.string,
+    minDate: PropTypes.object,
+    maxDate: PropTypes.object,
+    minPrice: PropTypes.number,
+    maxPrice: PropTypes.number,
+    sortAsc: PropTypes.bool,
+    sortType: PropTypes.string,
   };
 
   onTextSubmit = text => {
@@ -105,4 +123,3 @@ export class Shop extends React.Component {
     );
   }
 }
-export default Shop;

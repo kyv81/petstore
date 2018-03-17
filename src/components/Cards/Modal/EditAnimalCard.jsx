@@ -8,7 +8,7 @@ export default class EditAnimalCard extends React.PureComponent {
 
   static propTypes = {
     animal: PropTypes.object,
-    onCancel: PropTypes.func,
+    onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
 

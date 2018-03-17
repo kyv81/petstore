@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { List, Map } from 'immutable';
+
 import { UserCard, IndeterminateLoader } from 'components';
-import { UserAnimalsList, FilterPanel } from 'containers';
+import { UserAnimalsList, FilterCard } from 'containers';
 import { filterAnimals, sortAnimals } from 'utils';
+
 //TODO: может как то вынести firebase как объект в редаксе
-// типо интерфеса на всякий случай
 import firebase from 'firebase';
+
 import {
   tryEditUser,
   tryEditAnimal,
@@ -16,7 +19,6 @@ import {
   uploadImageFailed,
   uploadImageSuccess,
 } from 'actions';
-
 import {
   selectCurrentUserId,
   selectUserById,
@@ -26,104 +28,71 @@ import {
 } from 'selectors';
 
 const mapStateToProps = state => {
-  const localUser = selectUserById(state, selectCurrentUserId(state));
-  const users = selectUsersList(state);
-  const animals = selectAnimalsList(state);
-  const filter = selectFilter(state);
   return {
-    animals,
-    users,
-    localUser,
-    filter,
+    animals: selectAnimalsList(state),
+    users: selectUsersList(state),
+    localUser: selectUserById(state, selectCurrentUserId(state)),
+    filter: selectFilter(state),
   };
 };
 
 @connect(mapStateToProps)
-export default class UserPage extends React.Component {
+export default class UserPage extends React.PureComponent {
   static propTypes = {
     dispatch: PropTypes.func,
     id: PropTypes.string,
-    users: PropTypes.object,
-    localUser: PropTypes.object,
-    animals: PropTypes.object,
+    users: PropTypes.instanceOf(List),
+    localUser: PropTypes.instanceOf(Map),
+    animals: PropTypes.instanceOf(List),
+    filter: PropTypes.instanceOf(Map),
   };
 
   onEditUser = user => {
     const { dispatch } = this.props;
-    dispatch(tryEditUser(user))
-      .then(() => {
-        M.toast({
-          html: 'Обновлено',
-          classes: 'green',
-        });
-      })
-      .catch(error => {
-        M.toast({
-          html: error.toString(),
-          classes: 'red',
-        });
+    dispatch(tryEditUser(user)).catch(error => {
+      M.toast({
+        html: error.toString(),
+        classes: 'red',
       });
+    });
   };
 
   onCreateAnimal = animal => {
     const { dispatch, localUser } = this.props;
 
-    const creatingAnimal = Object.assign(animal, {
+    const newAnimal = Object.assign(animal, {
       salerId: localUser.get('id'),
     });
 
-    dispatch(tryCreateAnimal(creatingAnimal))
-      .then(() => {
-        M.toast({
-          html: 'Создано',
-          classes: 'green',
-        });
-      })
-      .catch(error => {
-        M.toast({
-          html: error.toString(),
-          classes: 'red',
-        });
+    dispatch(tryCreateAnimal(newAnimal)).catch(error => {
+      M.toast({
+        html: error.toString(),
+        classes: 'red',
       });
+    });
   };
 
   onEditAnimal = animal => {
     const { dispatch } = this.props;
 
-    dispatch(tryEditAnimal(animal))
-      .then(() => {
-        M.toast({
-          html: 'Сохранено',
-          classes: 'green',
-        });
-      })
-      .catch(error => {
-        M.toast({
-          html: error.toString(),
-          classes: 'red',
-        });
+    dispatch(tryEditAnimal(animal)).catch(error => {
+      M.toast({
+        html: error.toString(),
+        classes: 'red',
       });
+    });
   };
 
   onRemoveAnimal = animal => {
     const { dispatch } = this.props;
-
-    dispatch(tryDeleteAnimal(animal))
-      .then(() => {
-        M.toast({
-          html: 'Удалено',
-          classes: 'green',
-        });
-      })
-      .catch(error => {
-        M.toast({
-          html: error.toString(),
-          classes: 'red',
-        });
+    dispatch(tryDeleteAnimal(animal)).catch(error => {
+      M.toast({
+        html: error.toString(),
+        classes: 'red',
       });
+    });
   };
 
-  // обработчики для загрузки картинки
   handleUploadStart = () => {
     const { dispatch } = this.props;
     dispatch(tryUploadImage());
@@ -134,45 +103,45 @@ export default class UserPage extends React.Component {
     dispatch(uploadImageFailed(error));
   };
 
-  // обработчик на успешную загрузку в storage картинки юзера, НЕ значит что юзер обновился
   handleUploadUserImageSuccess = filename => {
-    const { dispatch } = this.props;
-    // тут нам вернется url загруженной картинки в storage
+    const { dispatch, localUser } = this.props;
     dispatch(uploadImageSuccess(filename))
       .then(url => {
-        // возьмем данные авторизованного юзера
-        let { localUser } = this.props;
-        // получаем url и отправляем нового юзера
-        let editedUserData = localUser.set('imgUrl', url);
+        const editedUserData = localUser.set('imgUrl', url);
         dispatch(tryEditUser(editedUserData.toJS()));
       })
-      .catch(() => {});
+      .catch(error => {
+        M.toast({
+          html: error.toString(),
+          classes: 'red',
+        });
+      });
   };
 
-  // обработчик на успешную загрузку в storage картинки юзера, НЕ значит что животное обновилось
   handleUploadAnimalImageSuccess = (filename, id) => {
     const { dispatch, animals } = this.props;
-    console.log(filename);
-    console.log(id);
-    // тут нам вернется url загруженной картинки в storage
     dispatch(uploadImageSuccess(filename))
       .then(url => {
-        let findedAnimal = animals.find(animal => animal.get('id') === id);
-        let editedAnimal = findedAnimal.set('imgUrl', url);
+        const findedAnimal = animals.find(animal => animal.get('id') === id);
+        const editedAnimal = findedAnimal.set('imgUrl', url);
         dispatch(tryEditAnimal(editedAnimal.toJS()));
       })
-      .catch(() => {});
+      .catch(error => {
+        M.toast({
+          html: error.toString(),
+          classes: 'red',
+        });
+      });
   };
 
   render() {
     const { id, users, animals, localUser, filter } = this.props;
 
-    // ссылка на storage для загрузки картинок
-    const storageRef = firebase.storage().ref('img/user');
-
     if (users.size === 0) {
       return <IndeterminateLoader />;
     }
+
+    const storageRef = firebase.storage().ref('img/user');
 
     const user = users.find(item => item.get('id') === id);
     const isEditable =
@@ -206,7 +175,7 @@ export default class UserPage extends React.Component {
           )}
         </div>
         <div className="col s12 m8">
-          <FilterPanel />
+          <FilterCard />
           <UserAnimalsList
             onEdit={this.onEditAnimal}
             onCreate={this.onCreateAnimal}
