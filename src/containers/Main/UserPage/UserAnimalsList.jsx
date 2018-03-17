@@ -29,6 +29,13 @@ export default class UserAnimalsList extends React.PureComponent {
     onEdit: PropTypes.func,
     onCreate: PropTypes.func,
     onRemove: PropTypes.func,
+    isEditable: PropTypes.bool,
+    animals: PropTypes.object,
+    storageRef: PropTypes.object,
+    onUploadStart: PropTypes.func,
+    onUploadError: PropTypes.func,
+    onUploadSuccess: PropTypes.func,
+
   };
 
   showEditModal = animal => {

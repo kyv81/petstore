@@ -96,23 +96,39 @@ export default class UserPage extends React.PureComponent {
   handleUploadStart = () => {
     const { dispatch } = this.props;
     dispatch(tryUploadImage());
+    M.toast({
+      html: 'Началась загрузка картинки',
+      classes: 'green',
+    });
   };
 
   handleUploadError = error => {
     const { dispatch } = this.props;
     dispatch(uploadImageFailed(error));
+    M.toast({
+      html: 'Не удалось загрузить картинку',
+      classes: 'red',
+    });
   };
 
   handleUploadUserImageSuccess = filename => {
     const { dispatch, localUser } = this.props;
+
+    // тут нам вернется url загруженной картинки в storage
     dispatch(uploadImageSuccess(filename))
       .then(url => {
         const editedUserData = localUser.set('imgUrl', url);
-        dispatch(tryEditUser(editedUserData.toJS()));
+        return dispatch(tryEditUser(editedUserData.toJS()));
       })
-      .catch(error => {
+      .then(() => {
         M.toast({
-          html: error.toString(),
+          html: 'Картинка успешно загружена и картинка пользователя изменена.',
+          classes: 'green',
+        });
+      })
+      .catch(() => {
+        M.toast({
+          html: 'Не удалось изменить данные пользователя',
           classes: 'red',
         });
       });
@@ -120,15 +136,24 @@ export default class UserPage extends React.PureComponent {
 
   handleUploadAnimalImageSuccess = (filename, id) => {
     const { dispatch, animals } = this.props;
+    // тут нам вернется url загруженной картинки в storage
     dispatch(uploadImageSuccess(filename))
       .then(url => {
         const findedAnimal = animals.find(animal => animal.get('id') === id);
         const editedAnimal = findedAnimal.set('imgUrl', url);
         dispatch(tryEditAnimal(editedAnimal.toJS()));
       })
-      .catch(error => {
+
+      .then(() => {
         M.toast({
-          html: error.toString(),
+          html: 'Картинка успешно загружена и картинка животного изменена.',
+          classes: 'green',
+        });
+      })
+      .catch(() => {
+        M.toast({
+          html: 'Не удалось изменить данные животного',
+
           classes: 'red',
         });
       });
